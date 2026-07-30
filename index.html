@@ -861,9 +861,33 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
 </section>
 <!-- ================= ORIGIN STORIES ================= -->
 <section class="tab" id="origins" role="tabpanel">
-  <h2>Origin stories: how it all actually happened</h2>
-  <p style="max-width:72ch">The industry's founding lore. Knowing these signals something no market-size number can: that you understand how this field develops, who bet right, and why. Each card ends with the line worth having ready.</p>
+  <h2>Origin stories: one arc, five eras</h2>
+  <p style="max-width:72ch">The industry's history as a single story: first the <strong>ingredients</strong> accumulated (chips, data, a manufacturing base), then a <strong>proof</strong> that the recipe worked, then the <strong>architecture</strong> and the labs built on it, then the <strong>product</strong> that detonated demand, and now the <strong>industrial era</strong> the rest of this site describes. Knowing the arc, and the stories inside it, signals something no market-size number can. Each card ends with the line worth having ready.</p>
 
+  <div class="callout"><strong>The arc in one breath.</strong> Neural networks were an old idea that needed three missing ingredients: parallel compute (Nvidia's CUDA bet, 2006), labelled data at scale (ImageNet, 2009), and a manufacturing base (TSMC, 1987). In 2012 AlexNet proved the recipe; Google spent the decade's middle years proving it scaled (cat experiment, DeepMind, TPUs). In 2017 the transformer made the recipe industrial, and the labs formed around it. In 2022 ChatGPT packaged it, demand detonated, and the compute economy this site maps was born. Since 2025, agents and the DeepSeek shock define the questions still open.</div>
+
+  <h3 style="margin-top:26px">Era 1 &#183; The ingredients (1987-2011)</h3>
+  <p class="small" style="max-width:70ch">Nothing about AI's rise was sudden. The pieces were laid decades early, mostly by people mocked or ignored at the time.</p>
+  <div class="cols2">
+  <div class="card">
+      <h3>TSMC: the customer who never competes (1987-)</h3>
+      <p>Morris Chang, passed over for the top job at Texas Instruments in his early fifties, was recruited by Taiwan's government and founded TSMC in 1987, at 56. His heresy: a fab that designs nothing, so every chip designer on Earth can trust it with their blueprints. That trust model unlocked the fabless revolution (Nvidia could exist without ever building a factory) and made one company the manufacturing base of the entire digital world. Fuller story in the vault's Acquired TSMC note: the 1997 Jensen letter, the 40nm yield crisis, winning Apple.</p>
+      <p class="small"><span class="pill fact">The line</span> "TSMC's product isn't chips, it's trust: the guarantee that your manufacturer will never become your competitor."</p>
+    </div>
+  <div class="card">
+      <h3>Nvidia's decade in the wilderness (2006-2016)</h3>
+      <p>When Nvidia launched CUDA in 2006, spending hundreds of millions to make gaming chips programmable for general maths, Wall Street saw waste: the customers (a handful of researchers) barely existed. Jensen Huang kept funding it for a decade on conviction that parallel computing's day would come. AlexNet (trained on Nvidia gaming cards) was the vindication; by the time the AI boom arrived, every framework and every researcher already spoke CUDA, and the moat was twenty years deep. The company that nearly died in 1996-97 on a failed console chip became, briefly, the most valuable company on Earth.</p>
+      <p class="small"><span class="pill fact">The line</span> "Nvidia's moat wasn't built during the boom; it was built in the decade everyone thought CUDA was a waste of money."</p>
+    </div>
+  <div class="card">
+      <h3>reCAPTCHA: the accidental data factory (2009+)</h3>
+      <p>Those "prove you're human" tests Google bought in 2009 were a two-birds machine: while verifying you, your answers digitised books, transcribed street signs and house numbers, and later labelled photos ("select all squares with traffic lights" was literally training self-driving vision systems). Hundreds of millions of people unknowingly labelled Google's training data for free, daily, for a decade.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google industrialised data labelling before anyone knew it mattered: every CAPTCHA you solved was unpaid annotation work."</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:26px">Era 2 &#183; The proof (2012-2016)</h3>
+  <p class="small" style="max-width:70ch">Five years in which neural networks went from academic backwater to the thing every giant reorganised around.</p>
   <div class="card">
     <h3>ImageNet and AlexNet: the big bang (2009-2012)</h3>
     <p>Through the 2000s, computer vision was hand-coded rules and it barely worked. Fei-Fei Li at Stanford bet the missing ingredient was <em>data</em>, and built ImageNet: 14 million hand-labelled images (labelled largely via crowdworkers), with an annual recognition contest attached. For years entries improved by fractions of a percent. Then in 2012, three researchers from Toronto (Geoff Hinton and students Alex Krizhevsky and Ilya Sutskever) entered a deep neural network trained on two consumer gaming GPUs. AlexNet cut the error rate from ~26% to ~15%, a jump the field had expected to take a decade. Within two years every serious entry was a neural network, and within ten, the same recipe (neural nets + GPUs + huge data) scaled into ChatGPT.</p>
@@ -877,53 +901,75 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
       <p>The same year as AlexNet, Google Brain wired 16,000 processor cores into one network and showed it 10 million unlabelled YouTube stills. Nobody told it what to look for; it taught itself a neuron that fired for cat faces. Trivial-sounding, profound in implication: neural networks could learn structure from raw data without humans labelling anything. It convinced Google's leadership to fund deep learning seriously, years before rivals.</p>
       <p class="small"><span class="pill fact">The line</span> "Google's cat experiment is why they were first: they had proof deep learning worked at scale a full ChatGPT-decade before the public did."</p>
     </div>
-    <div class="card">
-      <h3>reCAPTCHA: the accidental data factory (2009+)</h3>
-      <p>Those "prove you're human" tests Google bought in 2009 were a two-birds machine: while verifying you, your answers digitised books, transcribed street signs and house numbers, and later labelled photos ("select all squares with traffic lights" was literally training self-driving vision systems). Hundreds of millions of people unknowingly labelled Google's training data for free, daily, for a decade.</p>
-      <p class="small"><span class="pill fact">The line</span> "Google industrialised data labelling before anyone knew it mattered: every CAPTCHA you solved was unpaid annotation work."</p>
+  <div class="cols2">
+  <div class="card">
+      <h3>The Google Brain cat (2012)</h3>
+      <p>The same year as AlexNet, Google Brain wired 16,000 processor cores into one network and showed it 10 million unlabelled YouTube stills. Nobody told it what to look for; it taught itself a neuron that fired for cat faces. Trivial-sounding, profound in implication: neural networks could learn structure from raw data without humans labelling anything. It convinced Google's leadership to fund deep learning seriously, years before rivals.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google's cat experiment is why they were first: they had proof deep learning worked at scale a full ChatGPT-decade before the public did."</p>
     </div>
-    <div class="card">
+  <div class="card">
       <h3>DeepMind and move 37 (2014-2016)</h3>
       <p>Google bought a ~75-person London lab with no product for a reported ~$500m+ in 2014. Two years later DeepMind's AlphaGo beat Lee Sedol at Go, a game with more positions than atoms in the universe, thought a decade away from falling. In game two it played "move 37", a move professional commentators initially called a mistake, then recognised as brilliant: the moment machines showed something that looked like intuition rather than calculation. It made AI a boardroom topic worldwide, and made DeepMind the research core Google later merged with Brain to build Gemini.</p>
       <p class="small"><span class="pill fact">The line</span> "AlphaGo's move 37 is when AI stopped being pattern-matching in the public imagination: a machine made a move no human would, and it was right."</p>
     </div>
-    <div class="card">
-      <h3>The transformer exodus (2017-)</h3>
-      <p>Google invented the architecture behind everything (see <a href="#" data-goto="technology">The technology</a>, Rung 5), published it openly, then moved cautiously while others industrialised it. All eight authors of "Attention Is All You Need" eventually left; several founded companies (Cohere, Character.AI among them). OpenAI took the blueprint and built GPT. It repeats Google's own earlier pattern: invent distributed computing, watch AWS build the cloud business on the open clone.</p>
-      <p class="small"><span class="pill fact">The line</span> "Google invented the transformer and let it walk out the door: the defining strategic fumble of the era, and the reason 'code red' happened in 2022."</p>
-    </div>
-    <div class="card">
-      <h3>OpenAI: nonprofit to juggernaut (2015-)</h3>
-      <p>Founded 2015 as a nonprofit by Sam Altman, Elon Musk, Ilya Sutskever and others, explicitly to keep AGI from being monopolised. Musk left in 2018 after a control dispute; the pure-nonprofit model could not fund frontier compute, so 2019 brought the "capped-profit" restructure and Microsoft's first $1bn. ChatGPT (Nov 2022) was shipped as a "low-key research preview" of existing tech with a chat interface; it reached 100m users in two months, the fastest consumer-product adoption recorded up to then (Meta's Threads later beat the raw signup record), and dragged the entire industry into the race. The 2023 board crisis (Altman fired and reinstated inside a week) previewed the governance tensions the whole field still carries.</p>
-      <p class="small"><span class="pill fact">The line</span> "ChatGPT wasn't a research breakthrough, it was a packaging breakthrough: GPT-3.5 existed for months; the chat box changed the world."</p>
-    </div>
-    <div class="card">
-      <h3>Anthropic: the safety schism (2021-)</h3>
-      <p>Dario Amodei (OpenAI's VP of research) and his sister Daniela led a group of senior OpenAI researchers out in 2021 over differences on safety and commercialisation pace, founding Anthropic as a public-benefit corporation. The bet: you can only make frontier AI safe from the frontier, so build a lab where safety research and capability share one roof (constitutional AI, interpretability). Five years on it is the enterprise-and-agents leader, backed by ~$33bn from Amazon and up to $40bn from Google, valued at $965bn post-money by May 2026, running on all three silicon stacks, with revenue compounding ~10x a year.</p>
-      <p class="small"><span class="pill fact">The line</span> "Anthropic is what happens when the safety team believes the mission enough to build the competitor."</p>
-    </div>
-    <div class="card">
-      <h3>Nvidia's decade in the wilderness (2006-2016)</h3>
-      <p>When Nvidia launched CUDA in 2006, spending hundreds of millions to make gaming chips programmable for general maths, Wall Street saw waste: the customers (a handful of researchers) barely existed. Jensen Huang kept funding it for a decade on conviction that parallel computing's day would come. AlexNet (trained on Nvidia gaming cards) was the vindication; by the time the AI boom arrived, every framework and every researcher already spoke CUDA, and the moat was twenty years deep. The company that nearly died in 1996-97 on a failed console chip became, briefly, the most valuable company on Earth.</p>
-      <p class="small"><span class="pill fact">The line</span> "Nvidia's moat wasn't built during the boom; it was built in the decade everyone thought CUDA was a waste of money."</p>
-    </div>
-    <div class="card">
-      <h3>The DeepSeek shock (January 2025)</h3>
-      <p>A Chinese lab spun out of a hedge fund released a frontier-class open-weight reasoning model, claiming its final training run cost ~$5.6m (a contested, narrowly-defined number, but directionally real efficiency gains under chip export controls). The market read it as "maybe you don't need the giant compute moat": Nvidia fell ~17% in a day, roughly $590bn, the largest single-day value loss in market history. The panic partly reversed (cheaper AI means more demand: Jevons' logic), but DeepSeek permanently changed the pricing conversation and proved export controls breed efficiency as well as delay.</p>
-      <p class="small"><span class="pill fact">The line</span> "DeepSeek was the first time the market seriously priced the possibility that intelligence gets cheap faster than compute gets scarce."</p>
-    </div>
-    <div class="card">
-      <h3>TSMC: the customer who never competes (1987-)</h3>
-      <p>Morris Chang, passed over for the top job at Texas Instruments in his early fifties, was recruited by Taiwan's government and founded TSMC in 1987, at 56. His heresy: a fab that designs nothing, so every chip designer on Earth can trust it with their blueprints. That trust model unlocked the fabless revolution (Nvidia could exist without ever building a factory) and made one company the manufacturing base of the entire digital world. Fuller story in the vault's Acquired TSMC note: the 1997 Jensen letter, the 40nm yield crisis, winning Apple.</p>
-      <p class="small"><span class="pill fact">The line</span> "TSMC's product isn't chips, it's trust: the guarantee that your manufacturer will never become your competitor."</p>
-    </div>
-    <div class="card">
+  <div class="card">
       <h3>The TPU decision (2013-2015)</h3>
       <p>Google calculated that if every Android user used voice search a few minutes a day, serving it on CPUs would require doubling its global data-centre footprint. Larry Page personally approved a ~$130m order for 40,000 Nvidia GPUs, and, in parallel, a 15-month crash programme to design Google's own AI chip. The TPU shipped in 2015-16 and has run Google's AI ever since: the founding act of the custom-silicon movement every hyperscaler now copies, and the reason Google's cost position is structurally different (see <a href="#" data-goto="debates">Debate 2</a>).</p>
       <p class="small"><span class="pill fact">The line</span> "The TPU exists because Google did the maths on voice search and found buying compute would cost more than inventing a chip."</p>
     </div>
   </div>
+
+  <h3 style="margin-top:26px">Era 3 &#183; The architecture and the labs (2017-2021)</h3>
+  <p class="small" style="max-width:70ch">One paper created the modern model; the fights over who should control what it enables created the modern labs.</p>
+  <div class="cols2">
+  <div class="card">
+      <h3>The transformer exodus (2017-)</h3>
+      <p>Google invented the architecture behind everything (see <a href="#" data-goto="technology">The technology</a>, Rung 5), published it openly, then moved cautiously while others industrialised it. All eight authors of "Attention Is All You Need" eventually left; several founded companies (Cohere, Character.AI among them). OpenAI took the blueprint and built GPT. It repeats Google's own earlier pattern: invent distributed computing, watch AWS build the cloud business on the open clone.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google invented the transformer and let it walk out the door: the defining strategic fumble of the era, and the reason 'code red' happened in 2022."</p>
+    </div>
+  <div class="card">
+      <h3>OpenAI: nonprofit to juggernaut (2015-)</h3>
+      <p>Founded 2015 as a nonprofit by Sam Altman, Elon Musk, Ilya Sutskever and others, explicitly to keep AGI from being monopolised. Musk left in 2018 after a control dispute; the pure-nonprofit model could not fund frontier compute, so 2019 brought the "capped-profit" restructure and Microsoft's first $1bn. The 2023 board crisis (Altman fired and reinstated inside a week) previewed the governance tensions the field still carries; the ChatGPT story itself is Era 4's.</p>
+      <p class="small"><span class="pill fact">The line</span> "ChatGPT wasn't a research breakthrough, it was a packaging breakthrough: GPT-3.5 existed for months; the chat box changed the world."</p>
+    </div>
+  <div class="card">
+      <h3>Anthropic: the safety schism (2021-)</h3>
+      <p>Dario Amodei (OpenAI's VP of research) and his sister Daniela led a group of senior OpenAI researchers out in 2021 over differences on safety and commercialisation pace, founding Anthropic as a public-benefit corporation. The bet: you can only make frontier AI safe from the frontier, so build a lab where safety research and capability share one roof (constitutional AI, interpretability). Five years on it is the enterprise-and-agents leader, backed by ~$33bn from Amazon and up to $40bn from Google, valued at $965bn post-money by May 2026, running on all three silicon stacks, with revenue compounding ~10x a year.</p>
+      <p class="small"><span class="pill fact">The line</span> "Anthropic is what happens when the safety team believes the mission enough to build the competitor."</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:26px">Era 4 &#183; The product explosion (2022-2024)</h3>
+  <p class="small" style="max-width:70ch">The technology barely changed in November 2022; its packaging did, and the demand shock built the compute economy.</p>
+  <div class="cols2">
+  <div class="card">
+    <h3>ChatGPT and the code red (2022-2023)</h3>
+    <p>OpenAI shipped ChatGPT as a "low-key research preview": GPT-3.5 had existed for months, the chat box was the innovation. It reached 100m users in two months, the fastest consumer-product adoption recorded up to then, and forced every boardroom on Earth to form an AI position. Google declared an internal "code red", recalled its founders, and began merging Brain and DeepMind into the Gemini effort. The H100 shortages, the neocloud boom, and the hyperscaler capital-spending arms race all date from the following twelve months.</p>
+    <p class="small"><span class="pill fact">The line</span> "ChatGPT wasn't a research breakthrough, it was a packaging breakthrough: the chat box, not the model, changed the world."</p>
+  </div>
+  <div class="card">
+    <h3>The compute land-grab (2023-2024)</h3>
+    <p>Demand for GPUs outran supply within months of ChatGPT. Nvidia joined, then dominated, the trillion-dollar club; CoreWeave turned from crypto-mining sideline into a major cloud; every hyperscaler multiplied its capital spending and accelerated its own chip programme; power replaced silicon as the binding constraint. The stack this site maps (see <a href="#" data-goto="big-picture">Big picture</a>) took its current shape in these two years.</p>
+    <p class="small"><span class="pill fact">The line</span> "2023-24 is when AI stopped being a software story and became an industrial one: chips, power, land, and capital."</p>
+  </div>
+  </div>
+
+  <h3 style="margin-top:26px">Era 5 &#183; The industrial era (2025-)</h3>
+  <p class="small" style="max-width:70ch">Agents multiplied the value of a query; efficiency shocks questioned the moats; the open questions live in <a href="#" data-goto="debates">Live debates</a>.</p>
+  <div class="cols2">
+  <div class="card">
+      <h3>The DeepSeek shock (January 2025)</h3>
+      <p>A Chinese lab spun out of a hedge fund released a frontier-class open-weight reasoning model, claiming its final training run cost ~$5.6m (a contested, narrowly-defined number, but directionally real efficiency gains under chip export controls). The market read it as "maybe you don't need the giant compute moat": Nvidia fell ~17% in a day, roughly $590bn, the largest single-day value loss in market history. The panic partly reversed (cheaper AI means more demand: Jevons' logic), but DeepSeek permanently changed the pricing conversation and proved export controls breed efficiency as well as delay.</p>
+      <p class="small"><span class="pill fact">The line</span> "DeepSeek was the first time the market seriously priced the possibility that intelligence gets cheap faster than compute gets scarce."</p>
+    </div>
+  <div class="card">
+    <h3>Agents and the value shift (2025-2026)</h3>
+    <p>Models stopped just answering and started completing multi-step work: writing code end-to-end, running analyses, operating tools. Value per query jumped from "a better search" to "hours of skilled labour", token demand exploded (an agent burns 10-100x a chat's tokens), and pricing power visibly migrated toward the model labs, whose revenues began compounding ~10x a year. Whether that value-shift holds is the live question the Economics and Debates tabs carry.</p>
+    <p class="small"><span class="pill fact">The line</span> "Agents changed the unit of sale: labs stopped selling answers and started selling completed work."</p>
+  </div>
+  </div>
 </section>
+
 
 <!-- ================= INTERVIEW ROOM ================= -->
 <section class="tab" id="interview" role="tabpanel">
