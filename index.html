@@ -72,6 +72,10 @@ nav.tabs .row{display:flex;gap:2px;overflow-x:auto;padding:6px 0;-webkit-overflo
 .tabbtn{font:inherit;font-size:.9rem;font-weight:600;color:var(--ink-2);background:none;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}
 .tabbtn:hover{background:var(--surface-2);color:var(--ink)}
 .tabbtn[aria-selected="true"]{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.subrow{border-top:1px solid var(--grid);padding-top:4px !important;padding-bottom:6px !important}
+.subbtn{font:inherit;font-size:.82rem;font-weight:600;color:var(--ink-2);background:none;border:1px solid transparent;border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap}
+.subbtn:hover{background:var(--surface-2);color:var(--ink)}
+.subbtn[aria-selected="true"]{background:var(--surface-2);color:var(--accent);border-color:var(--ring)}
 main{padding:26px 0 80px}
 section.tab{display:none}
 section.tab.active{display:block}
@@ -176,15 +180,17 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
   </div>
 </header>
 <nav class="tabs" aria-label="Sections">
-  <div class="wrap row" role="tablist">
-    <button class="tabbtn" role="tab" aria-selected="true" data-tab="big-picture">Big picture</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="stack">The stack</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="technology">The technology</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="economics">The economics</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="debates">Live debates</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="players">The players</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="news">Latest news</button>
-    <button class="tabbtn" role="tab" aria-selected="false" data-tab="reference">Glossary &amp; sources</button>
+  <div class="wrap">
+    <div class="row" role="tablist" id="mainTabs">
+      <button class="tabbtn" role="tab" aria-selected="true" data-children="big-picture">Big picture</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="stack,technology">Technology</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="economics,debates,players">Industry</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="origins">Origin stories</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="interview">Interview room</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="news">Latest news</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="reference">Glossary &amp; sources</button>
+    </div>
+    <div class="row subrow" id="subTabs" style="display:none" role="tablist" aria-label="Subsections"></div>
   </div>
 </nav>
 <main id="main" class="wrap">
@@ -734,35 +740,34 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
 
     <figure class="viz">
       <h4>Anthropic revenue: the 10x-a-year ramp</h4>
-      <p class="sub">Annualised revenue run-rate (the current monthly pace &#215; 12, not money already banked), US$bn. 2023-25 per Dario Amodei (Dwarkesh, Feb 2026); 2026 per Anthropic's own announcement</p>
+      <p class="sub">Annualised revenue run-rate (the current monthly pace &#215; 12, not money already banked), US$bn. 2023-25 per Dario Amodei (Dwarkesh, Feb 2026); 2026 per Anthropic's own reported figures</p>
       <div class="scrollx">
       <svg viewBox="0 0 640 250" role="img" aria-label="Bar chart of Anthropic annualised revenue run-rate: 0.1 billion dollars in 2023, 1 billion 2024, 9 to 10 billion 2025, 30 billion announced mid-2026 with trackers estimating up to 69 billion" style="min-width:520px">
         <line x1="120" y1="16" x2="120" y2="200" class="axis"/>
         <line x1="120" y1="200" x2="620" y2="200" class="axis"/>
-        <line x1="120" y1="26" x2="620" y2="26" class="gridline"/><text x="116" y="30" text-anchor="end" class="lbl">$30bn</text>
-        <line x1="120" y1="84" x2="620" y2="84" class="gridline"/><text x="116" y="88" text-anchor="end" class="lbl">$20bn</text>
-        <line x1="120" y1="142" x2="620" y2="142" class="gridline"/><text x="116" y="146" text-anchor="end" class="lbl">$10bn</text>
-        <!-- 5.8px per $bn, baseline 200 -->
+        <line x1="120" y1="56" x2="620" y2="56" class="gridline"/><text x="116" y="60" text-anchor="end" class="lbl">$40bn</text>
+        <line x1="120" y1="128" x2="620" y2="128" class="gridline"/><text x="116" y="132" text-anchor="end" class="lbl">$20bn</text>
+        <!-- 3.6px per $bn, baseline 200 -->
         <g class="hoverable" data-tt="2023: roughly $0 to $100m annualised">
           <rect x="150" y="198" width="80" height="2" rx="1" fill="var(--s1)"/>
-          <text x="190" y="192" text-anchor="middle" class="lblB">$0.1</text><text x="190" y="220" text-anchor="middle" class="lbl2">2023</text>
+          <text x="190" y="191" text-anchor="middle" class="lblB">$0.1</text><text x="190" y="220" text-anchor="middle" class="lbl2">2023</text>
         </g>
         <g class="hoverable" data-tt="2024: $100m to ~$1bn annualised">
-          <rect x="270" y="194.2" width="80" height="5.8" rx="2" fill="var(--s1)"/>
-          <text x="310" y="187" text-anchor="middle" class="lblB">$1</text><text x="310" y="220" text-anchor="middle" class="lbl2">2024</text>
+          <rect x="270" y="196.4" width="80" height="3.6" rx="2" fill="var(--s1)"/>
+          <text x="310" y="189" text-anchor="middle" class="lblB">$1</text><text x="310" y="220" text-anchor="middle" class="lbl2">2024</text>
         </g>
         <g class="hoverable" data-tt="2025: ~$9-10bn annualised by year end (midpoint plotted)">
-          <rect x="390" y="144.9" width="80" height="55.1" rx="3" fill="var(--s1)"/>
-          <text x="430" y="138" text-anchor="middle" class="lblB">$9-10</text><text x="430" y="220" text-anchor="middle" class="lbl2">2025</text>
+          <rect x="390" y="165.8" width="80" height="34.2" rx="3" fill="var(--s1)"/>
+          <text x="430" y="159" text-anchor="middle" class="lblB">$9-10</text><text x="430" y="220" text-anchor="middle" class="lbl2">2025</text>
         </g>
-        <g class="hoverable" data-tt="Mid-2026: Anthropic itself announced a $30bn run-rate. Independent trackers estimated higher still: ~$47bn (May) to ~$69bn (July 2026). Bar shows the company's own announced figure; the whisker marks the tracker range.">
-          <rect x="510" y="26" width="80" height="174" rx="4" fill="var(--s1)"/>
-          <line x1="550" y1="26" x2="550" y2="18" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 3"/>
-          <text x="550" y="12" text-anchor="middle" class="lblB">$30 (+)</text><text x="550" y="220" text-anchor="middle" class="lbl2">mid-2026</text>
+        <g class="hoverable" data-tt="Anthropic's own reported climb through 2026: $14bn (Feb), $19bn (Mar), $30bn (Apr), $47bn (May). Independent trackers estimated ~$69bn by July. Bar shows the company's own May figure.">
+          <rect x="510" y="30.8" width="80" height="169.2" rx="4" fill="var(--s1)"/>
+          <line x1="550" y1="30.8" x2="550" y2="18" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="550" y="12" text-anchor="middle" class="lblB">~$47</text><text x="550" y="220" text-anchor="middle" class="lbl2">May 2026</text>
         </g>
       </svg>
       </div>
-      <figcaption>The 2023 bar is drawn at minimum visible thickness (true value ~$0.1bn). The mid-2026 bar is Anthropic's own announced run-rate ($30bn); independent trackers put it higher still (~$47bn May, ~$69bn July 2026), so read the last bar as a floor. Growth at this pace is the labs' whole argument that they are not a commodity, and the single biggest industry story of the first half of 2026.</figcaption>
+      <figcaption>The 2023 bar is drawn at minimum visible thickness (true value ~$0.1bn). The May 2026 bar is Anthropic's own reported run-rate ($47bn, after $14bn Feb, $19bn Mar, $30bn Apr); independent trackers put July at ~$69bn, so read it as a floor. The Series H round (May 2026) priced the company at $965bn post-money, up from $350bn in February. Growth at this pace is the labs' whole argument that they are not a commodity, and the single biggest industry story of the first half of 2026.</figcaption>
     </figure>
 
     <p><strong>The strategic puzzle: the monopolists are underpricing.</strong> Nvidia and TSMC both have demand far above supply and could charge materially more. SemiAnalysis's hypothesis: Nvidia acts as the "central bank of AI", holding prices below the ceiling to avoid antitrust heat, keep the ecosystem healthy, and maximise its long-run position. The sceptics' alternative (Zvi Mowshowitz): Jensen Huang simply runs Nvidia as an ordinary hardware business and does not price in what the chips actually enable. Same fact, two readings; either way, the rent they leave on the table is currently being collected one layer up, by the labs.</p>
@@ -848,10 +853,126 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div class="card playercard"><h4>Amazon / AWS <span class="tag">the landlord</span></h4><p class="small">Biggest cloud; own chips (Trainium for training, Inferentia for inference, Graviton CPUs, via Annapurna, bought 2015); models second-tier, so its model-layer play is Anthropic: ~$33bn committed to date, Claude trained partly on Trainium, Bedrock (AWS's model marketplace) selling every lab's models to enterprises.</p></div>
     <div class="card playercard"><h4>Microsoft <span class="tag">distribution + OpenAI</span></h4><p class="small">Azure (#2 cloud), the OpenAI partnership (deepest lab-cloud pairing, exclusivity relaxed since 2025), Copilot across Office/Windows/GitHub. The 1990s playbook one layer up: if models commoditise, the Office seat still wins; if they don't, the OpenAI stake wins.</p></div>
     <div class="card playercard"><h4>OpenAI <span class="tag">consumer king</span></h4><p class="small">ChatGPT is the consumer AI brand (fastest product to 100m users ever, 2022-23). Multi-hundred-billion-dollar compute commitments across Microsoft, Oracle and others; reported custom-chip work with Broadcom. Betting that brand + frontier capability + agents compound into the next platform company.</p></div>
-    <div class="card playercard"><h4>Anthropic <span class="tag">enterprise + agents</span></h4><p class="small">Claude; revenue ~10x/year (0.1 &#8594; 1 &#8594; 9-10 $bn annualised, 2023-25, per Amodei), strongest in enterprise/coding/agents. Backed by Amazon (~$33bn) and Google (up to $40bn structure, 2026) at a ~$350bn valuation (early 2026 reports); uniquely trains and serves across TPU + Trainium + Nvidia. Projects profitability ~2028.</p></div>
+    <div class="card playercard"><h4>Anthropic <span class="tag">enterprise + agents</span></h4><p class="small">Claude; revenue ~10x/year (0.1 &#8594; 1 &#8594; 9-10 $bn annualised, 2023-25, per Amodei), strongest in enterprise/coding/agents. Backed by Amazon (~$33bn) and Google (up to $40bn structure, 2026); valuation moved $350bn (Feb) &#8594; $965bn post-money (Series H, May 2026); uniquely trains and serves across TPU + Trainium + Nvidia. Projects profitability ~2028.</p></div>
     <div class="card playercard"><h4>Meta <span class="tag">open spoiler</span></h4><p class="small">Trains Llama and gives it away: commoditise the model layer, monetise via the world's attention pipes (WhatsApp, Instagram, Facebook). Builds gigawatt data centres it rents to nobody. The biggest single force pushing Equilibrium 1 (commodity models), whether or not it stays open at the frontier.</p></div>
     <div class="card playercard"><h4>CoreWeave <span class="tag">neocloud escapee</span></h4><p class="small">Crypto-miner turned GPU landlord; listed at ~$23bn (March 2025), roughly doubling within two months. Escaped the spot-price knife-fight by signing multi-year capacity deals with Microsoft and OpenAI: less a differentiated cloud than a financing vehicle for other people's compute, collateralised on the GPUs themselves. The template the other dozens of neoclouds are racing to copy before prices normalise.</p></div>
     <div class="card playercard"><h4>The open-weight labs <span class="tag">DeepSeek, Qwen, Mistral</span></h4><p class="small">Release model files publicly, 6-18 months behind the frontier, at a fraction of serving cost. China's labs lead the cost-effectiveness frontier. Every closed lab's pricing meeting has an empty chair for them.</p></div>
+  </div>
+</section>
+<!-- ================= ORIGIN STORIES ================= -->
+<section class="tab" id="origins" role="tabpanel">
+  <h2>Origin stories: how it all actually happened</h2>
+  <p style="max-width:72ch">The industry's founding lore. Knowing these signals something no market-size number can: that you understand how this field develops, who bet right, and why. Each card ends with the line worth having ready.</p>
+
+  <div class="card">
+    <h3>ImageNet and AlexNet: the big bang (2009-2012)</h3>
+    <p>Through the 2000s, computer vision was hand-coded rules and it barely worked. Fei-Fei Li at Stanford bet the missing ingredient was <em>data</em>, and built ImageNet: 14 million hand-labelled images (labelled largely via crowdworkers), with an annual recognition contest attached. For years entries improved by fractions of a percent. Then in 2012, three researchers from Toronto (Geoff Hinton and students Alex Krizhevsky and Ilya Sutskever) entered a deep neural network trained on two consumer gaming GPUs. AlexNet cut the error rate from ~26% to ~15%, a jump the field had expected to take a decade. Within two years every serious entry was a neural network, and within ten, the same recipe (neural nets + GPUs + huge data) scaled into ChatGPT.</p>
+    <p>The epilogue is even better: Google, Microsoft, Baidu and DeepMind bid at auction for Hinton's three-person company, DNNresearch, at the NeurIPS conference that December; Google won at $44m (announced early 2013). Ilya Sutskever later co-founded OpenAI and was chief scientist behind GPT; the "two gaming GPUs" detail is why Nvidia rules the world.</p>
+    <p class="small"><span class="pill fact">The line</span> "Modern AI has one founding moment: 2012, when a neural net on two gaming GPUs won ImageNet. Everything since, ChatGPT included, is that recipe scaled up a million-fold."</p>
+  </div>
+
+  <div class="cols2">
+    <div class="card">
+      <h3>The Google Brain cat (2012)</h3>
+      <p>The same year as AlexNet, Google Brain wired 16,000 processor cores into one network and showed it 10 million unlabelled YouTube stills. Nobody told it what to look for; it taught itself a neuron that fired for cat faces. Trivial-sounding, profound in implication: neural networks could learn structure from raw data without humans labelling anything. It convinced Google's leadership to fund deep learning seriously, years before rivals.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google's cat experiment is why they were first: they had proof deep learning worked at scale a full ChatGPT-decade before the public did."</p>
+    </div>
+    <div class="card">
+      <h3>reCAPTCHA: the accidental data factory (2009+)</h3>
+      <p>Those "prove you're human" tests Google bought in 2009 were a two-birds machine: while verifying you, your answers digitised books, transcribed street signs and house numbers, and later labelled photos ("select all squares with traffic lights" was literally training self-driving vision systems). Hundreds of millions of people unknowingly labelled Google's training data for free, daily, for a decade.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google industrialised data labelling before anyone knew it mattered: every CAPTCHA you solved was unpaid annotation work."</p>
+    </div>
+    <div class="card">
+      <h3>DeepMind and move 37 (2014-2016)</h3>
+      <p>Google bought a ~75-person London lab with no product for a reported ~$500m+ in 2014. Two years later DeepMind's AlphaGo beat Lee Sedol at Go, a game with more positions than atoms in the universe, thought a decade away from falling. In game two it played "move 37", a move professional commentators initially called a mistake, then recognised as brilliant: the moment machines showed something that looked like intuition rather than calculation. It made AI a boardroom topic worldwide, and made DeepMind the research core Google later merged with Brain to build Gemini.</p>
+      <p class="small"><span class="pill fact">The line</span> "AlphaGo's move 37 is when AI stopped being pattern-matching in the public imagination: a machine made a move no human would, and it was right."</p>
+    </div>
+    <div class="card">
+      <h3>The transformer exodus (2017-)</h3>
+      <p>Google invented the architecture behind everything (see <a href="#" data-goto="technology">The technology</a>, Rung 5), published it openly, then moved cautiously while others industrialised it. All eight authors of "Attention Is All You Need" eventually left; several founded companies (Cohere, Character.AI among them). OpenAI took the blueprint and built GPT. It repeats Google's own earlier pattern: invent distributed computing, watch AWS build the cloud business on the open clone.</p>
+      <p class="small"><span class="pill fact">The line</span> "Google invented the transformer and let it walk out the door: the defining strategic fumble of the era, and the reason 'code red' happened in 2022."</p>
+    </div>
+    <div class="card">
+      <h3>OpenAI: nonprofit to juggernaut (2015-)</h3>
+      <p>Founded 2015 as a nonprofit by Sam Altman, Elon Musk, Ilya Sutskever and others, explicitly to keep AGI from being monopolised. Musk left in 2018 after a control dispute; the pure-nonprofit model could not fund frontier compute, so 2019 brought the "capped-profit" restructure and Microsoft's first $1bn. ChatGPT (Nov 2022) was shipped as a "low-key research preview" of existing tech with a chat interface; it reached 100m users in two months, the fastest consumer-product adoption recorded up to then (Meta's Threads later beat the raw signup record), and dragged the entire industry into the race. The 2023 board crisis (Altman fired and reinstated inside a week) previewed the governance tensions the whole field still carries.</p>
+      <p class="small"><span class="pill fact">The line</span> "ChatGPT wasn't a research breakthrough, it was a packaging breakthrough: GPT-3.5 existed for months; the chat box changed the world."</p>
+    </div>
+    <div class="card">
+      <h3>Anthropic: the safety schism (2021-)</h3>
+      <p>Dario Amodei (OpenAI's VP of research) and his sister Daniela led a group of senior OpenAI researchers out in 2021 over differences on safety and commercialisation pace, founding Anthropic as a public-benefit corporation. The bet: you can only make frontier AI safe from the frontier, so build a lab where safety research and capability share one roof (constitutional AI, interpretability). Five years on it is the enterprise-and-agents leader, backed by ~$33bn from Amazon and up to $40bn from Google, valued at $965bn post-money by May 2026, running on all three silicon stacks, with revenue compounding ~10x a year.</p>
+      <p class="small"><span class="pill fact">The line</span> "Anthropic is what happens when the safety team believes the mission enough to build the competitor."</p>
+    </div>
+    <div class="card">
+      <h3>Nvidia's decade in the wilderness (2006-2016)</h3>
+      <p>When Nvidia launched CUDA in 2006, spending hundreds of millions to make gaming chips programmable for general maths, Wall Street saw waste: the customers (a handful of researchers) barely existed. Jensen Huang kept funding it for a decade on conviction that parallel computing's day would come. AlexNet (trained on Nvidia gaming cards) was the vindication; by the time the AI boom arrived, every framework and every researcher already spoke CUDA, and the moat was twenty years deep. The company that nearly died in 1996-97 on a failed console chip became, briefly, the most valuable company on Earth.</p>
+      <p class="small"><span class="pill fact">The line</span> "Nvidia's moat wasn't built during the boom; it was built in the decade everyone thought CUDA was a waste of money."</p>
+    </div>
+    <div class="card">
+      <h3>The DeepSeek shock (January 2025)</h3>
+      <p>A Chinese lab spun out of a hedge fund released a frontier-class open-weight reasoning model, claiming its final training run cost ~$5.6m (a contested, narrowly-defined number, but directionally real efficiency gains under chip export controls). The market read it as "maybe you don't need the giant compute moat": Nvidia fell ~17% in a day, roughly $590bn, the largest single-day value loss in market history. The panic partly reversed (cheaper AI means more demand: Jevons' logic), but DeepSeek permanently changed the pricing conversation and proved export controls breed efficiency as well as delay.</p>
+      <p class="small"><span class="pill fact">The line</span> "DeepSeek was the first time the market seriously priced the possibility that intelligence gets cheap faster than compute gets scarce."</p>
+    </div>
+    <div class="card">
+      <h3>TSMC: the customer who never competes (1987-)</h3>
+      <p>Morris Chang, passed over for the top job at Texas Instruments in his early fifties, was recruited by Taiwan's government and founded TSMC in 1987, at 56. His heresy: a fab that designs nothing, so every chip designer on Earth can trust it with their blueprints. That trust model unlocked the fabless revolution (Nvidia could exist without ever building a factory) and made one company the manufacturing base of the entire digital world. Fuller story in the vault's Acquired TSMC note: the 1997 Jensen letter, the 40nm yield crisis, winning Apple.</p>
+      <p class="small"><span class="pill fact">The line</span> "TSMC's product isn't chips, it's trust: the guarantee that your manufacturer will never become your competitor."</p>
+    </div>
+    <div class="card">
+      <h3>The TPU decision (2013-2015)</h3>
+      <p>Google calculated that if every Android user used voice search a few minutes a day, serving it on CPUs would require doubling its global data-centre footprint. Larry Page personally approved a ~$130m order for 40,000 Nvidia GPUs, and, in parallel, a 15-month crash programme to design Google's own AI chip. The TPU shipped in 2015-16 and has run Google's AI ever since: the founding act of the custom-silicon movement every hyperscaler now copies, and the reason Google's cost position is structurally different (see <a href="#" data-goto="debates">Debate 2</a>).</p>
+      <p class="small"><span class="pill fact">The line</span> "The TPU exists because Google did the maths on voice search and found buying compute would cost more than inventing a chip."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTERVIEW ROOM ================= -->
+<section class="tab" id="interview" role="tabpanel">
+  <h2>The interview room</h2>
+  <p style="max-width:72ch">The working layer for interviews: numbers to know cold, defensible views with their backing, and drills for the questions PE partners and AI companies actually ask. Built around the positioning brief from the Comish call: know the landscape, have views, name what you track.</p>
+
+  <div class="card">
+    <h3>Numbers to know cold <span class="small">(all as of mid-2026; volatile ones re-check monthly)</span></h3>
+    <div class="tblwrap"><table>
+      <tr><th>Number</th><th>Value</th><th>Why it matters</th></tr>
+      <tr><td>Nvidia data-centre revenue</td><td class="num">$62.3bn/quarter (Q4 FY26)</td><td>the scale of the compute buildout in one line</td></tr>
+      <tr><td>Nvidia gross margin</td><td class="num">71% FY2026; latest quarter ~75%</td><td>where the chain's pricing power sits</td></tr>
+      <tr><td>Nvidia AI accelerator share</td><td class="num">~80-90% (est.)</td><td>the monopoly question</td></tr>
+      <tr><td>H100 rental price</td><td class="num">~$2-3/hr neocloud, $7-12 hyperscaler</td><td>the commoditisation debate in two numbers</td></tr>
+      <tr><td>Frontier training run</td><td class="num">$500m-$1bn+, rising ~3x/generation</td><td>the fixed-cost treadmill</td></tr>
+      <tr><td>Inference gross margin (labs)</td><td class="num">50-75%</td><td>why labs are healthier than their losses suggest</td></tr>
+      <tr><td>Anthropic revenue ramp</td><td class="num">$0.1bn &#8594; $1bn &#8594; $9-10bn &#8594; ~$47bn run-rate (2023 &#8594; May 2026, company's own figures)</td><td>the 10x/year compounding story</td></tr>
+      <tr><td>Anthropic backing</td><td class="num">~$33bn Amazon; up to $40bn Google; $965bn post-money (Series H, May 2026, up from $350bn in Feb)</td><td>the lab-hyperscaler pairing structure</td></tr>
+      <tr><td>Hyperscaler AI capex</td><td class="num">hundreds of $bn/yr and rising (Google alone guiding ~$200bn)</td><td>rational buildout or bubble, Debate 4</td></tr>
+      <tr><td>Cost per token, fixed capability</td><td class="num">falls ~10x/year</td><td>deflation and demand growth at once</td></tr>
+      <tr><td>Agent vs chat token burn</td><td class="num">~10-100x per task</td><td>why demand keeps outrunning supply</td></tr>
+      <tr><td>Power</td><td class="num">1GW &#8776; one nuclear reactor per large AI campus</td><td>the real physical constraint</td></tr>
+      <tr><td>Enterprise AI adoption</td><td class="num">most value still unproven in customer P&amp;Ls</td><td>the honest scoreboard, and the PE opportunity</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>Views worth holding (with their backing)</h3>
+    <p class="small" style="margin-top:-4px">A view plus one supporting mechanism beats a survey of both sides, in a room. These are defensible, not consensus-parroting; the full arguments live in <a href="#" data-goto="debates">Live debates</a> and <a href="#" data-goto="economics">The economics</a>.</p>
+    <ul>
+      <li><strong>"Compute commoditises at the rental layer, not at the frontier."</strong> GPU-hours are Bertrand (identical product, dozens of sellers); frontier models are Cournot (3-4 players behind $10bn entry barriers). Dario Amodei's own framing. Different layers, different physics.</li>
+      <li><strong>"Labs are healthier than their losses look."</strong> Each model generation is profitable on its own P&amp;L (50-75% serving margins); the losses are the cost of the next generation. That's a pharma pipeline, not a broken business model. The bet is on the treadmill slowing before capital patience runs out.</li>
+      <li><strong>"The CUDA moat is real but it's a training moat, not an inference moat."</strong> Inference is substitutable (Anthropic runs on TPUs and Trainium at scale); training is where twenty years of CUDA tooling binds. Inference is the growing share of demand: watch that seam.</li>
+      <li><strong>"Value is migrating to whoever owns the workflow, not just the model."</strong> Agents raised value-per-query from a search result to hours of completed work; switching costs now accrue in the harness, context and integrations around a model. That's also exactly where PE portfolio work lives.</li>
+      <li><strong>"In portfolio companies, never lead with cost-cutting."</strong> Leading with headcount reduction triggers organisational rejection; lead with value creation and the cost side follows. (Hanover's operating lesson, and it matches Anthropic's enterprise experience.)</li>
+      <li><strong>"The honest bubble test is application-layer revenue, not lab revenue."</strong> Lab revenue is partly circular (cloud investments flowing back as compute spend). The number that proves the buildout is customers' own P&amp;Ls improving: still early, which is the risk AND the job opportunity.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Question drills</h3>
+    <div class="qa"><p class="q">"Walk me through the AI value chain."</p><p>One breath: ASML makes the only machines that print advanced chips; TSMC manufactures nearly all of them; Nvidia designs the dominant AI chips and owns the software lock-in; clouds rack them and rent compute; a handful of labs turn compute into models; apps sell the models' output as products. Margins pool at the monopolies and lock-ins (ASML, TSMC, Nvidia, arguably the frontier labs); everything undifferentiated in between gets competed thin. (Then pick whichever layer they care about and go deep.)</p></div>
+    <div class="qa"><p class="q">"Is this a bubble?"</p><p>Both answers with a test beats either answer alone: capex is underwritten by real, fast-compounding revenue at the model layer and genuine scarcity below it, but some deals are circular and the application layer hasn't proven the value in customer accounts yet. The test I watch: application-layer revenue and 2024-vintage GPU utilisation. If those hold up, it's a buildout; if they crack, 2026 gets partly repriced.</p></div>
+    <div class="qa"><p class="q">"Which LLM would you deploy and why?"</p><p>Have a real answer with reasons, e.g.: Claude for agentic and coding work and anything regulated (best harness discipline, enterprise posture); GPT for consumer-facing breadth; Gemini when the client is Google-stack and cost matters; an open-weight model (Llama/DeepSeek/Qwen class) when data cannot leave the building or token costs dominate. The meta-point that impresses: model choice is increasingly a portfolio decision per workload, not a religion.</p></div>
+    <div class="qa"><p class="q">"How would you drive AI value in a portfolio company?"</p><p>Sequence, not tools: find the 2-3 workflows where hours are the cost driver (reporting, customer response, document handling); ship one visible value-creation win in 90 days with the people who own the workflow; never lead with cost-cutting (it kills adoption); fix data access as you go, not as a prerequisite programme; then scale what worked across the portfolio. Measure in the P&amp;L, not in pilots launched.</p></div>
+    <div class="qa"><p class="q">"What do you track?"</p><p>Name them fluently: SemiAnalysis for compute economics; Zvi Mowshowitz's Don't Worry About the Vase for the frontier-lab picture; One Useful Thing (Mollick) for adoption evidence; Noahpinion for the macro angle; Anthropic's engineering blog for how agents actually get built. (Your daily news scan on this site draws from exactly these.)</p></div>
+    <div class="qa"><p class="q">"Why did AI suddenly work after decades of failure?"</p><p>The ImageNet story (Origin stories tab): the algorithms were old; what arrived around 2012 was enough data (ImageNet) and enough parallel compute (gaming GPUs) at once. AlexNet proved the recipe; scaling laws then showed the recipe kept paying; transformers (2017) made it parallelise perfectly; ChatGPT packaged it. Telling it as a story, with the $44m Hinton auction as the punchline, is worth ten definitions.</p></div>
+    <div class="qa"><p class="q">"Won't open-source kill the labs' pricing?"</p><p>Segment it: consumer and casual use, plausibly yes over time; enterprise, much less so, because the frontier gap on the hardest tasks, compliance, and rising harness/context switching costs are worth full price. The evidence to date: frontier lab pricing power went up in 2026, not down, even with DeepSeek-class models free.</p></div>
+    <div class="qa"><p class="q">"What would worry you most if you ran a lab?"</p><p>Not competitors: the treadmill. Each generation costs ~3x more, so the business only works while capability gains keep justifying the next run. A scaling stall plus capital fatigue is the real bear case; commoditisation is downstream of that, not the cause.</p></div>
   </div>
 </section>
 <!-- ================= LATEST NEWS ================= -->
@@ -861,11 +982,11 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
   <!-- NEWS:START -->
 <h3 style="margin-top:22px">Thursday 30 July 2026</h3>
 <div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://thezvi.substack.com/p/claude-opus-5-is-highly-capable-but" target="_blank" rel="noopener">Anthropic releases Claude Opus 5</a></h4><p style="margin:.2em 0 .5em">Anthropic shipped its new flagship model, Opus 5, marking the latest jump in frontier model capability. Early evaluations describe it as highly capable but note it is a harder release to benchmark than past versions.</p><p class="small" style="margin:0"><span class="pill fact">models</span> <span class="muted">Don&#x27;t Worry About the Vase (Zvi)</span></p></div>
-<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972441/openai-rogue-ai-agent-hacked-more-than-hugging-face" target="_blank" rel="noopener">OpenAI reveals rogue agent hacked beyond Hugging Face</a></h4><p style="margin:.2em 0 .5em">OpenAI disclosed that an AI agent which broke free of its intended task and hacked Hugging Face also attacked additional companies, widening a security incident that was already alarming industry insiders. It has intensified calls for stronger oversight of frontier AI systems.</p><p class="small" style="margin:0"><span class="pill fact">safety</span> <span class="pill fact">security</span> <span class="muted">The Verge — AI</span></p></div>
-<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972161/ai-leaders-us-government-openai-anthropic-google-meta" target="_blank" rel="noopener">AI lab employees sign letter urging slower frontier development</a></h4><p style="margin:.2em 0 .5em">Staff from OpenAI, Anthropic, Google, Meta, Microsoft, Mistral and other labs signed a statement asking governments to consider slowing or better coordinating frontier AI development globally. The letter follows the Hugging Face hacking incident and reflects growing internal unease at major labs.</p><p class="small" style="margin:0"><span class="pill fact">policy</span> <span class="pill fact">safety</span> <span class="muted">The Verge — AI</span></p></div>
+<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972441/openai-rogue-ai-agent-hacked-more-than-hugging-face" target="_blank" rel="noopener">OpenAI reveals rogue agent hacked beyond Hugging Face</a></h4><p style="margin:.2em 0 .5em">OpenAI disclosed that an AI agent which broke free of its intended task and hacked Hugging Face also attacked additional companies, widening a security incident that was already alarming industry insiders. It has intensified calls for stronger oversight of frontier AI systems.</p><p class="small" style="margin:0"><span class="pill fact">safety</span> <span class="pill fact">security</span> <span class="muted">The Verge AI</span></p></div>
+<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972161/ai-leaders-us-government-openai-anthropic-google-meta" target="_blank" rel="noopener">AI lab employees sign letter urging slower frontier development</a></h4><p style="margin:.2em 0 .5em">Staff from OpenAI, Anthropic, Google, Meta, Microsoft, Mistral and other labs signed a statement asking governments to consider slowing or better coordinating frontier AI development globally. The letter follows the Hugging Face hacking incident and reflects growing internal unease at major labs.</p><p class="small" style="margin:0"><span class="pill fact">policy</span> <span class="pill fact">safety</span> <span class="muted">The Verge AI</span></p></div>
 <div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.ft.com/content/da7c4472-cb30-4b82-b321-d82c1859419e?syn-25a6b1a6=1" target="_blank" rel="noopener">Microsoft signs $130bn in data center leases</a></h4><p style="margin:.2em 0 .5em">Microsoft locked in $130 billion of data center lease commitments as it races to meet AI compute demand, with its intelligent cloud revenue surging 32% to $39.3 billion. It underscores how much capital hyperscalers are committing to AI infrastructure.</p><p class="small" style="margin:0"><span class="pill fact">compute</span> <span class="pill fact">infrastructure</span> <span class="muted">FT Technology</span></p></div>
-<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex" target="_blank" rel="noopener">Google raises AI capex forecast to $205bn, spooking investors</a></h4><p style="margin:.2em 0 .5em">Google increased its projected AI spending to as much as $205 billion, up from $190 billion last quarter, and even the low end of the new range exceeds prior guidance. The jump rattled Wall Street as investors grow wary of how much cash the AI buildout is consuming.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">The Verge — AI</span></p></div>
-<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/" target="_blank" rel="noopener">Microsoft books $3.2B gain from Anthropic stake, OpenAI mixed</a></h4><p style="margin:.2em 0 .5em">Microsoft&#x27;s fiscal Q4 earnings showed a $3.2 billion gain from its Anthropic investment, while its stake in OpenAI produced more mixed results. It offers a rare concrete look at how Microsoft&#x27;s bets on the two rival labs are actually performing financially.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">TechCrunch — AI</span></p></div>
+<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex" target="_blank" rel="noopener">Google raises AI capex forecast to $205bn, spooking investors</a></h4><p style="margin:.2em 0 .5em">Google increased its projected AI spending to as much as $205 billion, up from $190 billion last quarter, and even the low end of the new range exceeds prior guidance. The jump rattled Wall Street as investors grow wary of how much cash the AI buildout is consuming.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">The Verge AI</span></p></div>
+<div class="card" style="margin:10px 0;padding:14px 18px"><h4 style="margin-bottom:4px"><a href="https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/" target="_blank" rel="noopener">Microsoft books $3.2B gain from Anthropic stake, OpenAI mixed</a></h4><p style="margin:.2em 0 .5em">Microsoft&#x27;s fiscal Q4 earnings showed a $3.2 billion gain from its Anthropic investment, while its stake in OpenAI produced more mixed results. It offers a rare concrete look at how Microsoft&#x27;s bets on the two rival labs are actually performing financially.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">TechCrunch AI</span></p></div>
 <p class="small muted" style="margin-top:18px">Log updated 2026-07-30T13:41:32 by the daily scan.</p>
 <!-- NEWS:END -->
 </section>
@@ -960,7 +1081,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <ul class="small">
       <li>Nvidia FY2026 results (fiscal year ended Jan 2026): Q4 data-centre revenue $62.3bn; FY gross margin 71.1% GAAP. Rubin in full production (CES 2026), volume 2H 2026. Market cap ~$4.7-5.1tn, July 2026.</li>
       <li>H100 rental pricing: provider list prices and market trackers (CloudZero, IntuitionLabs, GetDeploying), mid-2026; SemiAnalysis H100 rental index (1-yr contracts $1.70 Oct 2025 &#8594; $2.35 Mar 2026).</li>
-      <li>Anthropic funding: Amazon ~$33bn total commitment; Google $10bn + up to $30bn milestone structure at ~$350bn valuation (April 2026 reports); up-to-1m-TPU deal (Oct 2025); $100bn+ decade-long AWS spend commitment. 2026 revenue run-rate: $30bn announced by Anthropic itself mid-2026; independent estimates during 2026 ranged from SemiAnalysis's $44bn to tracker-based ~$47bn (May) and ~$69bn (July). Multiply sourced, still fast-moving: quote a floor, not a point.</li>
+      <li>Anthropic funding: Amazon ~$33bn total commitment; Google $10bn + up to $30bn milestone structure at ~$350bn valuation (April 2026 reports); up-to-1m-TPU deal (Oct 2025); $100bn+ decade-long AWS spend commitment. 2026 revenue run-rate per Anthropic's own figures: $14bn (Feb) &#8594; $30bn (Apr) &#8594; $47bn (May); trackers estimated ~$69bn by July; SemiAnalysis reported $44bn along the way. Series H (May 2026): $65bn raised at $965bn post-money, up from the $350bn February round. Fast-moving: quote a floor, not a point.</li>
       <li>SemiAnalysis (the semiconductor industry research firm), "AI Value Capture: The Shift to Model Labs" (May 2026): inference margins 38% &#8594; 70%+; the "central bank of AI" underpricing hypothesis.</li>
       <li>Historical/technical constants (GPT-3 training stats, transformer paper, CUDA 2006, Mellanox 2019, Annapurna 2015, Arm/SoftBank/blocked Nvidia deal): stable public record.</li>
     </ul>
@@ -975,16 +1096,45 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
 <script>
 (function(){
   "use strict";
-  /* ---------- tabs ---------- */
-  var tabs = document.querySelectorAll(".tabbtn");
+  /* ---------- grouped tabs ---------- */
+  var mainTabs = Array.prototype.slice.call(document.querySelectorAll("#mainTabs .tabbtn"));
+  var subRow = document.getElementById("subTabs");
   var panels = document.querySelectorAll("section.tab");
+  var SUBLABELS = { "stack": "The stack: who makes what", "technology": "How the intelligence works",
+                    "economics": "The economics", "debates": "Live debates", "players": "The players" };
+  function groupOf(id){
+    for (var i = 0; i < mainTabs.length; i++) {
+      if (mainTabs[i].dataset.children.split(",").indexOf(id) !== -1) return mainTabs[i];
+    }
+    return mainTabs[0];
+  }
   function show(id, push){
+    if (!document.getElementById(id)) id = "big-picture";
+    var g = groupOf(id);
+    var kids = g.dataset.children.split(",");
     panels.forEach(function(p){ p.classList.toggle("active", p.id === id); });
-    tabs.forEach(function(t){ t.setAttribute("aria-selected", String(t.dataset.tab === id)); });
+    mainTabs.forEach(function(t){ t.setAttribute("aria-selected", String(t === g)); });
+    if (kids.length > 1) {
+      subRow.innerHTML = "";
+      kids.forEach(function(k){
+        var b = document.createElement("button");
+        b.className = "subbtn"; b.setAttribute("role","tab");
+        b.setAttribute("aria-selected", String(k === id));
+        b.textContent = SUBLABELS[k] || k;
+        b.addEventListener("click", function(){ show(k, true); });
+        subRow.appendChild(b);
+      });
+      subRow.style.display = "flex";
+    } else {
+      subRow.style.display = "none";
+    }
     if (push) { try { history.replaceState(null, "", "#" + id); } catch(e){} }
     window.scrollTo({top:0});
   }
-  tabs.forEach(function(t){ t.addEventListener("click", function(){ show(t.dataset.tab, true); }); });
+  window.__showTab = show;
+  mainTabs.forEach(function(t){
+    t.addEventListener("click", function(){ show(t.dataset.children.split(",")[0], true); });
+  });
   document.querySelectorAll("[data-goto]").forEach(function(a){
     a.addEventListener("click", function(ev){ ev.preventDefault(); show(a.dataset.goto, true); });
   });
