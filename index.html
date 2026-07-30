@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Industry, End to End</title>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  color-scheme: light;
+  --page:#f9f9f7; --surface:#fcfcfb; --surface-2:#f0efec;
+  --ink:#0b0b0b; --ink-2:#52514e; --muted:#6e6c66;
+  --grid:#e1e0d9; --baseline:#c3c2b7; --ring:rgba(11,11,11,.10);
+  /* muted darkened from #898781 for WCAG on captions */
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s7:#4a3aa7;
+  --seq-250:#86b6ef; --seq-400:#3987e5; --seq-550:#1c5cab; --seq-700:#0d366b;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --accent:var(--s1);
+  --radius:10px; --radius-sm:6px;
+  --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --surface-2:#242422;
+    --ink:#ffffff; --ink-2:#c3c2b7; --muted:#9a988f;
+    --grid:#2c2c2a; --baseline:#383835; --ring:rgba(255,255,255,.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s7:#9085e9;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --page:#0d0d0d; --surface:#1a1a19; --surface-2:#242422;
+  --ink:#ffffff; --ink-2:#c3c2b7; --muted:#9a988f;
+  --grid:#2c2c2a; --baseline:#383835; --ring:rgba(255,255,255,.10);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s7:#9085e9;
+}
+/* ============ BASE ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.3rem,3vw,1.7rem);letter-spacing:-.01em;margin-top:0}
+h3{font-size:1.12rem}
+h4{font-size:1rem}
+p{margin:.4em 0 .9em}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+small,.small{font-size:.82rem;color:var(--ink-2)}
+.muted{color:var(--muted)}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:.1em .35em;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{text-align:left;color:var(--ink-2);font-weight:600;border-bottom:2px solid var(--baseline);padding:.45em .6em}
+td{border-bottom:1px solid var(--grid);padding:.45em .6em;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tblwrap{overflow-x:auto;border:1px solid var(--ring);border-radius:var(--radius);background:var(--surface);padding:.25rem .5rem;margin:.8rem 0}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+/* ============ LAYOUT ============ */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header.site{padding:26px 0 12px;border-bottom:1px solid var(--grid)}
+.titlebar{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+.asof{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--ring);border-radius:999px;padding:3px 12px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--good);display:inline-block}
+#themeBtn{font:inherit;font-size:.8rem;background:var(--surface);color:var(--ink-2);border:1px solid var(--ring);border-radius:999px;padding:3px 12px;cursor:pointer}
+#themeBtn:hover{color:var(--ink)}
+.subtitle{color:var(--ink-2);max-width:62ch;margin-top:2px}
+/* tabs */
+nav.tabs{position:sticky;top:0;z-index:50;background:var(--page);border-bottom:1px solid var(--grid)}
+nav.tabs .row{display:flex;gap:2px;overflow-x:auto;padding:6px 0;-webkit-overflow-scrolling:touch}
+.tabbtn{font:inherit;font-size:.9rem;font-weight:600;color:var(--ink-2);background:none;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tabbtn:hover{background:var(--surface-2);color:var(--ink)}
+.tabbtn[aria-selected="true"]{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+main{padding:26px 0 80px}
+section.tab{display:none}
+section.tab.active{display:block}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:var(--radius);padding:18px 20px;margin:14px 0}
+.card h3{margin-top:.1em}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.cols3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.callout{border-left:4px solid var(--accent);background:var(--surface);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:14px 0}
+.callout.warn{border-left-color:var(--serious)}
+.callout.open{border-left-color:var(--s4)}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:2px 9px;margin-right:6px}
+.pill.fact{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--ring)}
+.pill.est{background:color-mix(in srgb,var(--s4) 16%,transparent);color:var(--ink-2);border:1px solid color-mix(in srgb,var(--s4) 45%,transparent)}
+.pill.debate{background:color-mix(in srgb,var(--serious) 14%,transparent);color:var(--ink-2);border:1px solid color-mix(in srgb,var(--serious) 45%,transparent)}
+details{border:1px solid var(--ring);border-radius:var(--radius);background:var(--surface);margin:10px 0}
+details>summary{cursor:pointer;padding:14px 18px;font-weight:650;list-style:none;display:flex;gap:10px;align-items:baseline}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"+";color:var(--muted);font-weight:400;font-size:1.1em;width:1em}
+details[open]>summary::before{content:"–"}
+details .inner{padding:0 18px 16px}
+.layerno{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+.tile{background:var(--surface);border:1px solid var(--ring);border-radius:var(--radius);padding:14px 16px}
+.tile .v{font-size:1.55rem;font-weight:700;letter-spacing:-.02em}
+.tile .l{font-size:.8rem;color:var(--ink-2);margin-top:2px}
+.tile .d{font-size:.78rem;margin-top:4px;color:var(--ink-2)}
+.delta-up{color:#006300;font-weight:600}
+:root[data-theme="dark"] .delta-up{color:#0ca30c}
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])) .delta-up{color:#0ca30c}}
+/* charts */
+figure.viz{margin:16px 0;background:var(--surface);border:1px solid var(--ring);border-radius:var(--radius);padding:16px 18px}
+figure.viz figcaption{font-size:.82rem;color:var(--ink-2);margin-top:10px}
+figure.viz h4{margin-bottom:2px}
+.viz .sub{font-size:.82rem;color:var(--muted);margin:0 0 10px}
+.scrollx{overflow-x:auto;position:relative}
+@media(max-width:820px){.diagram.scrollx::after{content:"scroll \2192";position:absolute;top:8px;right:10px;font-size:.72rem;color:var(--muted);background:var(--surface);border:1px solid var(--ring);border-radius:999px;padding:1px 8px;pointer-events:none}}
+svg text{font-family:var(--sans)}
+.axis{stroke:var(--baseline);stroke-width:1}
+.gridline{stroke:var(--grid);stroke-width:1}
+.lbl{fill:var(--muted);font-size:12px}
+.lbl2{fill:var(--ink-2);font-size:12px}
+.lblB{fill:var(--ink);font-size:12.5px;font-weight:600}
+.tooltip{position:fixed;pointer-events:none;background:var(--surface);border:1px solid var(--ring);border-radius:8px;box-shadow:0 4px 18px rgba(0,0,0,.14);padding:8px 11px;font-size:.82rem;z-index:99;display:none;max-width:280px}
+.hoverable{cursor:help}
+/* diagram */
+.diagram{background:var(--surface);border:1px solid var(--ring);border-radius:var(--radius);padding:10px;margin:14px 0}
+.diagram svg{display:block;width:100%;height:auto}
+.dg-box{fill:var(--surface-2);stroke:var(--ring)}
+.dg-flow{stroke:var(--s1);stroke-width:2.2;fill:none;marker-end:url(#arrP)}
+.dg-money{stroke:var(--s3);stroke-width:2.2;fill:none;stroke-dasharray:7 4;marker-end:url(#arrM)}
+/* sliders / sim */
+.sim{display:grid;grid-template-columns:280px 1fr;gap:20px}
+@media(max-width:820px){.sim{grid-template-columns:1fr}}
+.sim .ctrl{background:var(--surface-2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:10px}
+.sim label{display:flex;justify-content:space-between;font-size:.85rem;font-weight:600;margin-bottom:4px}
+.sim label output{font-family:var(--mono);font-weight:600;color:var(--accent)}
+.sim input[type=range]{width:100%;accent-color:var(--accent)}
+.sim .note{font-size:.76rem;color:var(--muted);margin-top:2px}
+.switch{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;cursor:pointer}
+/* glossary */
+#glosSearch{font:inherit;width:100%;max-width:420px;background:var(--surface);color:var(--ink);border:1px solid var(--ring);border-radius:8px;padding:9px 13px;margin:6px 0 14px}
+.glos dt{font-weight:700;margin-top:12px}
+.glos dd{margin:.15em 0 .6em;color:var(--ink-2)}
+mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;border-radius:3px;padding:0 2px}
+/* players */
+.matrix td,.matrix th{text-align:center;padding:.35em .4em}
+.matrix td:first-child,.matrix th:first-child{text-align:left;white-space:nowrap}
+.cell{display:inline-block;width:16px;height:16px;border-radius:4px;background:var(--surface-2);border:1px solid var(--ring)}
+.cell.on{background:var(--seq-400);border-color:var(--seq-400)}
+.cell.part{background:var(--seq-250);border-color:var(--seq-250)}
+.playercard h4{display:flex;justify-content:space-between;align-items:baseline}
+.playercard .tag{font-size:.72rem;color:var(--muted);font-weight:500}
+/* misc */
+.timeline{border-left:2px solid var(--baseline);margin:10px 0 10px 6px;padding-left:20px}
+.timeline .ev{position:relative;margin-bottom:14px}
+.timeline .ev::before{content:"";position:absolute;left:-25.5px;top:.45em;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.timeline .yr{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.footer-note{margin-top:40px;padding-top:16px;border-top:1px solid var(--grid);font-size:.8rem;color:var(--muted)}
+.skiplink{position:absolute;left:-9999px}
+.skiplink:focus{position:static}
+.qa{margin:.6em 0}
+.qa .q{font-weight:650}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--ink-2);margin:6px 0}
+.legend .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+@media(max-width:640px){ .card{padding:14px} h1{font-size:1.5rem} }
+</style>
+</head>
+<body>
+<a class="skiplink" href="#main">Skip to content</a>
+<div class="tooltip" id="tt" role="status"></div>
+<header class="site">
+  <div class="wrap">
+    <div class="titlebar">
+      <h1>The AI Industry, End to End</h1>
+      <span style="display:flex;gap:8px;align-items:center">
+        <span class="asof"><span class="dot"></span>State of play: July 2026</span>
+        <button id="themeBtn" type="button" aria-label="Toggle colour theme">Theme</button>
+      </span>
+    </div>
+    <p class="subtitle">Who makes what, who pays whom, how the technology works, and where the money actually pools. From one chip-machine company in the Netherlands to the app on your phone. Assumes zero prior knowledge; built as a permanent reference.</p>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap row" role="tablist">
+    <button class="tabbtn" role="tab" aria-selected="true" data-tab="big-picture">Big picture</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="stack">The stack</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="technology">The technology</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="economics">The economics</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="debates">Live debates</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="players">The players</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="reference">Glossary &amp; sources</button>
+  </div>
+</nav>
+<main id="main" class="wrap">
+<!-- ================= BIG PICTURE ================= -->
+<section class="tab active" id="big-picture" role="tabpanel">
+  <h2>The whole landscape on one screen</h2>
+  <p style="max-width:72ch">"AI" is not one industry. It is a chain of about eight, stacked on top of each other. Each layer buys from the one below, adds something, and sells to the one above. Where a company sits on this chain largely determines its margins, its risks, and its strategy.</p>
+
+  <div class="card">
+    <h3>The 90-second version (read this first)</h3>
+    <p>Modern AI models are giant piles of numbers, set by <strong>training</strong> (done once, at enormous cost) and used by <strong>inference</strong> (every single query, forever). Both run on <strong>GPUs</strong>: chips that do millions of simple calculations in parallel.</p>
+    <p>One Dutch company (<strong>ASML</strong>) makes the machines that make advanced chips. One Taiwanese company (<strong>TSMC</strong>) manufactures nearly all of them. One American company (<strong>Nvidia</strong>) designs the dominant AI chips and owns <strong>CUDA</strong>, the software layer everyone is locked into. Clouds buy those chips and rent them out by the hour. Frontier labs (OpenAI, Anthropic, Google DeepMind) rent that computing power, train models with it, and sell intelligence by the token. Apps put it in front of you.</p>
+    <p>The strategic game at every layer is the same: avoid becoming a commodity. Nvidia bundles chips into systems and software. Google and Amazon design their own chips to stop paying Nvidia's margin. Labs bet their models stay differentiated. The open question running through this whole site: <em>which layers hold their pricing power, and which get competed to the bone?</em></p>
+  </div>
+
+  <div class="tiles" aria-label="Seven words the rest of the page uses constantly">
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Chip</div><div class="d">A fingernail-sized slice of silicon etched with billions of microscopic switches (transistors). The brain of every device.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">GPU</div><div class="d">The chip type AI runs on: thousands of small cores calculating in parallel. A CPU (your laptop's brain) has a few clever cores instead.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Compute</div><div class="d">Raw processing power, treated as a quantity you can buy: "more compute" means more chips running for more hours.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Model &amp; parameters</div><div class="d">The AI itself: a mathematical function with billions of learned numbers (parameters) inside.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Training vs inference</div><div class="d">Training sets the numbers (once, hugely expensive). Inference uses them (every query, forever).</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Token</div><div class="d">The unit AI reads and writes: a chunk of a word (~&#190; of an English word). Also how AI is priced and billed.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Gross margin</div><div class="d">The share of each sale kept after direct costs. High margin = pricing power; competition eats it.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Cloud</div><div class="d">Renting computers in someone else's data centre by the hour, instead of owning your own. The giant general-purpose clouds (Amazon, Microsoft, Google) are called hyperscalers.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Commodity</div><div class="d">A product identical whoever sells it, so buyers choose on price alone and sellers' profits get squeezed to nothing. "Commoditise" = become one.</div></div>
+    <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Moat</div><div class="d">Whatever stops competitors copying a business: lock-in, patents, scale, habit. No moat, no lasting profit.</div></div>
+  </div>
+
+  <p style="max-width:72ch">Now the map. Product flows left to right; money flows right to left.</p>
+
+  <div class="diagram scrollx" aria-label="Master diagram of the AI value chain">
+  <svg viewBox="0 0 1360 800" role="img" aria-label="The AI value chain: machines to chips to clouds to models to apps, with money flowing back the other way, and the gross margin at every layer" style="min-width:980px">
+    <defs>
+      <marker id="arrP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--s1)"/></marker>
+      <marker id="arrM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--s3)"/></marker>
+    </defs>
+
+    <!-- flow banners -->
+    <text x="20" y="34" class="lblB" style="font-size:14px">PRODUCT this way</text>
+    <line x1="160" y1="30" x2="240" y2="30" class="dg-flow"></line>
+    <text x="1340" y="34" text-anchor="end" class="lblB" style="font-size:14px;fill:var(--s3)">MONEY this way</text>
+    <line x1="1200" y1="30" x2="1120" y2="30" class="dg-money"></line>
+
+    <!-- hop labels above boxes -->
+    <text x="224" y="62" text-anchor="middle" class="lbl">machines</text>
+    <text x="452" y="62" text-anchor="middle" class="lbl">chips</text>
+    <text x="680" y="62" text-anchor="middle" class="lbl">racks</text>
+    <text x="908" y="62" text-anchor="middle" class="lbl">GPU-hours</text>
+    <text x="1136" y="62" text-anchor="middle" class="lbl">tokens</text>
+
+    <!-- STAGE 1 -->
+    <g class="hoverable" data-tt="ASML (Netherlands): the only maker of EUV lithography machines, ~$200m-$400m each. Cadence + Synopsys: the chip-design software duopoly. Arm (UK): licenses the CPU instruction set almost every custom chip builds on, paid pennies per chip.">
+      <rect x="10" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="110" y="96" text-anchor="middle" class="lblB">1 &#183; TOOLMAKERS</text>
+      <text x="110" y="120" text-anchor="middle" class="lbl2">ASML &#183; chip-printing machines</text>
+      <text x="110" y="140" text-anchor="middle" class="lbl2">Cadence &amp; Synopsys &#183; software</text>
+      <text x="110" y="160" text-anchor="middle" class="lbl2">Arm &#183; licenses chip blueprints</text>
+      <text x="110" y="186" text-anchor="middle" class="lbl">sells: the tools to make chips</text>
+      <text x="110" y="206" text-anchor="middle" class="lbl">ASML is a literal monopoly</text>
+    </g>
+
+    <!-- STAGE 2 -->
+    <g class="hoverable" data-tt="TSMC (Taiwan) manufactures nearly every leading-edge AI chip as a contractor: Nvidia, Apple, AMD, Google TPUs, Amazon Trainium. ~59% gross margin. Fabs cost $20bn+ each. Plus the memory makers: SK Hynix leads HBM, the stacked memory GPUs need.">
+      <rect x="238" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="338" y="96" text-anchor="middle" class="lblB">2 &#183; FABRICATION</text>
+      <text x="338" y="120" text-anchor="middle" class="lbl2">TSMC &#183; manufactures the chips</text>
+      <text x="338" y="140" text-anchor="middle" class="lbl2">Samsung &amp; Intel &#183; years behind</text>
+      <text x="338" y="160" text-anchor="middle" class="lbl2">SK Hynix &#183; HBM memory chips</text>
+      <text x="338" y="186" text-anchor="middle" class="lbl">sells: chips, priced per wafer</text>
+      <text x="338" y="206" text-anchor="middle" class="lbl">near-monopoly on advanced chips</text>
+    </g>
+
+    <!-- STAGE 3 -->
+    <g class="hoverable" data-tt="Nvidia designs GPUs and owns CUDA, the software everyone builds on; now sells whole racks (~72 GPUs wired as one machine). FY2026 gross margin 71%. AMD trails; Broadcom co-designs the hyperscalers' own chips (Google TPU etc.).">
+      <rect x="466" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="566" y="96" text-anchor="middle" class="lblB">3 &#183; CHIP DESIGN</text>
+      <text x="566" y="120" text-anchor="middle" class="lbl2">Nvidia &#183; GPUs and CUDA software</text>
+      <text x="566" y="140" text-anchor="middle" class="lbl2">AMD &#183; the distant challenger</text>
+      <text x="566" y="160" text-anchor="middle" class="lbl2">Broadcom &#183; custom-chip partner</text>
+      <text x="566" y="186" text-anchor="middle" class="lbl">sells: chips &amp; racks, per unit</text>
+      <text x="566" y="206" text-anchor="middle" class="lbl">Nvidia share: ~90% (est.)</text>
+    </g>
+
+    <!-- STAGE 4 -->
+    <g class="hoverable" data-tt="Hyperscalers (AWS, Microsoft Azure, Google Cloud) run giant data centres and rent compute by the hour, GPUs plus hundreds of other services. Neoclouds (CoreWeave, Lambda, Nebius) rent ONLY GPUs, cheaper. Both buy from Nvidia; the hyperscalers also design their own chips to escape Nvidia's margin.">
+      <rect x="694" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="794" y="96" text-anchor="middle" class="lblB">4 &#183; CLOUDS</text>
+      <text x="794" y="120" text-anchor="middle" class="lbl2">AWS &#183; Azure &#183; Google Cloud</text>
+      <text x="794" y="140" text-anchor="middle" class="lbl2">neoclouds: CoreWeave, Lambda</text>
+      <text x="794" y="160" text-anchor="middle" class="lbl2">+ own chips: TPU, Trainium</text>
+      <text x="794" y="186" text-anchor="middle" class="lbl">sells: compute, per GPU-hour</text>
+      <text x="794" y="206" text-anchor="middle" class="lbl">same chip: $2-3 or $7-12/hr</text>
+    </g>
+
+    <!-- STAGE 5 -->
+    <g class="hoverable" data-tt="Frontier labs rent (or are given) compute, spend it training models, then sell access via subscriptions and APIs (the pay-per-use pipe businesses' software uses to call a model): OpenAI (GPT), Anthropic (Claude), Google DeepMind (Gemini), xAI. Each lab is paired with a hyperscaler that funds it: OpenAI-Microsoft, Anthropic-Amazon+Google. Open-weight labs (Meta, DeepSeek, Qwen) give models away.">
+      <rect x="922" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="1022" y="96" text-anchor="middle" class="lblB">5 &#183; MODEL LABS</text>
+      <text x="1022" y="120" text-anchor="middle" class="lbl2">OpenAI &#183; Anthropic &#183; DeepMind</text>
+      <text x="1022" y="140" text-anchor="middle" class="lbl2">xAI &#183; plus open: Meta, DeepSeek</text>
+      <text x="1022" y="160" text-anchor="middle" class="lbl2">train models on rented compute</text>
+      <text x="1022" y="186" text-anchor="middle" class="lbl">sells: intelligence, per token</text>
+      <text x="1022" y="206" text-anchor="middle" class="lbl">only 3-4 at the frontier</text>
+    </g>
+
+    <!-- STAGE 6 -->
+    <g class="hoverable" data-tt="Where AI meets a user: chat apps (ChatGPT, Claude), coding tools (Cursor, Claude Code), vertical products (Harvey for law), AI inside incumbent software (Copilot in Office, Gemini in Gmail). Most rent their intelligence from a lab underneath.">
+      <rect x="1150" y="70" width="200" height="160" rx="10" class="dg-box"/>
+      <text x="1250" y="96" text-anchor="middle" class="lblB">6 &#183; APPS &amp; USERS</text>
+      <text x="1250" y="120" text-anchor="middle" class="lbl2">ChatGPT &#183; Claude &#183; Copilot</text>
+      <text x="1250" y="140" text-anchor="middle" class="lbl2">Cursor &#183; Harvey &#183; Perplexity</text>
+      <text x="1250" y="160" text-anchor="middle" class="lbl2">AI inside Office, Gmail, CRMs</text>
+      <text x="1250" y="186" text-anchor="middle" class="lbl">sells: products, per seat/month</text>
+      <text x="1250" y="206" text-anchor="middle" class="lbl">where you meet all of this</text>
+    </g>
+
+    <!-- product arrows -->
+    <line x1="212" y1="150" x2="234" y2="150" class="dg-flow"/>
+    <line x1="440" y1="150" x2="462" y2="150" class="dg-flow"/>
+    <line x1="668" y1="150" x2="690" y2="150" class="dg-flow"/>
+    <line x1="896" y1="150" x2="918" y2="150" class="dg-flow"/>
+    <line x1="1124" y1="150" x2="1146" y2="150" class="dg-flow"/>
+
+    <!-- money arrows + labels -->
+    <line x1="234" y1="254" x2="212" y2="254" class="dg-money"/>
+    <line x1="462" y1="254" x2="440" y2="254" class="dg-money"/>
+    <line x1="690" y1="254" x2="668" y2="254" class="dg-money"/>
+    <line x1="918" y1="254" x2="896" y2="254" class="dg-money"/>
+    <line x1="1146" y1="254" x2="1124" y2="254" class="dg-money"/>
+    <text x="224" y="278" text-anchor="middle" class="lbl">machine + wafer orders</text>
+    <text x="452" y="278" text-anchor="middle" class="lbl">chip orders</text>
+    <text x="680" y="278" text-anchor="middle" class="lbl">rack orders</text>
+    <text x="908" y="278" text-anchor="middle" class="lbl">cloud bills</text>
+    <text x="1136" y="278" text-anchor="middle" class="lbl">API fees + subscriptions</text>
+
+    <!-- support bands -->
+    <g class="hoverable" data-tt="Between chips and clouds sit the assemblers: Dell, Supermicro and HPE build servers; Arista and Nvidia's own networking wire thousands of GPUs into one giant computer; Vertiv and Schneider handle power and liquid cooling. Real business, thin margins: mostly commoditised.">
+      <rect x="238" y="306" width="428" height="82" rx="10" class="dg-box" style="stroke-dasharray:5 4"/>
+      <text x="452" y="332" text-anchor="middle" class="lblB">3.5 &#183; ASSEMBLY &amp; NETWORKING</text>
+      <text x="452" y="352" text-anchor="middle" class="lbl2">Dell / Supermicro &#183; servers &#8226; Arista / NVLink &#183; networks &#8226; Vertiv &#183; cooling</text>
+      <text x="452" y="372" text-anchor="middle" class="lbl">turns chips into working racks; heavily commoditised</text>
+    </g>
+    <line x1="540" y1="304" x2="566" y2="236" class="dg-flow" style="opacity:.55"/>
+    <g class="hoverable" data-tt="AI's binding physical constraint since ~2024 is electricity: a large AI data centre draws as much power as a small city (a gigawatt is roughly one nuclear reactor's output). Microsoft is paying to restart the Three Mile Island nuclear plant (target 2027-28). Sites now get built where the power is.">
+      <rect x="694" y="306" width="428" height="82" rx="10" class="dg-box" style="stroke-dasharray:5 4"/>
+      <text x="908" y="332" text-anchor="middle" class="lblB">0 &#183; ENERGY &amp; DATA CENTRES</text>
+      <text x="908" y="352" text-anchor="middle" class="lbl2">utilities, nuclear restarts, gas &#183; buildings, cooling, land</text>
+      <text x="908" y="372" text-anchor="middle" class="lbl">the physical constraint: power, not chips</text>
+    </g>
+    <line x1="800" y1="304" x2="800" y2="236" class="dg-flow" style="opacity:.55"/>
+
+    <!-- margin ladder: every layer -->
+    <text x="20" y="436" class="lblB" style="font-size:14px">GROSS MARGIN AT EVERY LAYER</text>
+    <text x="20" y="456" class="lbl2">share of each sale kept after direct costs &#183; one representative company per layer &#183; reported 2025-26 figures; lighter bar = estimate</text>
+
+    <g>
+      <text x="20" y="490" class="lbl">1 &#183; tools</text><text x="95" y="490" class="lblB">Arm</text><rect x="250" y="477" width="209" height="17" rx="4" fill="var(--seq-550)"/><text x="467" y="490" class="lblB">~95%</text><text x="560" y="490" class="lbl2">licensing: no factories, no parts, almost pure profit on every chip shipped</text>
+      <text x="20" y="520" class="lbl">1 &#183; tools</text><text x="95" y="520" class="lblB">ASML</text><rect x="250" y="507" width="114" height="17" rx="4" fill="var(--seq-550)"/><text x="372" y="520" class="lblB">~52%</text><text x="560" y="520" class="lbl2">monopoly machines, but decades of research spending to recoup</text>
+      <text x="20" y="550" class="lbl">2 &#183; fab</text><text x="95" y="550" class="lblB">TSMC</text><rect x="250" y="537" width="130" height="17" rx="4" fill="var(--seq-550)"/><text x="388" y="550" class="lblB">~59%</text><text x="560" y="550" class="lbl2">manufacturing monopoly at the frontier, colossal capital costs</text>
+      <text x="20" y="580" class="lbl">2 &#183; fab</text><text x="95" y="580" class="lblB">SK Hynix</text><rect x="250" y="567" width="132" height="17" rx="4" fill="var(--seq-550)"/><text x="390" y="580" class="lblB">~60%</text><text x="560" y="580" class="lbl2">the HBM memory boom repriced memory (2025)</text>
+      <text x="20" y="610" class="lbl">3 &#183; design</text><text x="95" y="610" class="lblB">Nvidia</text><rect x="250" y="597" width="156" height="17" rx="4" fill="var(--seq-550)"/><text x="414" y="610" class="lblB">~71%</text><text x="560" y="610" class="lbl2">design + software lock-in: the fattest margin at scale in the chain</text>
+      <text x="20" y="640" class="lbl">3.5 &#183; assembly</text><text x="130" y="640" class="lblB">Supermicro</text><rect x="250" y="627" width="24" height="17" rx="4" fill="var(--seq-550)"/><text x="282" y="640" class="lblB">~11%</text><text x="560" y="640" class="lbl2">assembling other people's chips: the commodity fate, in one number</text>
+      <text x="20" y="670" class="lbl">4 &#183; clouds</text><text x="95" y="670" class="lblB">CoreWeave</text><rect x="250" y="657" width="154" height="17" rx="4" fill="var(--seq-550)"/><text x="412" y="670" class="lblB">~70%</text><text x="560" y="670" class="lbl2">(66-74% by quarter) high gross margin; heavy debt + chip depreciation sit below it</text>
+      <text x="20" y="700" class="lbl">4 &#183; clouds</text><text x="95" y="700" class="lblB">AWS/Azure/GCP</text><text x="560" y="700" class="lbl2">gross margin undisclosed (AWS operating margin ~37%, 2025); bundled with data gravity</text>
+      <text x="20" y="730" class="lbl">5 &#183; labs</text><text x="95" y="730" class="lblB">frontier labs</text><rect x="250" y="717" width="136" height="17" rx="4" fill="var(--seq-250)"/><text x="394" y="730" class="lblB">50-75%</text><text x="560" y="730" class="lbl2">serving models (est.); company-level losses come from training the next one</text>
+      <text x="20" y="760" class="lbl">6 &#183; apps</text><text x="95" y="760" class="lblB">apps</text><text x="560" y="760" class="lbl2">varies wildly; most rent the intelligence beneath and fight on thin margins</text>
+    </g>
+    <text x="20" y="792" class="lbl2" style="font-weight:600">Margins pool where there is a monopoly, a lock-in, or a capability nobody else has. The assembly row is what happens everywhere else.</text>
+  </svg>
+  </div>
+  <p class="small">Dashed boxes (0 and 3.5) are support layers feeding the chain, not steps in the left-to-right sequence. Hover any box for detail. Every layer is unpacked in <a href="#" data-goto="stack">The stack</a>; the margins are explained in <a href="#" data-goto="economics">The economics</a>.</p>
+
+  <div class="cols2">
+    <div class="card">
+      <h3>Where your Claude subscription goes</h3>
+      <p class="small" style="margin-top:-6px">Illustrative flow, not audited figures: each layer pays the one below and keeps its margin.</p>
+      <div class="scrollx">
+      <svg viewBox="0 0 520 300" role="img" aria-label="Illustrative flow of a subscription payment down the stack" style="min-width:440px">
+        <g>
+          <rect x="10" y="16" width="150" height="40" rx="8" class="dg-box"/><text x="85" y="41" text-anchor="middle" class="lblB">You: ~$20/mo</text>
+          <rect x="200" y="16" width="150" height="40" rx="8" class="dg-box"/><text x="275" y="35" text-anchor="middle" class="lblB">Anthropic</text><text x="275" y="50" text-anchor="middle" class="lbl">runs Claude for you</text>
+          <rect x="390" y="16" width="120" height="40" rx="8" class="dg-box"/><text x="450" y="35" text-anchor="middle" class="lblB">R&amp;D + staff</text><text x="450" y="50" text-anchor="middle" class="lbl">next model</text>
+          <rect x="200" y="96" width="150" height="40" rx="8" class="dg-box"/><text x="275" y="115" text-anchor="middle" class="lblB">Clouds</text><text x="275" y="130" text-anchor="middle" class="lbl">AWS &#183; Google &#183; GPU-hours</text>
+          <rect x="200" y="176" width="150" height="40" rx="8" class="dg-box"/><text x="275" y="195" text-anchor="middle" class="lblB">Nvidia / chip makers</text><text x="275" y="210" text-anchor="middle" class="lbl">~71% gross margin</text>
+          <rect x="40" y="176" width="120" height="40" rx="8" class="dg-box"/><text x="100" y="195" text-anchor="middle" class="lblB">Electricity</text><text x="100" y="210" text-anchor="middle" class="lbl">power + cooling</text>
+          <rect x="200" y="252" width="150" height="40" rx="8" class="dg-box"/><text x="275" y="271" text-anchor="middle" class="lblB">TSMC &#8594; ASML</text><text x="275" y="286" text-anchor="middle" class="lbl">manufacturing &#8594; machines</text>
+          <line x1="160" y1="36" x2="194" y2="36" class="dg-money" style="stroke-dasharray:none"/>
+          <line x1="350" y1="36" x2="384" y2="36" class="dg-money"/>
+          <line x1="275" y1="56" x2="275" y2="90" class="dg-money"/>
+          <line x1="275" y1="136" x2="275" y2="170" class="dg-money"/>
+          <line x1="205" y1="126" x2="135" y2="172" class="dg-money" style="opacity:.7"/>
+          <line x1="275" y1="216" x2="275" y2="246" class="dg-money"/>
+        </g>
+      </svg>
+      </div>
+      <p class="small">To Anthropic you are revenue; to AWS and Google Cloud, rented GPU-hours; to Nvidia, chip demand; to TSMC, manufacturing volume; to ASML, one more reason to build machines. Note the electricity bill is paid by the clouds, who run the data centres, not by Nvidia. One subscription, six industries.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>How we got here: the 60-second history</h3>
+    <div class="timeline">
+      <div class="ev"><span class="yr">1990s</span> - GPUs invented for video-game graphics. Nvidia founded 1993; nearly dies mid-90s; saved in 1997 by a hit gaming chip.</div>
+      <div class="ev"><span class="yr">2006</span> - Nvidia launches <strong>CUDA</strong>, software letting programmers use GPUs for general maths. Seemed niche; became the deepest moat in tech.</div>
+      <div class="ev"><span class="yr">2012</span> - AlexNet, a neural network (the learning technique unpacked in The technology tab), trained on two gaming GPUs, crushes ImageNet, the annual benchmark contest for image recognition. AI researchers switch to GPUs en masse.</div>
+      <div class="ev"><span class="yr">2014-16</span> - Google, alarmed that speech features would need to double its data centres, designs its own AI chip: the <strong>TPU</strong>. Amazon buys chip designer Annapurna (2015).</div>
+      <div class="ev"><span class="yr">2017</span> - Google researchers publish the <strong>Transformer</strong> ("Attention Is All You Need"), the design behind every modern LLM (large language model: the technology under ChatGPT and Claude). All eight authors later leave Google.</div>
+      <div class="ev"><span class="yr">2019-20</span> - Nvidia buys Mellanox (networking; announced 2019, closed 2020). GPT-3 (2020) shows scale alone produces startling capability: 175bn parameters, ~$4.6m of compute.</div>
+      <div class="ev"><span class="yr">2022</span> - ChatGPT launches; fastest-growing consumer product in history. Google declares internal "code red".</div>
+      <div class="ev"><span class="yr">2023-24</span> - The compute land-grab: H100 GPU shortages, neoclouds boom, the hyperscalers (the giant clouds) go on a capital-spending spree, Nvidia joins the trillion-dollar club. Blackwell generation ships.</div>
+      <div class="ev"><span class="yr">2025</span> - Agentic AI arrives: models do multi-step work, not single answers. Token demand explodes. Power becomes the binding constraint. CoreWeave lists on the stock market at ~$23bn, roughly doubling within two months.</div>
+      <div class="ev"><span class="yr">2026</span> - Rubin generation (the next chips) enters production; Nvidia's market value hovers around $5tn; Anthropic's revenue compounds ~10x year on year (OpenAI's grows more slowly); value visibly shifts from infrastructure toward the model labs. As of July 2026: nobody knows if that holds.</div>
+    </div>
+  </div>
+</section>
+<!-- ================= THE STACK ================= -->
+<section class="tab" id="stack" role="tabpanel">
+  <h2>The stack, layer by layer</h2>
+  <p style="max-width:72ch">Each layer below buys from the previous one. Open each for the who, the what, the business model, and the strategic position. The layer numbers match the master diagram.</p>
+
+  <details open>
+    <summary><span class="layerno">0</span> Energy &amp; data centres: the physical floor</summary>
+    <div class="inner">
+      <p><strong>What it is.</strong> AI runs in data centres: warehouse buildings full of server racks, drawing staggering amounts of electricity and producing equal amounts of heat. A large AI site draws hundreds of megawatts to over a gigawatt; a gigawatt is roughly one nuclear reactor's output.</p>
+      <p><strong>Why it suddenly matters.</strong> Until ~2023 power was a line item. By 2025 it became the binding constraint on the whole industry: chips can be bought in months, but grid connections, transmission lines and power plants take 5+ years. Microsoft has contracted Constellation Energy to restart the Three Mile Island nuclear plant (targeted 2027-28); new sites get built next to power sources, not next to cities. When people say "compute is scarce", the deepest scarcity is electricity.</p>
+      <p><strong>Who earns here.</strong> Utilities and generators (Constellation, Vistra, NextEra), datacentre landlords (Equinix, Digital Realty), cooling and power-gear makers (Vertiv, Schneider). Utilities were among the best-performing AI stocks of 2024-25 because demand is huge, supply is slow, and they carry none of the technology risk.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">1</span> Toolmakers: ASML, the design software, and Arm</summary>
+    <div class="inner">
+      <p><strong>ASML</strong> (Veldhoven, Netherlands) makes lithography machines: they project chip designs onto silicon with light. For the finest features (a few nanometres) you need extreme ultraviolet light (EUV), and ASML is the only company on Earth that ever made EUV work: roughly two decades and tens of billions in R&amp;D; everyone else gave up. The machine fires lasers at molten tin droplets 50,000 times a second to create the light, bounces it off the smoothest mirrors ever made (Zeiss), and positions wafers with sub-nanometre precision. Standard EUV machines cost roughly $200m; the newer High-NA generation, $350m+. Each ships in multiple 747s.</p>
+      <p class="small"><span class="pill fact">Consequence</span> No ASML machines &#8594; no leading-edge fabs &#8594; no advanced AI chips. This is why chips are geopolitics: the single most effective lever on China's AI progress has been pressure on the Netherlands to restrict ASML sales. One company is a choke point for the world's computing.</p>
+      <p><strong>Cadence and Synopsys</strong> sell the design software (EDA) every chip designer uses: a quiet duopoly with software margins.</p>
+      <p><strong>Arm</strong> (Cambridge, UK; majority-owned by SoftBank) sells neither machines nor chips: it licenses the <em>instruction set</em>, the vocabulary of commands a processor understands, plus ready-made core designs. About 99% of smartphones run on Arm. Apple's M-series, Amazon's Graviton, Nvidia's Grace CPU: all Arm-based, all paying a royalty of pennies to a few dollars per chip, times tens of billions of chips a year. Nearly pure-margin intellectual property (gross margin ~95%+).</p>
+      <p class="small"><span class="pill fact">The blocked deal</span> Nvidia tried to buy Arm for $40bn (2020). Regulators killed it (2022): Arm's whole value is neutrality, licensing to everyone including Nvidia's competitors. Nobody wanted the Switzerland of chips owned by one arms dealer. SoftBank IPO'd it instead (2023). The custom chips the hyperscalers use to escape Nvidia (Graviton, TPU-adjacent CPUs, Microsoft's Cobalt) are almost all Arm-licensed: Arm arms everyone, whoever wins.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">2</span> Fabrication: TSMC and the memory makers</summary>
+    <div class="inner">
+      <p><strong>The fabless split.</strong> Modern chip companies split design from manufacturing. Nvidia, Apple, AMD, Broadcom design chips ("fabless"); <strong>TSMC</strong> (Taiwan Semiconductor Manufacturing Company) manufactures them as a pure contractor. A leading-edge fab costs $20bn+; only colossal shared volume justifies it, so one company's fabs serve the whole industry. TSMC never owns the designs and competes with essentially nobody at the leading edge: Samsung trails on yields, Intel is trying to re-enter. It runs ~59% gross margins (2025) despite being "just" a manufacturer, because at the frontier it is a monopoly with two-to-three years' process lead.</p>
+      <p><strong>How the money works.</strong> Nvidia sends TSMC a design and pays per wafer (the 30cm silicon disc later cut into chips); leading-edge wafers run roughly $20k+, and one wafer yields several dozen usable H100-class chips. Nvidia then sells each finished chip for ~$30k against a few thousand in manufacturing cost. The margin lives in design and lock-in, not manufacturing.</p>
+      <p><strong>Memory: the second choke point.</strong> A GPU is useless if data cannot reach it fast enough, so AI chips carry <strong>HBM</strong> (high-bandwidth memory) stacked directly beside the processor. SK Hynix leads, Samsung and Micron follow. HBM has been in chronic shortage; memory prices roughly tripled in 2025, and HBM itself sells at a many-fold premium over ordinary memory (per SemiAnalysis, the semiconductor research firm); memory is now as strategically important as the logic chips.</p>
+      <p class="small"><span class="pill fact">Geopolitics</span> Nearly every advanced AI chip on Earth passes through fabs on Taiwan, an island China claims. This is the single largest concentration risk in the world economy, and the reason the US CHIPS Act pays TSMC, Samsung and Intel to build fabs on US soil.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">3</span> Chip design: Nvidia and the people trying to escape it</summary>
+    <div class="inner">
+      <p><strong>What a GPU is.</strong> A CPU has a handful of brilliant cores built for sequential logic: it runs your operating system. A GPU has thousands of simple cores doing the same arithmetic simultaneously. Invented for game graphics (millions of pixels, same calculation, none depending on another), it turned out to be exactly the shape of AI's core workload: multiplying enormous grids of numbers (see <a href="#" data-goto="technology">The technology</a>). An H100-class data-centre GPU has ~80bn transistors and costs ~$30k; the current Blackwell and just-shipping Rubin generations go further, sold increasingly as whole racks (~72 GPUs wired into one giant computer, ~$3m each).</p>
+      <p class="small">Why is Nvidia's margin 71% while Arm's is ~95%? Nvidia ships physical hardware: it pays real money for wafers, memory and assembly on every unit, so even with monopoly-grade pricing power its margin has a floor of real costs. Arm ships licences, which cost nothing to duplicate. The less physical your product, the higher your ceiling.</p>
+      <p><strong>Nvidia's moat, layer by layer.</strong> AMD's silicon has been roughly competitive for years; Nvidia still holds an estimated 80-90% of AI accelerators and a 71% gross margin (FY2026). The moat is not the chip:</p>
+      <ul>
+        <li><strong>CUDA</strong> (2006): the free software platform everyone programs GPUs with. Every framework, library and accumulated optimisation trick targets CUDA first. Switching to AMD means porting your whole stack.</li>
+        <li><strong>Networking</strong> (Mellanox, deal announced 2019): NVLink and InfiniBand, the interconnects that let thousands of GPUs act as one machine.</li>
+        <li><strong>Systems</strong>: selling full racks ("AI factories") rather than loose chips moves the unit of competition up a level; there are many chip rivals, few full-system rivals.</li>
+        <li><strong>TSMC priority</strong>: as TSMC's biggest AI customer, first claim on scarce leading-edge capacity.</li>
+        <li><strong>Cadence</strong>: a new architecture roughly every year now (Hopper 2022, Blackwell 2024, Blackwell Ultra 2025, Rubin in production 2026). Match today's chip and you compete with last year's product.</li>
+      </ul>
+      <p><strong>The escape routes.</strong> Google designs <strong>TPUs</strong> (10+ years, with Broadcom): not to sell chips but to stop paying Nvidia's margin on its own colossal workloads, and now to power Anthropic too. Amazon builds <strong>Trainium/Inferentia</strong>; Microsoft builds Maia; Meta builds MTIA; OpenAI is reportedly co-designing with Broadcom. None has displaced Nvidia at the frontier; all cap its pricing power at the margin. The sharpest sceptic's framing (Zvi Mowshowitz, a widely read independent AI analyst, Apr 2026): Nvidia's moat against Google is, mostly, Google itself: TPUs are formidable but Google chooses not to sell them at scale to outsiders.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">3.5</span> Assembly &amp; networking: chips into computers</summary>
+    <div class="inner">
+      <p>Between a chip and a working data centre sits real engineering: <strong>Dell, Supermicro, HPE</strong> assemble GPU boards, CPUs, memory and cooling into servers; <strong>Arista, Cisco</strong> and Nvidia's own networking connect thousands of servers; <strong>Vertiv, Schneider Electric</strong> handle power distribution and the liquid cooling modern racks require (every gigawatt of compute is a gigawatt of heat to remove). It is a genuine business with mostly thin margins: the classic fate of an assembly layer between two powerful neighbours. Nvidia increasingly absorbs the most valuable parts of it by selling complete racks itself.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">4</span> Clouds: hyperscalers vs neoclouds</summary>
+    <div class="inner">
+      <p><strong>Hyperscalers</strong> (AWS, Microsoft Azure, Google Cloud) are the giant general-purpose clouds, built over 15+ years for all of the world's computing. GPUs are one product on a menu of hundreds: virtual machines, storage, databases, networking, analytics, security. That menu is why they win: a company whose data, systems and compliance already live on AWS gets enormous convenience from running AI next to them, on one bill. Data attracts compute ("data gravity"), and clouds charge egress fees to take data out.</p>
+      <p><strong>Neoclouds</strong> (CoreWeave, Lambda, Nebius, Crusoe and dozens more) are GPU-only rental businesses born in the AI boom: raise money, buy Nvidia GPUs, rack them, rent them by the hour. Faster, cheaper and more specialised than the hyperscalers; also thin-moat, debt-financed against fast-depreciating chips, and knife-fighting each other on price. CoreWeave went from crypto-mining sideline to a stock-market listing (IPO) at ~$23bn (March 2025), roughly doubling within two months, largely by locking multi-year contracts with Microsoft and OpenAI. Nvidia deliberately invests in and allocates scarce chips to neoclouds: they are pure customers, a counterweight to hyperscalers who all build rival chips.</p>
+
+      <figure class="viz">
+        <h4>Same chip, very different price</h4>
+        <p class="sub">Renting one Nvidia H100 GPU, US$ per hour, on-demand list prices, mid-2026</p>
+        <div class="scrollx">
+        <svg viewBox="0 0 640 240" role="img" aria-label="Bar chart of H100 rental prices: neocloud around 2 to 3 dollars per hour, AWS about 7, Azure about 12" style="min-width:520px">
+          <line x1="150" y1="20" x2="150" y2="196" class="axis"/>
+          <line x1="150" y1="196" x2="620" y2="196" class="axis"/>
+          <g>
+            <line x1="150" y1="60" x2="620" y2="60" class="gridline"/><text x="146" y="64" text-anchor="end" class="lbl">$12</text>
+            <line x1="150" y1="105" x2="620" y2="105" class="gridline"/><text x="146" y="109" text-anchor="end" class="lbl">$8</text>
+            <line x1="150" y1="150" x2="620" y2="150" class="gridline"/><text x="146" y="154" text-anchor="end" class="lbl">$4</text>
+          </g>
+          <!-- 45px per $4 → 11.25px/$; baseline 196 -->
+          <g class="hoverable" data-tt="Cheapest marketplace listings ~ $1.50/hr (Vast.ai-style spot capacity, mid-2026)">
+            <rect x="170" y="179.1" width="72" height="16.9" rx="4" fill="var(--s1)"/>
+            <text x="206" y="172" text-anchor="middle" class="lblB">$1.50</text>
+            <text x="206" y="214" text-anchor="middle" class="lbl2">cheapest</text><text x="206" y="228" text-anchor="middle" class="lbl">marketplaces</text>
+          </g>
+          <g class="hoverable" data-tt="Neocloud median ~$2.90/hr (range roughly $2.00-$3.50 across CoreWeave, Lambda, Nebius etc., mid-2026)">
+            <rect x="280" y="163.4" width="72" height="32.6" rx="4" fill="var(--s1)"/>
+            <text x="316" y="156" text-anchor="middle" class="lblB">~$2.90</text>
+            <text x="316" y="214" text-anchor="middle" class="lbl2">neocloud</text><text x="316" y="228" text-anchor="middle" class="lbl">median</text>
+          </g>
+          <g class="hoverable" data-tt="AWS on-demand H100 servers (p5 class), normalised per GPU: about $6.90-$7.50/hr, mid-2026">
+            <rect x="390" y="118.4" width="72" height="77.6" rx="4" fill="var(--s2)"/>
+            <text x="426" y="111" text-anchor="middle" class="lblB">~$6.90</text>
+            <text x="426" y="214" text-anchor="middle" class="lbl2">AWS</text><text x="426" y="228" text-anchor="middle" class="lbl">on-demand</text>
+          </g>
+          <g class="hoverable" data-tt="Microsoft Azure on-demand, normalised per GPU: about $12/hr at list price, mid-2026. Large customers negotiate far below list.">
+            <rect x="500" y="61" width="72" height="135" rx="4" fill="var(--s2)"/>
+            <text x="536" y="54" text-anchor="middle" class="lblB">~$12.30</text>
+            <text x="536" y="214" text-anchor="middle" class="lbl2">Azure</text><text x="536" y="228" text-anchor="middle" class="lbl">list price</text>
+          </g>
+        </svg>
+        </div>
+        <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>GPU-only specialists</span><span><span class="sw" style="background:var(--s2)"></span>Hyperscalers</span></div>
+        <figcaption>Identical hardware, a 3-8x price spread. The gap is part real value (data gravity, enterprise integration, compliance), part inertia. Whether it can persist is Debate #1. Sources: provider price pages and market trackers (CloudZero, IntuitionLabs, GetDeploying), mid-2026; large contracts price well below list.</figcaption>
+      </figure>
+
+      <div class="tiles">
+        <div class="tile"><div class="v">$1.70</div><div class="l">1-yr H100 contract, per GPU-hr, Oct 2025 (market low)</div></div>
+        <div class="tile"><div class="v">$2.35 <span class="delta-up">&#8593; +38%</span></div><div class="l">Same contract, Mar 2026 (SemiAnalysis rental index)</div><div class="d">Prices rose as agent demand outran supply: scarcity, not commoditisation, for now.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">5</span> Model labs: turning compute into intelligence</summary>
+    <div class="inner">
+      <p><strong>What they do.</strong> Frontier labs (OpenAI, Anthropic, Google DeepMind, xAI) buy or are granted vast compute, train models on it, then sell the result two ways: API access for businesses building on top (the API is the pipe their software uses to call the model, billed per token), and subscriptions (ChatGPT, Claude) for people. Training a frontier model is a months-long bet costing hundreds of millions to billions of dollars; each generation costs several times the last.</p>
+      <p><strong>The lab-cloud pairings.</strong> Every lab is bound to the infrastructure giants that fund it. OpenAI &#8596; Microsoft (plus, since 2025, additional clouds). Anthropic &#8596; Amazon (committed ~$33bn to date, and Anthropic has committed $100bn+ of AWS spend over a decade, training on Trainium) and Google (up to $40bn structure agreed 2026; up to a million TPUs). Google DeepMind sits inside Google. xAI builds its own Memphis cluster. These deals are circular on purpose: the cloud invests in the lab, the lab spends it back on the cloud's compute; both book growth. Critics call it vendor financing; participants call it securing supply.</p>
+      <p><strong>Open-weight labs</strong> (Meta's Llama, DeepSeek, Alibaba's Qwen, Mistral) give model files away and monetise indirectly (or strategically: make the layer next to yours cheap and abundant, so the value moves to the layer you do own; the tactic is called commoditising your complement). They are the standing threat to the closed labs' pricing power, and agents, which burn tokens 10x faster than chat, push cost-sensitive builders toward them.</p>
+      <p><strong>The economics are their own tab.</strong> Labs run 50-75% gross margins on serving models while posting company-level losses because each next model costs more to train: see <a href="#" data-goto="economics">The economics</a>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">6</span> Apps &amp; distribution: where AI meets a user</summary>
+    <div class="inner">
+      <p>The most visible, most fragmented layer. Three species:</p>
+      <ul>
+        <li><strong>AI-native products</strong>: Cursor (coding), Perplexity (search), Harvey (legal), plus the labs' own apps (ChatGPT, Claude). Build fast on rented intelligence; risk being flattened by the next model release or by the lab's own product.</li>
+        <li><strong>Incumbents adding AI</strong>: Microsoft Copilot in Office, Gemini in Gmail, Salesforce Agentforce. They own distribution: millions of seats that never made a switching decision.</li>
+        <li><strong>Device owners</strong>: Apple and Samsung hand AI to billions of users at the operating-system level, mostly renting the intelligence underneath.</li>
+      </ul>
+      <p>History's rhyme, and why this layer matters strategically: in the 1990s the PC hardware layer commoditised and Microsoft, owning the software layer above (Windows + Office), captured the surplus. Whoever owns distribution captures value from a commoditised layer beneath. Every player in this chain knows that story; it is why Google gives Gemini away inside products, and why the labs are racing to own the user relationship, not just the model.</p>
+    </div>
+  </details>
+</section>
+<!-- ================= TECHNOLOGY ================= -->
+<section class="tab" id="technology" role="tabpanel">
+  <h2>The technology: how the intelligence actually works</h2>
+  <p style="max-width:72ch">A ladder from "what is a chip" to "what is an agent", each rung built on the previous one. Worked examples marked <span class="pill fact">HDL</span> come from Isabella's INSEAD Hands-on Deep Learning course (Prof. Ciocan, 2026); everything else is the standard picture as of July 2026.</p>
+
+  <details open>
+    <summary>Rung 1 - CPUs, GPUs, and why AI needed a different chip</summary>
+    <div class="inner">
+      <p>A <strong>CPU</strong> is a few brilliant workers: a handful of fast, clever cores, built for tasks where step 2 depends on step 1 (running your operating system, executing app logic). A <strong>GPU</strong> is an army of adequate workers: thousands of small, simple cores doing the same operation simultaneously. Invented for game graphics, where millions of pixels each need the same little calculation and none depends on another.</p>
+      <p>The lucky accident of the century: AI's core computation, multiplying enormous grids of numbers ("matrix multiplication"), has exactly that same shape. Every cell of the output can be computed independently and in parallel. A job that takes a CPU weeks takes a GPU cluster hours. When researchers noticed this (AlexNet, 2012, trained on two gaming cards), the gaming-chip company became the most important company in AI.</p>
+      <p class="small">A modern data-centre GPU (H100/Blackwell/Rubin class) barely resembles a graphics card: ~80bn transistors, specialised cores purely for matrix maths, ultra-fast HBM memory stacked next to the processor, and high-speed links so thousands of chips act as one computer.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 2 - A neural network is stacked regression <span class="pill fact">HDL</span></summary>
+    <div class="inner">
+      <p>Strip the mystique: a neural network is nodes arranged in layers, each node computing a <em>weighted sum</em> of its inputs plus a bias, passed through a simple non-linear function. One sigmoid node literally <em>is</em> logistic regression, the workhorse of every stats course.</p>
+      <div class="callout"><strong>Worked example (HDL L01).</strong> Weights 0.2 and 0.5, bias 0.4, inputs [3.8, 1.2]:<br><code>z = 0.2&#215;3.8 + 0.5&#215;1.2 + 0.4 = 1.76</code>, then squash: <code>P = 1/(1+e&#8722;&#185;&#183;&#8311;&#8310;) &#8776; 0.85</code> (e is just a fixed maths constant, ~2.72). That's one neuron: an 85% "yes". A network is this, stacked deep and wide.</div>
+      <p>The <strong>parameters</strong> everyone counts (GPT-3's 175 billion) are just these weights and biases: the numbers the network learns. The non-linear squash between layers is essential: without it, a 100-layer network collapses mathematically into one flat layer. Depth is only powerful because of the non-linearity.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 3 - Training: how the numbers get set</summary>
+    <div class="inner">
+      <p>Training is a loop: make a prediction, measure how wrong it is (the <strong>loss</strong>), then nudge every weight slightly in the direction that reduces the wrongness (<strong>gradient descent</strong>, computed via <strong>backpropagation</strong>), and repeat, billions of times. Picture walking downhill on a foggy landscape where altitude is error: you can't see the bottom, but you can always feel the slope under your feet.</p>
+      <p>Two facts with big consequences:</p>
+      <ul>
+        <li>Real loss landscapes are jagged, so training finds <em>a good</em> valley, not <em>the best</em> one; retrain on the same data and you get a slightly different model each time.</li>
+        <li><strong>Overfitting</strong>: a big enough network can memorise its training data (perfect on practice questions, useless on the exam). The diagnostic is a held-out validation set; when validation error starts rising while training error keeps falling, stop. <span class="pill fact">HDL</span></li>
+      </ul>
+      <p>For LLMs the labels are free, which is the whole trick: slide a window over internet-scale text and the next word <em>is</em> the label. No humans needed to annotate. That is <strong>pretraining</strong>: predict the next token, over trillions of tokens, until the loss is low.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 4 - Embeddings: meaning as geometry <span class="pill fact">HDL</span></summary>
+    <div class="inner">
+      <p>Computers need numbers, so every token gets a vector (a list of numbers, hundreds to thousands long) called its <strong>embedding</strong>. The magic is that these vectors are <em>learned</em> so that geometric distance tracks meaning: similar words end up near each other, and directions encode relationships. The classic: <code>king &#8722; man + woman &#8776; queen</code>. The same offset that turns walking into walked turns swimming into swam.</p>
+      <p>But a fixed vector per word can't handle ambiguity: "the train left the <strong>station</strong>" vs "the radio <strong>station</strong> played 60s hits". Solving that is the transformer's job.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 5 - The transformer: attention, in one idea</summary>
+    <div class="inner">
+      <p>The 2017 Google paper "Attention Is All You Need" introduced the architecture behind every modern LLM. The one idea: before predicting anything, let every word's vector be re-weighted by every other word in the context. "It" in "the animal didn't cross the street because <em>it</em> was too tired" pulls its meaning from "animal"; change "tired" to "wide" and it pulls from "street". Each word's embedding becomes <em>contextual</em>: coloured by the company it keeps.</p>
+      <p>This runs in parallel many times per layer (<strong>multi-head attention</strong>: many small specialists, one tracking grammar, another tense, another who-did-what), stacked dozens of layers deep (GPT-3: 96 layers, 96 heads per layer). Crucially, attention is almost all matrix multiplication that can be computed for all words <em>simultaneously</em>: the architecture was practically designed for GPUs, which is why it won.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 6 - An LLM is a next-token machine <span class="pill fact">HDL</span></summary>
+    <div class="inner">
+      <p>Put the rungs together and you have the whole thing: <strong>tokenise</strong> the input text (real tokenisers split words into subword chunks via byte-pair encoding; ~&#190; of a word per token in English), run it through the stacked transformer to get contextual embeddings, then a final layer scores <em>every token in the vocabulary</em> on how likely it is to come next, and a <strong>softmax</strong> turns scores into probabilities. Pick from that distribution (deterministically for factual tasks, with sampling "temperature" for creative ones), append the chosen token, and repeat. Every chatbot answer you have ever read was generated one token at a time by that loop.</p>
+      <p class="small">As the HDL slides put it after this exact walkthrough: "Congratulations, you've just built your own LLM." The mystique is stacked regression plus attention plus scale.</p>
+      <div class="tblwrap"><table>
+        <caption class="small" style="text-align:left;padding:.3em .6em;color:var(--muted)">Scale over the GPT generations (HDL L07; GPT-5 figures are external estimates, OpenAI no longer discloses)</caption>
+        <tr><th>Model</th><th class="num">Parameters</th><th class="num">Context window</th><th>Note</th></tr>
+        <tr><td>GPT (2018)</td><td class="num">117m</td><td class="num">512 tokens</td><td>proof of concept</td></tr>
+        <tr><td>GPT-2 (2019)</td><td class="num">1.5bn</td><td class="num">1,024</td><td>"too dangerous to release" (then released)</td></tr>
+        <tr><td>GPT-3 (2020)</td><td class="num">175bn</td><td class="num">2,048</td><td>~$4.6m of compute, 1,024 GPUs, 34 days</td></tr>
+        <tr><td>GPT-4 (2023)</td><td class="num">undisclosed</td><td class="num">128k</td><td>rumoured ~$100m+ training cost</td></tr>
+        <tr><td>GPT-5 era (2025-26)</td><td class="num">est. trillions <span class="pill est">est</span></td><td class="num">400k+</td><td>frontier runs estimated $500m-$1bn+</td></tr>
+      </table></div>
+      <p class="small">The pattern behind the table is the <strong>scaling laws</strong>: make the model bigger, feed it more data, spend more compute, and capability improves smoothly and predictably. That one empirical regularity is why the industry buys chips the way it does, and the debate over whether it is flattening is Debate #5.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 7 - Post-training: from autocomplete to assistant</summary>
+    <div class="inner">
+      <p>Pretraining produces a brilliant autocomplete that will just as happily continue a rant as answer a question. <strong>Post-training</strong> shapes it into an assistant:</p>
+      <ul>
+        <li><strong>RLHF</strong> (reinforcement learning from human feedback): humans rank candidate answers; the model is tuned toward what they prefer. This step, cheap next to pretraining, is what made ChatGPT feel like a product in 2022.</li>
+        <li><strong>Reasoning training</strong> (the 2024-26 wave, sometimes called RLVR: reinforcement learning from verifiable rewards): on problems with checkable answers (maths, code), let the model generate long chains of thought, reward the chains that reach correct answers. Result: models that "think" before answering, spending more inference compute for more reliability. This created a second scaling axis: capability now scales with compute spent <em>at answer time</em>, not just at training time, which is a big part of why inference demand exploded.</li>
+      </ul>
+      <p class="small">Why alignment is hard, in one image (HDL L07): an RL boat-racing agent discovered that spinning in circles hitting bonus targets scored more points than finishing the race. The loss function is always a proxy for what you actually want, and models optimise the proxy.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 8 - Inference: what happens when you hit send</summary>
+    <div class="inner">
+      <p>Inference is running the finished model: weights frozen, your tokens in, its tokens out (see <a href="#" data-goto="economics">the economics tab</a> for why this distinction runs the industry's finances). Three mechanics worth knowing:</p>
+      <ul>
+        <li><strong>Memory bandwidth is the bottleneck.</strong> Generating each token requires streaming billions of weights from memory through the compute cores. The arithmetic is easy; <em>feeding</em> it is hard. This is why HBM matters as much as the GPU itself.</li>
+        <li><strong>The KV cache</strong> (key-value cache). To avoid re-reading the whole conversation for every new token, the model caches its attention calculations. Long contexts make this cache enormous, which is why long conversations cost providers real memory and why context windows are expensive to serve.</li>
+        <li><strong>Batching.</strong> Providers serve many users' requests through the GPU at once, sharing the cost of streaming the weights. This is the main lever behind falling per-token prices.</li>
+      </ul>
+      <p><strong>Mixture-of-experts (MoE)</strong>, used by most frontier models now: the model holds many specialist sub-networks but activates only a few per token, so a model can have trillions of stored parameters while spending only a fraction of that compute per token. Big brain, selective effort.</p>
+      <p class="small">Two cost curves run in opposite directions: cost per token of a <em>fixed</em> capability level collapses (often ~10x/year, via better hardware, batching, MoE, and distillation: training a small cheap model to imitate a big one), while total spend rises because usage and per-task token counts (reasoning, agents) grow faster than unit costs fall.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 9 - Agents: models in a loop with tools</summary>
+    <div class="inner">
+      <p>An <strong>agent</strong> is an LLM given tools (run code, search the web, edit files, call APIs) and run in a loop: look at the goal, pick an action, observe the result, decide the next action, repeat until done. No new architecture: the same next-token machine, prompted to emit tool calls, with software around it executing them.</p>
+      <p>The economic consequence is enormous: a chat answer is a few hundred tokens; an agent completing a real task can burn hundreds of thousands (it re-reads context at every step, and one loop iteration's KV cache and outputs feed the next). Agents are why token demand exploded in 2025-26, why value-per-query jumped (an agent replaces hours of work, not a search), and why cost-sensitive builders drift toward cheaper open-weight models. Agents "having complete freedom of how many tokens to use" is the single most important demand-side fact in the compute economy right now.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Rung 10 - Transfer learning: the startup cheat code <span class="pill fact">HDL</span></summary>
+    <div class="inner">
+      <p>You almost never train from scratch. You take a pretrained model, keep its learned representation of the world, and adapt it cheaply: prompt it (no weight changes), give it retrieved documents (<strong>RAG</strong>: paste relevant internal files into the context), fine-tune it (adjust some weights on your data), or use its embeddings with a small model of your own on top.</p>
+      <p>The HDL course calls this the most practically important idea it teaches, and its startup blueprint: don't train a trillion-parameter model; own a specific, rich, proprietary dataset; transfer-learn a pretrained model onto it; sell the predictions. Harvey (legal AI) is the canonical example. In the class exercise, a usable image classifier was built from a few dozen photos by piggybacking on a pretrained vision model: 97-100% accuracy from almost no data.</p>
+    </div>
+  </details>
+</section>
+<!-- ================= ECONOMICS ================= -->
+<section class="tab" id="economics" role="tabpanel">
+  <h2>The economics: where the money pools and why</h2>
+
+  <div class="card">
+    <h3>The one equation that runs the industry</h3>
+    <p style="font-size:1.15rem;text-align:center;margin:14px 0"><code style="font-size:1.05em;padding:.4em .8em">Total cost&nbsp;=&nbsp;F&nbsp;(training, fixed)&nbsp;+&nbsp;V&nbsp;&#215;&nbsp;Q&nbsp;(inference: cost per query &#215; volume)</code></p>
+    <p><strong>Training (F)</strong> is a fixed cost, paid once per model generation, before a single customer pays anything: hundreds of millions to $1bn+ per frontier run as of 2026, and rising steeply each generation. <strong>Inference (V&#215;Q)</strong> is the operating cost that scales with every message, forever. (The <strong>marginal cost</strong> economists keep invoking is just V: what one extra query costs to serve. Roughly: fractions of a cent for a short chat answer, up to dollars for a long agent task, as of 2026 <span class="pill est">est</span>.) This split is the industry's whole financial personality: enormous fixed bets up front, then a margin race on serving costs. High fixed costs + low marginal costs is the classic recipe for concentrated markets (software, semiconductors, pharma), and that is exactly what has formed: 3-4 frontier labs, 3 big clouds, 1 dominant chip designer, 1 leading fab, 1 lithography monopoly.</p>
+  </div>
+
+  <div class="card">
+    <h3>The model-vintage view: every model is its own little company</h3>
+    <p>The most clarifying frame in the industry comes from Dario Amodei (Anthropic CEO, Dwarkesh podcast, Feb 2026): treat <em>each model generation</em> as a standalone business. Train it for $X; over the next year or so it earns revenue serving customers at 50-75% gross margin; on its own profit-and-loss account (P&amp;L) it is <strong>profitable</strong>. The company around it still loses money, because while model N earns, the lab is already spending several times more training model N+1. In his stylised example: a model trained last year for $1bn produces $4bn of revenue this year at $1bn of serving cost: 75% gross margin, $3bn profit on that vintage. Yet the lab still ends the year around breakeven or in the red, because this year it is also spending ~$3bn training the successor, plus billions more on researchers, experiments that never ship, and salaries.</p>
+    <p><strong>Why keep doing it?</strong> Stop training and you would be profitable for a few months, then irrelevant: margin comes from being at the frontier, and the frontier moves. This is research-treadmill economics, like pharma pipelines, not a price war: the cost of <em>staying differentiated</em> rises every generation, while each generation individually pays for itself. Amodei's stated path: profitable by ~2028 (or earlier, he hedges, if revenue keeps compounding).</p>
+
+    <h4 style="margin-top:20px">Play with it</h4>
+    <p class="small">Stylised model, illustrative only: each generation costs more to train (growth factor), earns revenue the following year as a multiple of its training cost, at your chosen gross margin. Watch the gap between "each vintage is profitable" and "the company burns cash".</p>
+    <div class="sim">
+      <div>
+        <div class="ctrl">
+          <label>First model's training cost <output id="oT0">$1.0bn</output></label>
+          <input type="range" id="sT0" min="0.2" max="3" step="0.1" value="1">
+          <div class="note">Frontier runs 2026: est. $500m-$1bn+</div>
+        </div>
+        <div class="ctrl">
+          <label>Training cost growth per generation <output id="oG">3.0&#215;</output></label>
+          <input type="range" id="sG" min="1.2" max="4" step="0.1" value="3">
+          <div class="note">Each new model costs this much more than the last</div>
+        </div>
+        <div class="ctrl">
+          <label>Revenue multiple on training cost <output id="oM">4.0&#215;</output></label>
+          <input type="range" id="sM" min="0.5" max="6" step="0.1" value="4">
+          <div class="note">Dario's stylised example: 4&#215; ($1bn model &#8594; $4bn revenue)</div>
+        </div>
+        <div class="ctrl">
+          <label>Inference gross margin <output id="oIM">75%</output></label>
+          <input type="range" id="sIM" min="20" max="85" step="1" value="75">
+          <div class="note">Dario, Feb 2026: "more than 50%"; SemiAnalysis: 70%+ on Blackwell. Defaults reproduce his $1bn &#8594; $4bn example</div>
+        </div>
+        <div class="ctrl">
+          <label class="switch"><input type="checkbox" id="sStop"> Stop training after generation 3</label>
+          <div class="note">The "take profits" strategy: watch what happens next</div>
+        </div>
+      </div>
+      <div>
+        <figure class="viz" style="margin:0">
+          <h4>Per-vintage profit vs company cash flow</h4>
+          <p class="sub">US$bn per year (stylised)</p>
+          <div class="scrollx"><svg id="simChart" viewBox="0 0 660 320" role="img" aria-label="Simulator output: bars for each model generation's own profit and the company's net cash flow per year" style="min-width:540px"></svg></div>
+          <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>This year's vintage profit (model earning this year)</span><span><span class="sw" style="background:var(--s2)"></span>Company net (vintage profit minus next model's training and a 25%-of-training research overhead)</span></div>
+          <figcaption id="simVerdict"></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="cols2">
+    <div class="card">
+      <h3>Bertrand vs Cournot: why the layers behave differently</h3>
+      <p>Two textbook competition models explain most of this industry's pricing:</p>
+      <p><strong>Bertrand</strong> (price competition on identical products): if buyers only care about price and entry is easy, sellers undercut each other until price hits marginal cost. Profit evaporates. This is the gravity acting on <em>low-barrier, identical-product</em> layers: GPU-only rental, server assembly, undifferentiated API resellers.</p>
+      <p><strong>Cournot</strong> (few players, capacity constraints, hard entry): when only 3-4 firms can credibly play, because entry needs tens of billions in capital and rare expertise, each firm rationally limits how hard it competes, and prices settle <em>above</em> marginal cost without any collusion. Margins are "not astronomical, but not zero".</p>
+      <p>Dario Amodei made exactly this distinction about AI (Dwarkesh, Feb 2026): "Cloud is very undifferentiated... models are more differentiated than cloud", and on lab competition: "we have the... Cournot equilibrium... If there's like three firms... it doesn't equilibrate to zero." The neocloud knife-fight is Bertrand; the frontier-lab and hyperscaler layers are Cournot; and the monopoly layers (ASML, TSMC at the edge, Nvidia for now) price however they choose, constrained mainly by politics and long-term strategy.</p>
+      <p class="small">Barriers to entry are a third escape from commoditisation that "differentiate or be cheapest" framings miss: sheer capital and expertise walls keep the big layers concentrated even where products converge.</p>
+    </div>
+    <div class="card">
+      <h3>Three possible endgames for the model layer (the "equilibria")</h3>
+      <p class="small" style="margin-top:-4px">From the vault's AI Economic model note, synthesising Amodei's framing. Which one lands is <em>the</em> question.</p>
+      <p><strong>1. Commodity.</strong> Capabilities converge (open-weight models catch up; frontier labs reach parity). Price falls toward marginal inference cost; training becomes unrecoverable sunk cost; value flows to whoever owns distribution (Microsoft's Office seats, Google's Search box). The labs' nightmare.</p>
+      <p><strong>2. Winner-takes-most.</strong> A persistent capability gap plus rising switching costs (accumulated context, integrations, agent harnesses) gives the leader enterprise-software economics: entrenched, high-margin. What OpenAI and Anthropic are betting their investors' billions on.</p>
+      <p><strong>3. Vertical capture.</strong> The hyperscalers, controlling the compute underneath, extract the rent whichever model wins; labs become brilliant, structurally dependent R&amp;D shops. The circular investment deals (Microsoft&#8594;OpenAI, Amazon+Google&#8594;Anthropic) hedge exactly this outcome.</p>
+      <p class="small">Mid-2026 evidence leans toward 2, with 3 lurking: labs are repricing on value delivered and margins are expanding. But one great open-weight release could snap it back toward 1. See <a href="#" data-goto="debates">Live debates</a>.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Where the value went, and where it's going</h3>
+    <p><strong>2023-25: infrastructure ate first.</strong> Nvidia ran ~75% gross margins at peak; memory vendors' stocks tripled; power utilities became AI trades (Vistra +265% in 2024). The labs, meanwhile, burned cash and subsidised usage to win share.</p>
+    <p><strong>Late 2025: the inflection.</strong> Agentic workloads started completing real multi-step work. The value of a query jumped from "better search result" to "hours of skilled labour", and with it what customers will pay.</p>
+    <p><strong>2026: value migrating to the model labs</strong> (the SemiAnalysis thesis, May 2026). Lab revenues are compounding ~10x/year while serving margins expand (38% &#8594; 70%+ per SemiAnalysis, as Blackwell-generation hardware multiplied throughput). Labs increasingly price on value, not cost, because frontier capability has no close substitute and demand exceeds supply.</p>
+
+    <figure class="viz">
+      <h4>Anthropic revenue: the 10x-a-year ramp</h4>
+      <p class="sub">Annualised revenue run-rate (the current monthly pace &#215; 12, not money already banked), US$bn. 2023-25 per Dario Amodei (Dwarkesh, Feb 2026); 2026 per Anthropic's own announcement</p>
+      <div class="scrollx">
+      <svg viewBox="0 0 640 250" role="img" aria-label="Bar chart of Anthropic annualised revenue run-rate: 0.1 billion dollars in 2023, 1 billion 2024, 9 to 10 billion 2025, 30 billion announced mid-2026 with trackers estimating up to 69 billion" style="min-width:520px">
+        <line x1="120" y1="16" x2="120" y2="200" class="axis"/>
+        <line x1="120" y1="200" x2="620" y2="200" class="axis"/>
+        <line x1="120" y1="26" x2="620" y2="26" class="gridline"/><text x="116" y="30" text-anchor="end" class="lbl">$30bn</text>
+        <line x1="120" y1="84" x2="620" y2="84" class="gridline"/><text x="116" y="88" text-anchor="end" class="lbl">$20bn</text>
+        <line x1="120" y1="142" x2="620" y2="142" class="gridline"/><text x="116" y="146" text-anchor="end" class="lbl">$10bn</text>
+        <!-- 5.8px per $bn, baseline 200 -->
+        <g class="hoverable" data-tt="2023: roughly $0 to $100m annualised">
+          <rect x="150" y="198" width="80" height="2" rx="1" fill="var(--s1)"/>
+          <text x="190" y="192" text-anchor="middle" class="lblB">$0.1</text><text x="190" y="220" text-anchor="middle" class="lbl2">2023</text>
+        </g>
+        <g class="hoverable" data-tt="2024: $100m to ~$1bn annualised">
+          <rect x="270" y="194.2" width="80" height="5.8" rx="2" fill="var(--s1)"/>
+          <text x="310" y="187" text-anchor="middle" class="lblB">$1</text><text x="310" y="220" text-anchor="middle" class="lbl2">2024</text>
+        </g>
+        <g class="hoverable" data-tt="2025: ~$9-10bn annualised by year end (midpoint plotted)">
+          <rect x="390" y="144.9" width="80" height="55.1" rx="3" fill="var(--s1)"/>
+          <text x="430" y="138" text-anchor="middle" class="lblB">$9-10</text><text x="430" y="220" text-anchor="middle" class="lbl2">2025</text>
+        </g>
+        <g class="hoverable" data-tt="Mid-2026: Anthropic itself announced a $30bn run-rate. Independent trackers estimated higher still: ~$47bn (May) to ~$69bn (July 2026). Bar shows the company's own announced figure; the whisker marks the tracker range.">
+          <rect x="510" y="26" width="80" height="174" rx="4" fill="var(--s1)"/>
+          <line x1="550" y1="26" x2="550" y2="18" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="550" y="12" text-anchor="middle" class="lblB">$30 (+)</text><text x="550" y="220" text-anchor="middle" class="lbl2">mid-2026</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption>The 2023 bar is drawn at minimum visible thickness (true value ~$0.1bn). The mid-2026 bar is Anthropic's own announced run-rate ($30bn); independent trackers put it higher still (~$47bn May, ~$69bn July 2026), so read the last bar as a floor. Growth at this pace is the labs' whole argument that they are not a commodity, and the single biggest industry story of the first half of 2026.</figcaption>
+    </figure>
+
+    <p><strong>The strategic puzzle: the monopolists are underpricing.</strong> Nvidia and TSMC both have demand far above supply and could charge materially more. SemiAnalysis's hypothesis: Nvidia acts as the "central bank of AI", holding prices below the ceiling to avoid antitrust heat, keep the ecosystem healthy, and maximise its long-run position. The sceptics' alternative (Zvi Mowshowitz): Jensen Huang simply runs Nvidia as an ordinary hardware business and does not price in what the chips actually enable. Same fact, two readings; either way, the rent they leave on the table is currently being collected one layer up, by the labs.</p>
+    <p class="small"><strong>The investment paradox</strong> (Amodei): if you truly believed transformative AI was 2 years away, you would buy trillions of dollars of compute; nobody does, because being early is fatal: "If you're off by only a year, you destroy yourselves" (Dwarkesh podcast, Feb 2026). Even the biggest believers size their bets to survive being wrong about timing: one reason supply keeps undershooting demand.</p>
+  </div>
+</section>
+<!-- ================= DEBATES ================= -->
+<section class="tab" id="debates" role="tabpanel">
+  <h2>Live debates: the questions the industry is actually arguing about</h2>
+  <p style="max-width:72ch">Settled facts live in the other tabs. These are the open questions, presented with the strongest case on each side and what would settle them. Positions here are contested by smart, informed people; hold them loosely.</p>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 1</span> Does compute commoditise?</h3>
+    <p><strong>The commoditisation case.</strong> An H100-hour is an H100-hour: identical product, dozens of sellers, easy entry at the bottom. Textbook Bertrand conditions. The evidence: neoclouds already price at a third of hyperscaler list, their marketing is interchangeable, and the 3-8x price spread for identical hardware looks like froth waiting to compress. On this view, owning a thin GPU-rental slice of the stack is standing where the price war will be fought.</p>
+    <p><strong>The counter-evidence, mid-2026.</strong> Rental prices <em>rose</em> ~38% from late 2025 into 2026 (1-yr H100 contracts, SemiAnalysis index): scarcity is currently beating commoditisation because demand (agents, reasoning models) is growing faster than power-constrained supply. And the hyperscaler premium is not all froth: data gravity, enterprise integration and regulatory compliance certifications are real switching costs. Chips also depreciate fast, so today's glut candidate is obsolete in 3 years.</p>
+    <p class="small"><strong>What to watch:</strong> the SemiAnalysis rental index when supply finally catches demand; whether any neocloud besides CoreWeave escapes spot-market pricing into long contracts; hyperscaler-vs-neocloud spread compression.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 2</span> Does the CUDA moat hold?</h3>
+    <p><strong>Moat-is-deep:</strong> 20 years of tooling, every framework optimised for CUDA first, annual hardware cadence, and the whole-rack strategy moving competition to a level where Nvidia has no peer. Even well-funded rivals' software (AMD ROCm) remains years behind in practice.</p>
+    <p><strong>Moat-is-narrowing:</strong> the biggest buyers are the least locked in. Google trains and serves on TPUs; Anthropic runs on TPUs and Trainium at scale (Jensen Huang publicly frames this as a one-off: "It's 100% Anthropic"; sceptics read it as the start of a structural break). Inference, the growing share of demand, is far more substitutable than training. And the moat's strangest feature (the observation of Zvi Mowshowitz, a widely read independent AI analyst): Nvidia's moat against Google is, mostly, Google itself, because Google could sell TPUs to outsiders at scale but chooses not to.</p>
+    <p class="small"><strong>What to watch:</strong> whether Google ever sells TPUs externally at scale; Trainium 3/4 adoption beyond Anthropic; what share of new frontier training runs are non-Nvidia by 2027.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 3</span> Do open-weight models cap the labs' pricing power?</h3>
+    <p><strong>Yes-case:</strong> DeepSeek, Qwen and Llama-class models sit 6-18 months behind the frontier at a fraction of the price, and agents (which burn tokens ~10x faster than chat) push cost-sensitive builders straight to them. If "good enough" keeps rising, the closed labs' premium segment shrinks toward a luxury niche: Equilibrium 1 by erosion.</p>
+    <p><strong>No-case:</strong> for high-stakes enterprise work, the gap between "almost frontier" and "frontier" is worth full price (compliance, reliability, capability on the hardest tasks), and switching costs are rising as companies build agent harnesses, accumulated context and integrations around one model family. The line from Anthropic's own go-to-market team (the people who sell Claude to enterprises): consumer and casual use may commoditise; enterprise will not.</p>
+    <p class="small"><strong>What to watch:</strong> enterprise win-rates and pricing of frontier vs open models each release cycle; whether any Fortune 500 runs core workflows on open weights at scale.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 4</span> Is the capex boom rational, or a bubble?</h3>
+    <p><strong>Rational:</strong> revenue at the model layer is compounding ~10x/year, inference margins are already 50-75%, and every layer below is supply-constrained. On those numbers, hundreds of billions of annual capex is buying into visible, paying demand ("hard to see there won't be trillions in revenue before 2030", Amodei).</p>
+    <p><strong>Bubble:</strong> most enterprise AI value remains unproven in customers' actual profit-and-loss accounts; the deals are worryingly circular (clouds invest in labs, labs spend it back on the same clouds, and both sides get to report the same dollars as growth); depreciation on a trillion dollars of fast-obsoleting chips has to be earned back by <em>applications</em> that mostly don't exist yet; and macro-level productivity gains are not yet visible in the statistics. If agent ROI disappoints, the whole 2026 revaluation partly unwinds.</p>
+    <p class="small"><strong>What to watch:</strong> application-layer revenue (not lab revenue) as the honest scoreboard; utilisation and pricing on 2024-25 vintage GPUs; whether the circular deals get repriced by markets.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 5</span> Do the scaling laws keep paying?</h3>
+    <p><strong>The worry:</strong> pretraining gains per dollar have visibly slowed ("we are near the end of the exponential", as the Dwarkesh-Amodei episode title puts it); high-quality training data is increasingly consumed; each generation costs several times more for smaller headline jumps.</p>
+    <p><strong>The rejoinder:</strong> reasoning training opened a second axis (spend more compute per <em>answer</em>), agents opened a third (spend more compute per <em>task</em>), and capability per dollar at fixed quality still falls ~10x/year. The exponential may be ending in pretraining while compounding elsewhere. Amodei's own stated confidence, Feb 2026: powerful AI ("country of geniuses in a data centre") ~50% within 1-3 years, 90% within 10.</p>
+    <p class="small"><strong>What to watch:</strong> whether the next full model generation (trained on Rubin-class compute) lands a step-change or an increment; inference-compute scaling results; data-efficiency research.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill debate">Debate 6</span> The geopolitical overhang</h3>
+    <p>Two facts dominate: nearly all leading-edge fabrication sits on Taiwan, and the US-China export-control fight decides who gets frontier chips. US policy restricts ASML machine sales and Nvidia's China products; China pushes domestic alternatives (Huawei), estimated years behind at leading edge (Anthropic's 2026 policy estimate: US compute advantage ~11x). The industry's entire physical base assumes Taiwan stays open for business; that assumption is priced at roughly zero in day-to-day markets and would reprice everything at once if tested. Export controls are also a live commercial variable: policy swings (like the 2025 H20 China episode, where a US rule change left Nvidia's China chips unsellable: a ~$4.5bn accounting loss and ~10 points of gross margin gone in one quarter) move more money than most product launches. Two forces this page otherwise underweights also live here: controls are extending beyond chips to the model weights themselves (who may host and serve frontier models), and safety regulation is becoming a genuine industry variable, shaping what labs can ship, where, and with what disclosure.</p>
+  </div>
+</section>
+
+<!-- ================= PLAYERS ================= -->
+<section class="tab" id="players" role="tabpanel">
+  <h2>The players: who does what</h2>
+  <p style="max-width:72ch">The single most useful lens: <strong>how much of the chain does each player cover?</strong> Google is the only company present from chip design to consumer distribution. Most of the drama in AI news is players trying to expand up or down this table.</p>
+
+  <div class="legend" style="margin-bottom:4px"><span><span class="cell on" style="vertical-align:-3px"></span> major position</span><span><span class="cell part" style="vertical-align:-3px"></span> partial / emerging</span><span><span class="cell" style="vertical-align:-3px"></span> not present</span><span class="small">Fab column: everyone leading-edge outsources to TSMC.</span></div>
+  <div class="tblwrap">
+  <table class="matrix">
+    <tr>
+      <th>Player</th><th>Chips<br><span class="small">design</span></th><th>Fab</th><th>Cloud<br><span class="small">rental</span></th><th>Frontier<br><span class="small">model</span></th><th>Apps &amp;<br><span class="small">distribution</span></th><th class="small" style="text-align:left">The one-line strategy</th>
+    </tr>
+    <tr><td>Google</td><td><span class="cell on" title="TPUs"></span></td><td><span class="cell" title="TSMC fabs"></span></td><td><span class="cell on" title="Google Cloud"></span></td><td><span class="cell on" title="Gemini"></span></td><td><span class="cell on" title="Search, Android, Workspace"></span></td><td class="small" style="text-align:left">Own every layer; never pay anyone else's margin</td></tr>
+    <tr><td>Microsoft</td><td><span class="cell part" title="Maia, early"></span></td><td><span class="cell"></span></td><td><span class="cell on" title="Azure"></span></td><td><span class="cell part" title="via OpenAI stake + small in-house"></span></td><td><span class="cell on" title="Office, Windows, GitHub"></span></td><td class="small" style="text-align:left">Own distribution; rent the model (OpenAI); catch value either way</td></tr>
+    <tr><td>Amazon</td><td><span class="cell on" title="Trainium, Inferentia, Graviton"></span></td><td><span class="cell"></span></td><td><span class="cell on" title="AWS #1"></span></td><td><span class="cell part" title="Nova (second tier); Anthropic stake"></span></td><td><span class="cell part" title="Alexa, enterprise only"></span></td><td class="small" style="text-align:left">Be the landlord: whoever wins must run on AWS</td></tr>
+    <tr><td>Nvidia</td><td><span class="cell on" title="GPUs + networking + racks"></span></td><td><span class="cell"></span></td><td><span class="cell part" title="DGX Cloud, small"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td class="small" style="text-align:left">Sell ever-bigger systems; make the commodity part someone else's problem</td></tr>
+    <tr><td>Meta</td><td><span class="cell part" title="MTIA, early"></span></td><td><span class="cell"></span></td><td><span class="cell part" title="builds own DCs, rents to nobody"></span></td><td><span class="cell on" title="Llama (open)"></span></td><td><span class="cell on" title="WhatsApp, Instagram, Facebook"></span></td><td class="small" style="text-align:left">Give the model away; monetise attention it feeds</td></tr>
+    <tr><td>Apple</td><td><span class="cell on" title="M-series, on-device"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell" title="rents from OpenAI et al."></span></td><td><span class="cell on" title="2bn+ devices"></span></td><td class="small" style="text-align:left">Own the device; rent the intelligence (for now)</td></tr>
+    <tr><td>OpenAI</td><td><span class="cell part" title="custom chip w/ Broadcom, reported"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell on"></span></td><td><span class="cell on" title="ChatGPT: the consumer brand"></span></td><td class="small" style="text-align:left">Win the consumer brand; diversify compute suppliers</td></tr>
+    <tr><td>Anthropic</td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell on" title="Claude"></span></td><td><span class="cell part" title="Claude app + Claude Code; enterprise-heavy"></span></td><td class="small" style="text-align:left">Win enterprise + agents; run on all three silicon stacks (TPU, Trainium, Nvidia)</td></tr>
+    <tr><td>TSMC</td><td><span class="cell"></span></td><td><span class="cell on" title="the fab"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td class="small" style="text-align:left">Manufacture for everyone; compete with no one</td></tr>
+    <tr><td>ASML</td><td><span class="cell"></span></td><td><span class="cell part" title="sells the machines fabs need"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td class="small" style="text-align:left">Sell the only shovels that dig this deep</td></tr>
+    <tr><td>CoreWeave &amp; neoclouds</td><td><span class="cell"></span></td><td><span class="cell"></span></td><td><span class="cell on" title="GPU rental only"></span></td><td><span class="cell"></span></td><td><span class="cell"></span></td><td class="small" style="text-align:left">One layer, priced keenly; escape spot pricing via long contracts or die trying</td></tr>
+  </table>
+  </div>
+  <div class="cols3">
+    <div class="card playercard"><h4>Nvidia <span class="tag">~$5tn value, Jul 2026</span></h4><p class="small">FY2026 (ended Jan 2026): Q4 data-centre revenue $62.3bn (75% of it up y/y); gross margin 71%. Designs chips, owns CUDA + networking, sells $3m racks. Fabless: TSMC manufactures. The annual cadence (Blackwell &#8594; Rubin, in production 2026) is itself a weapon: rivals matching this year's chip compete with next year's.</p></div>
+    <div class="card playercard"><h4>TSMC <span class="tag">the world's fab</span></h4><p class="small">Manufactures nearly every advanced AI chip as a neutral contractor; ~59% gross margin (2025). 2-3 year process lead over Samsung/Intel. Founded 1987 on a then-heretical idea: a fab that designs nothing, so every designer can trust it. The AI boom's single point of failure, sitting on contested ground.</p></div>
+    <div class="card playercard"><h4>ASML <span class="tag">the monopoly's monopoly</span></h4><p class="small">Sole maker of EUV lithography machines ($200m-$400m each); roughly two decades of R&amp;D nobody else survived. Sells to TSMC, Samsung, Intel. Export controls on its machines are the West's main lever on China's chip progress. Gross margin ~52% (2025).</p></div>
+    <div class="card playercard"><h4>Arm <span class="tag">tollbooth</span></h4><p class="small">Licenses the instruction set in ~99% of smartphones and, increasingly, the data-centre CPUs beside every GPU (Graviton, Grace, Cobalt). Royalties of pennies-to-dollars per chip, ~95%+ gross margin. SoftBank-controlled; the $40bn Nvidia acquisition was blocked (2022) to keep it neutral.</p></div>
+    <div class="card playercard"><h4>Google <span class="tag">full stack</span></h4><p class="small">The only end-to-end player: TPUs (10+ years, Broadcom-assisted, TSMC-fabbed), Google Cloud, DeepMind/Gemini, and distribution via Search, Android and Workspace. Its structural edge: it pays no one else's margin on its own colossal workloads. Now also Anthropic's second silicon supplier (up to 1m TPUs, deal expanded 2025-26).</p></div>
+    <div class="card playercard"><h4>Amazon / AWS <span class="tag">the landlord</span></h4><p class="small">Biggest cloud; own chips (Trainium for training, Inferentia for inference, Graviton CPUs, via Annapurna, bought 2015); models second-tier, so its model-layer play is Anthropic: ~$33bn committed to date, Claude trained partly on Trainium, Bedrock (AWS's model marketplace) selling every lab's models to enterprises.</p></div>
+    <div class="card playercard"><h4>Microsoft <span class="tag">distribution + OpenAI</span></h4><p class="small">Azure (#2 cloud), the OpenAI partnership (deepest lab-cloud pairing, exclusivity relaxed since 2025), Copilot across Office/Windows/GitHub. The 1990s playbook one layer up: if models commoditise, the Office seat still wins; if they don't, the OpenAI stake wins.</p></div>
+    <div class="card playercard"><h4>OpenAI <span class="tag">consumer king</span></h4><p class="small">ChatGPT is the consumer AI brand (fastest product to 100m users ever, 2022-23). Multi-hundred-billion-dollar compute commitments across Microsoft, Oracle and others; reported custom-chip work with Broadcom. Betting that brand + frontier capability + agents compound into the next platform company.</p></div>
+    <div class="card playercard"><h4>Anthropic <span class="tag">enterprise + agents</span></h4><p class="small">Claude; revenue ~10x/year (0.1 &#8594; 1 &#8594; 9-10 $bn annualised, 2023-25, per Amodei), strongest in enterprise/coding/agents. Backed by Amazon (~$33bn) and Google (up to $40bn structure, 2026) at a ~$350bn valuation (early 2026 reports); uniquely trains and serves across TPU + Trainium + Nvidia. Projects profitability ~2028.</p></div>
+    <div class="card playercard"><h4>Meta <span class="tag">open spoiler</span></h4><p class="small">Trains Llama and gives it away: commoditise the model layer, monetise via the world's attention pipes (WhatsApp, Instagram, Facebook). Builds gigawatt data centres it rents to nobody. The biggest single force pushing Equilibrium 1 (commodity models), whether or not it stays open at the frontier.</p></div>
+    <div class="card playercard"><h4>CoreWeave <span class="tag">neocloud escapee</span></h4><p class="small">Crypto-miner turned GPU landlord; listed at ~$23bn (March 2025), roughly doubling within two months. Escaped the spot-price knife-fight by signing multi-year capacity deals with Microsoft and OpenAI: less a differentiated cloud than a financing vehicle for other people's compute, collateralised on the GPUs themselves. The template the other dozens of neoclouds are racing to copy before prices normalise.</p></div>
+    <div class="card playercard"><h4>The open-weight labs <span class="tag">DeepSeek, Qwen, Mistral</span></h4><p class="small">Release model files publicly, 6-18 months behind the frontier, at a fraction of serving cost. China's labs lead the cost-effectiveness frontier. Every closed lab's pricing meeting has an empty chair for them.</p></div>
+  </div>
+</section>
+<!-- ================= REFERENCE ================= -->
+<section class="tab" id="reference" role="tabpanel">
+  <h2>Glossary &amp; sources</h2>
+
+  <div class="card">
+    <h3>Glossary</h3>
+    <input id="glosSearch" type="search" placeholder="Type to filter: e.g. inference, CUDA, wafer&#8230;" aria-label="Filter glossary">
+    <dl class="glos" id="glosList">
+      <dt>Agent</dt><dd>An LLM run in a loop with tools (run code, search, edit files): it picks actions, observes results, and continues until a task is done. Burns far more tokens than chat.</dd>
+      <dt>AI accelerator</dt><dd>Any chip specialised for AI maths: Nvidia GPUs, Google TPUs, Amazon Trainium. The umbrella term market-share figures refer to.</dd>
+      <dt>Antitrust</dt><dd>Competition law: the rules against monopolies rigging or dominating markets. Why "buy every rival" and "agree prices" are not available strategies.</dd>
+      <dt>API</dt><dd>The pipe through which software talks to a model hosted elsewhere; labs sell API access priced per million tokens.</dd>
+      <dt>Arm</dt><dd>UK company licensing the instruction set (the command vocabulary) most mobile and, increasingly, data-centre CPUs use. Paid a royalty per chip.</dd>
+      <dt>ASIC</dt><dd>A chip designed for one specific job (e.g. Google's TPU): less flexible than a GPU, cheaper and faster for that job.</dd>
+      <dt>ASML</dt><dd>Dutch monopoly maker of EUV lithography machines, the only way to print leading-edge chips.</dd>
+      <dt>Backpropagation</dt><dd>The algorithm that works out how much each weight contributed to an error, so training knows which direction to nudge it.</dd>
+      <dt>Batching</dt><dd>Serving many users' requests through a GPU at once so the cost of streaming the model's weights is shared. Main lever behind falling token prices.</dd>
+      <dt>Bertrand competition</dt><dd>Price competition on identical products with easy entry: undercutting drives price to marginal cost and profits to zero. The economics of the neocloud knife-fight.</dd>
+      <dt>Capex</dt><dd>Capital expenditure: money spent building long-lived assets (data centres, chips, fabs), as opposed to day-to-day running costs.</dd>
+      <dt>Cloud</dt><dd>Renting computing from someone else's data centre by the hour rather than owning machines. The generic term; hyperscalers and neoclouds are kinds of cloud.</dd>
+      <dt>Commodity / commoditise</dt><dd>A product identical whoever sells it, bought on price alone, so sellers' profits get competed away. The fate every layer of this industry is trying to avoid.</dd>
+      <dt>Compute</dt><dd>Raw processing power treated as a quantity you can buy, measured loosely in chips x hours (or precisely in floating-point operations). "More compute" = more chips running for longer.</dd>
+      <dt>Context window</dt><dd>How much text a model can consider at once, measured in tokens (frontier models: hundreds of thousands to millions).</dd>
+      <dt>Cournot competition</dt><dd>Competition among a few capacity-constrained firms behind high entry barriers: prices settle above marginal cost without collusion. Amodei's model of the frontier-lab layer.</dd>
+      <dt>CPU</dt><dd>General-purpose processor: a few fast cores built for sequential tasks. Runs operating systems and ordinary software.</dd>
+      <dt>CUDA</dt><dd>Nvidia's free software platform (2006) for programming its GPUs. Two decades of tools and habits built on it are Nvidia's deepest moat.</dd>
+      <dt>Data centre</dt><dd>A building full of servers. Modern AI sites draw hundreds of megawatts to gigawatts of power.</dd>
+      <dt>Data gravity</dt><dd>Data attracts compute: once your data lives on one cloud, running everything else there is cheaper and easier than moving it (egress fees make leaving cost real money).</dd>
+      <dt>Depreciation</dt><dd>The accounting cost of assets wearing out or going obsolete. Brutal here: an AI chip loses most of its value in 3-5 years, whether used or not.</dd>
+      <dt>Distillation</dt><dd>Training a small, cheap model to imitate a big one's answers: most of the capability at a fraction of the serving cost.</dd>
+      <dt>EDA</dt><dd>Electronic design automation: the software chips are designed in. Cadence + Synopsys duopoly.</dd>
+      <dt>Embedding</dt><dd>A learned list of numbers representing a token (or image, or document) so that geometric closeness tracks similarity of meaning.</dd>
+      <dt>EUV</dt><dd>Extreme ultraviolet lithography: printing chip features a few nanometres wide using light made by lasering molten tin droplets. ASML-only.</dd>
+      <dt>Fab / foundry</dt><dd>A chip factory ($20bn+ to build at the leading edge). A foundry manufactures other companies' designs as a contractor.</dd>
+      <dt>Fabless</dt><dd>A chip company that designs but does not manufacture (Nvidia, AMD, Apple): sends designs to TSMC.</dd>
+      <dt>Fine-tuning</dt><dd>Adjusting a pretrained model's weights on your own data to specialise it.</dd>
+      <dt>Frontier lab</dt><dd>A company training models at the capability frontier: OpenAI, Anthropic, Google DeepMind, xAI (definitions vary at the edges).</dd>
+      <dt>GPU</dt><dd>Graphics processing unit: thousands of simple cores computing in parallel. Built for games; conquered AI because both are massive parallel arithmetic.</dd>
+      <dt>Gradient descent</dt><dd>Training's core move: repeatedly nudge every weight downhill on the error surface.</dd>
+      <dt>Gross margin</dt><dd>Share of revenue kept after direct costs of the product sold (before R&amp;D, overheads). The margin ladder of this industry: Arm ~95%, Nvidia ~71%, TSMC ~59%, ASML ~52% (latest reported, 2025-26).</dd>
+      <dt>HBM</dt><dd>High-bandwidth memory stacked next to the GPU so weights can be streamed fast enough. SK Hynix leads; chronically scarce.</dd>
+      <dt>Hyperscaler</dt><dd>A giant general-purpose cloud: AWS, Microsoft Azure, Google Cloud. Hundreds of services, of which GPU rental is one.</dd>
+      <dt>Inference</dt><dd>Running a trained model: every query, every message. The industry's operating cost, scaling with usage forever.</dd>
+      <dt>Instruction set</dt><dd>The vocabulary of basic commands a processor understands (x86: Intel/AMD; Arm: everyone else). Software compiled for one runs on any chip speaking it.</dd>
+      <dt>IPO</dt><dd>Initial public offering: a company listing its shares on a stock market for the first time.</dd>
+      <dt>KV cache</dt><dd>The stored attention state that lets a model avoid re-reading the whole conversation for each new token; the memory cost of long contexts.</dd>
+      <dt>LLM</dt><dd>Large language model: a transformer trained on text to predict the next token, which at scale yields general capability.</dd>
+      <dt>Marginal cost</dt><dd>What producing one extra unit costs (here: the compute to serve one more query). Competition on identical products pushes price down toward it.</dd>
+      <dt>MoE (mixture-of-experts)</dt><dd>Architecture activating only a few specialist sub-networks per token: huge stored capacity, modest per-token compute. Standard at the frontier now.</dd>
+      <dt>Moat</dt><dd>Whatever stops competitors copying a business: lock-in (CUDA), monopoly know-how (ASML), scale, switching costs. No moat, no durable profit.</dd>
+      <dt>Neocloud</dt><dd>A GPU-only rental cloud (CoreWeave, Lambda, Nebius): cheaper per GPU-hour than hyperscalers, thin-moat, often debt-financed against the chips.</dd>
+      <dt>Node (3nm, 2nm)</dt><dd>Generation label for how small a chip's features are: smaller is faster and more efficient. TSMC leads at 3nm/2nm.</dd>
+      <dt>Parameters / weights</dt><dd>The learned numbers inside a model (GPT-3: 175bn). Set during training, frozen during inference.</dd>
+      <dt>P&amp;L</dt><dd>Profit-and-loss account: a business's revenues minus its costs over a period. "Profitable on its own P&amp;L" = the unit makes money viewed in isolation.</dd>
+      <dt>Post-training</dt><dd>Everything after pretraining that shapes a model into a useful assistant: RLHF, reasoning training, safety tuning.</dd>
+      <dt>Pretraining</dt><dd>The expensive first phase: predict the next token across internet-scale text. Sets most of the model's knowledge.</dd>
+      <dt>RAG</dt><dd>Retrieval-augmented generation: fetch relevant documents and paste them into the context so the model answers from your data, not just its training.</dd>
+      <dt>R&amp;D</dt><dd>Research and development: the spending on inventing the next product rather than making the current one.</dd>
+      <dt>Reasoning model</dt><dd>A model post-trained to generate long private chains of thought before answering, trading inference compute for reliability (the 2024-26 wave).</dd>
+      <dt>RLHF</dt><dd>Reinforcement learning from human feedback: tune the model toward answers humans rank highly. Made chatbots usable.</dd>
+      <dt>Run-rate</dt><dd>Current pace annualised: this month's revenue x 12. How fast-growing companies quote revenue (flattering but standard).</dd>
+      <dt>Scaling laws</dt><dd>The empirical regularity that capability improves smoothly with more parameters, data and compute; the industry's investment thesis.</dd>
+      <dt>Token</dt><dd>The unit models read and write: a subword chunk, roughly &#190; of an English word. Also the industry's billing unit.</dd>
+      <dt>Sunk cost</dt><dd>Money already spent that no future decision can recover: a finished training run, recouped or not.</dd>
+      <dt>TPU</dt><dd>Tensor Processing Unit: Google's in-house AI chip (10+ generations since 2015-16), used for Gemini and rented via Google Cloud; now also powering Anthropic.</dd>
+      <dt>Trainium</dt><dd>Amazon's in-house AI training chip (sibling: Inferentia, for inference), built to cut AWS's dependence on Nvidia; Claude is partly trained on it.</dd>
+      <dt>Training</dt><dd>Setting a model's weights by gradient descent over vast data: months of thousands of chips, paid once per model generation.</dd>
+      <dt>Transformer</dt><dd>The 2017 architecture built on attention: every token's representation re-weighted by every other. The basis of all modern LLMs.</dd>
+      <dt>Transistor</dt><dd>The microscopic on/off switch chips are made of; modern AI chips carry tens of billions.</dd>
+      <dt>Wafer</dt><dd>The 30cm silicon disc chips are printed on and cut from; leading-edge wafers cost ~$20k+ and yield several dozen big AI chips.</dd>
+    </dl>
+    <p class="small" id="glosEmpty" style="display:none">Nothing matches that filter.</p>
+  </div>
+
+  <div class="card">
+    <h3>Sources &amp; provenance</h3>
+    <p class="small">Built July 2026 from Isabella's vault plus public verification. Time-sensitive figures carry their as-of dates in the text; treat anything about 2026 revenues, prices and valuations as fast-moving.</p>
+    <h4>Vault sources</h4>
+    <ul class="small">
+      <li><strong>AI Value Chain</strong> (vault essay, May-Jul 2026): the nine-stage chain, player archetypes, SemiAnalysis value-shift synthesis.</li>
+      <li><strong>AI Economic model</strong> (vault essay): cost function, three equilibria, break-even logic.</li>
+      <li><strong>Dario Amodei on Dwarkesh Patel, "We Are Near the End of the Exponential"</strong> (Feb 2026, vault podcast note + transcript): model-vintage P&amp;L, Cournot framing, revenue ramp, margins, investment paradox.</li>
+      <li><strong>Acquired: TSMC (Morris Chang interview)</strong> and <strong>Acquired: Google Part III</strong> (vault podcast notes): founding stories, TPU origin.</li>
+      <li><strong>Zvi Mowshowitz on the Jensen Huang-Dwarkesh interview</strong> (Apr 2026, vault article note): the sceptical read on Nvidia's moat. (Mowshowitz is a widely read independent AI analyst; his framings here are paraphrased, not verbatim quotes.)</li>
+      <li><strong>INSEAD Hands-on Deep Learning course notes</strong> (Prof. Ciocan, 2026): the worked examples in the technology tab (marked HDL).</li>
+      <li><strong>Anthropic NYC Trek talk notes</strong> (Jun 2026): enterprise commoditisation arguments.</li>
+    </ul>
+    <h4>Key public sources &amp; verification (July 2026)</h4>
+    <ul class="small">
+      <li>Nvidia FY2026 results (fiscal year ended Jan 2026): Q4 data-centre revenue $62.3bn; FY gross margin 71.1% GAAP. Rubin in full production (CES 2026), volume 2H 2026. Market cap ~$4.7-5.1tn, July 2026.</li>
+      <li>H100 rental pricing: provider list prices and market trackers (CloudZero, IntuitionLabs, GetDeploying), mid-2026; SemiAnalysis H100 rental index (1-yr contracts $1.70 Oct 2025 &#8594; $2.35 Mar 2026).</li>
+      <li>Anthropic funding: Amazon ~$33bn total commitment; Google $10bn + up to $30bn milestone structure at ~$350bn valuation (April 2026 reports); up-to-1m-TPU deal (Oct 2025); $100bn+ decade-long AWS spend commitment. 2026 revenue run-rate: $30bn announced by Anthropic itself mid-2026; independent estimates during 2026 ranged from SemiAnalysis's $44bn to tracker-based ~$47bn (May) and ~$69bn (July). Multiply sourced, still fast-moving: quote a floor, not a point.</li>
+      <li>SemiAnalysis (the semiconductor industry research firm), "AI Value Capture: The Shift to Model Labs" (May 2026): inference margins 38% &#8594; 70%+; the "central bank of AI" underpricing hypothesis.</li>
+      <li>Historical/technical constants (GPT-3 training stats, transformer paper, CUDA 2006, Mellanox 2019, Annapurna 2015, Arm/SoftBank/blocked Nvidia deal): stable public record.</li>
+    </ul>
+    <h4>Volatile: re-check before quoting after ~late 2026</h4>
+    <p class="small">GPU rental prices; Nvidia margin and market cap; every lab's revenue and valuation; TPU/Trainium adoption share; open-weight capability gap; power buildout timelines. The structural content (how the stack works, the technology, the competition models) ages far more slowly.</p>
+  </div>
+
+  <p class="footer-note">Reference site built for Isabella's vault, July 2026. Companion vault notes: AI Value Chain; AI Economic model. State of play throughout: July 2026 unless dated otherwise.</p>
+</section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------- tabs ---------- */
+  var tabs = document.querySelectorAll(".tabbtn");
+  var panels = document.querySelectorAll("section.tab");
+  function show(id, push){
+    panels.forEach(function(p){ p.classList.toggle("active", p.id === id); });
+    tabs.forEach(function(t){ t.setAttribute("aria-selected", String(t.dataset.tab === id)); });
+    if (push) { try { history.replaceState(null, "", "#" + id); } catch(e){} }
+    window.scrollTo({top:0});
+  }
+  tabs.forEach(function(t){ t.addEventListener("click", function(){ show(t.dataset.tab, true); }); });
+  document.querySelectorAll("[data-goto]").forEach(function(a){
+    a.addEventListener("click", function(ev){ ev.preventDefault(); show(a.dataset.goto, true); });
+  });
+  var initial = (location.hash || "").slice(1);
+  if (initial && document.getElementById(initial)) show(initial, false);
+
+  /* ---------- theme ---------- */
+  var btn = document.getElementById("themeBtn");
+  function applyTheme(v){
+    if (v) { document.documentElement.setAttribute("data-theme", v); }
+    else { document.documentElement.removeAttribute("data-theme"); }
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("aiStackTheme"); } catch(e){}
+  if (saved) applyTheme(saved);
+  btn.addEventListener("click", function(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur ? (cur === "dark" ? "light" : "dark") : (systemDark ? "light" : "dark");
+    applyTheme(next);
+    try { localStorage.setItem("aiStackTheme", next); } catch(e){}
+  });
+
+  /* ---------- tooltips ---------- */
+  var tt = document.getElementById("tt");
+  function showTT(html, x, y){
+    tt.innerHTML = html; tt.style.display = "block";
+    var pad = 14, w = tt.offsetWidth, h = tt.offsetHeight;
+    var left = Math.min(x + pad, window.innerWidth - w - 8);
+    var top = y + pad; if (top + h > window.innerHeight - 8) top = y - h - pad;
+    tt.style.left = left + "px"; tt.style.top = Math.max(8, top) + "px";
+  }
+  function hideTT(){ tt.style.display = "none"; }
+  document.querySelectorAll(".hoverable").forEach(function(el){
+    el.addEventListener("mousemove", function(ev){ showTT(el.dataset.tt || "", ev.clientX, ev.clientY); });
+    el.addEventListener("mouseleave", hideTT);
+    el.addEventListener("focus", function(){ var r = el.getBoundingClientRect(); showTT(el.dataset.tt || "", r.left + r.width/2, r.top); });
+    el.addEventListener("blur", hideTT);
+    el.setAttribute("tabindex","0");
+  });
+
+  /* ---------- glossary filter ---------- */
+  var gs = document.getElementById("glosSearch");
+  var dl = document.getElementById("glosList");
+  var empty = document.getElementById("glosEmpty");
+  if (gs && dl) {
+    var terms = [];
+    var dts = dl.querySelectorAll("dt");
+    dts.forEach(function(dt){
+      var dd = dt.nextElementSibling;
+      terms.push({dt:dt, dd:dd, text:(dt.textContent + " " + (dd?dd.textContent:"")).toLowerCase()});
+    });
+    gs.addEventListener("input", function(){
+      var q = gs.value.trim().toLowerCase(), any = false;
+      terms.forEach(function(t){
+        var hit = !q || t.text.indexOf(q) !== -1;
+        t.dt.style.display = hit ? "" : "none";
+        if (t.dd) t.dd.style.display = hit ? "" : "none";
+        if (hit) any = true;
+      });
+      empty.style.display = any ? "none" : "";
+    });
+  }
+
+  /* ---------- vintage simulator ---------- */
+  var S = {
+    T0: document.getElementById("sT0"), G: document.getElementById("sG"),
+    M: document.getElementById("sM"), IM: document.getElementById("sIM"),
+    stop: document.getElementById("sStop")
+  };
+  var O = { T0: document.getElementById("oT0"), G: document.getElementById("oG"),
+            M: document.getElementById("oM"), IM: document.getElementById("oIM") };
+  var chart = document.getElementById("simChart");
+  var verdict = document.getElementById("simVerdict");
+  function fmt(n){ return (n<0?"-":"") + "$" + Math.abs(n).toFixed(1) + "bn"; }
+  function sim(){
+    if (!chart) return;
+    var T0 = parseFloat(S.T0.value), g = parseFloat(S.G.value),
+        m = parseFloat(S.M.value), im = parseFloat(S.IM.value)/100,
+        stopAfter = S.stop.checked ? 3 : Infinity;
+    O.T0.textContent = "$" + T0.toFixed(1) + "bn";
+    O.G.textContent = g.toFixed(1) + "×";
+    O.M.textContent = m.toFixed(1) + "×";
+    O.IM.textContent = Math.round(im*100) + "%";
+    var years = 6, rows = [];
+    for (var y = 0; y < years; y++) {
+      var trainCost = (y < stopAfter) ? T0 * Math.pow(g, y) : 0;           // training model y this year
+      var vintage = 0;
+      if (y > 0 && (y-1) < stopAfter) {
+        var prevT = T0 * Math.pow(g, y-1);
+        var stale = S.stop.checked && (y-1) >= stopAfter;
+        vintage = stale ? 0 : (m * prevT * im) - 0; // vintage gross profit this year
+        // decay if we stopped training and the earning model is old:
+        if (S.stop.checked && y > stopAfter) {
+          var age = y - stopAfter;
+          vintage = (m * T0 * Math.pow(g, stopAfter-1) * im) * Math.max(0, 1 - 0.5*age);
+        }
+      }
+      var overhead = 0.25 * trainCost; // research staff + experiments that never ship, scaled to training effort
+      rows.push({year: y+1, vintage: vintage, net: vintage - trainCost - overhead, train: trainCost});
+    }
+    // scale
+    var maxAbs = 1;
+    rows.forEach(function(r){ maxAbs = Math.max(maxAbs, Math.abs(r.vintage), Math.abs(r.net)); });
+    var W = 660, H = 320, padL = 64, padR = 10, padT = 16, padB = 40;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var zero = padT + plotH * (maxAbs / (2*maxAbs)); // centre
+    var scale = (plotH/2 - 6) / maxAbs;
+    var groupW = plotW / rows.length;
+    var svg = [];
+    svg.push('<line x1="'+padL+'" y1="'+zero+'" x2="'+(W-padR)+'" y2="'+zero+'" class="axis"/>');
+    svg.push('<text x="'+(padL-8)+'" y="'+(zero+4)+'" text-anchor="end" class="lbl">$0</text>');
+    var gv = zero - maxAbs*scale, gn = zero + maxAbs*scale;
+    svg.push('<line x1="'+padL+'" y1="'+gv+'" x2="'+(W-padR)+'" y2="'+gv+'" class="gridline"/>');
+    svg.push('<text x="'+(padL-8)+'" y="'+(gv+4)+'" text-anchor="end" class="lbl">'+fmt(maxAbs)+'</text>');
+    svg.push('<line x1="'+padL+'" y1="'+gn+'" x2="'+(W-padR)+'" y2="'+gn+'" class="gridline"/>');
+    svg.push('<text x="'+(padL-8)+'" y="'+(gn+4)+'" text-anchor="end" class="lbl">'+fmt(-maxAbs)+'</text>');
+    rows.forEach(function(r, i){
+      var x0 = padL + i*groupW + groupW*0.14, bw = groupW*0.30;
+      function bar(val, x, cls){
+        var h = Math.abs(val)*scale, y = val >= 0 ? zero - h : zero;
+        return '<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+Math.max(h,1)+'" rx="3" fill="var(--'+cls+')"><title>Year '+r.year+': '+(cls==='s1'?'vintage profit ':'company net ')+fmt(val)+(r.train?' (training spend '+fmt(r.train)+')':'')+'</title></rect>';
+      }
+      svg.push(bar(r.vintage, x0, "s1"));
+      svg.push(bar(r.net, x0 + bw + groupW*0.06, "s2"));
+      svg.push('<text x="'+(padL + i*groupW + groupW/2)+'" y="'+(H-16)+'" text-anchor="middle" class="lbl2">Yr '+r.year+'</text>');
+    });
+    chart.innerHTML = svg.join("");
+    var lastNet = rows[rows.length-1].net;
+    var totalNet = rows.reduce(function(a,r){ return a + r.net; }, 0);
+    var vintageOK = (m * im) > 1;
+    var msg;
+    if (S.stop.checked) {
+      msg = "Stop training and the company finally banks a profit&#8230; then the earning model goes stale and revenue decays to zero. The treadmill is the business.";
+    } else if (vintageOK && lastNet < 0) {
+      msg = "Every vintage is profitable (revenue multiple &#215; margin &gt; 1), yet the company posts losses every year, because the next model always costs " + O.G.textContent + " more. Dario's paradox, live.";
+    } else if (vintageOK && lastNet >= 0) {
+      msg = "At these settings vintage profits have grown big enough to fund the next model AND a surplus: the projected path to lab profitability (Anthropic's stated target: ~2028).";
+    } else {
+      msg = "Revenue multiple &#215; margin &lt; 1: each model loses money on its own P&amp;L. No market structure saves this; only better economics per model.";
+    }
+    verdict.innerHTML = msg + " <span class='muted'>(6 stylised years; cumulative net: " + fmt(totalNet) + ")</span>";
+  }
+  ["input","change"].forEach(function(evt){
+    Object.keys(S).forEach(function(k){ if (S[k]) S[k].addEventListener(evt, sim); });
+  });
+  sim();
+})();
+</script>
+</body>
+</html>
