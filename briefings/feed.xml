@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+ <channel>
+  <title>Izzy's AI Briefing</title>
+  <link>https://izzyisotta.github.io/ai-industry-reference/</link>
+  <language>en</language>
+  <description>The day's significant AI industry news, explained and connected. Companion to the AI Industry reference site.</description>
+  <itunes:author>Isabella Isotta</itunes:author>
+  <item>
+   <title>2026-07-30 - AI News</title>
+   <description>Daily AI industry news, explained.</description>
+   <pubDate>Thu, 30 Jul 2026 07:45:00 -0000</pubDate>
+   <enclosure url="https://izzyisotta.github.io/ai-industry-reference/briefings/2026-07-30%20-%20AI%20News.mp3" length="2213973" type="audio/mpeg"/>
+   <guid isPermaLink="false">2026-07-30 - AI News.mp3</guid>
+  </item>
+ </channel>
+</rss>
