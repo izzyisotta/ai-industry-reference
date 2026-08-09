@@ -193,7 +193,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div class="row" role="tablist" id="mainTabs">
       <button class="tabbtn" role="tab" aria-selected="true" data-children="news">Latest news</button>
       <button class="tabbtn" role="tab" aria-selected="false" data-children="big-picture">Big picture</button>
-      <button class="tabbtn" role="tab" aria-selected="false" data-children="stack,technology">Technology</button>
+      <button class="tabbtn" role="tab" aria-selected="false" data-children="foundations,stack,technology">Technology</button>
       <button class="tabbtn" role="tab" aria-selected="false" data-children="economics,debates,players">Industry</button>
       <button class="tabbtn" role="tab" aria-selected="false" data-children="origins">Origin stories</button>
       <button class="tabbtn" role="tab" aria-selected="false" data-children="interview">Interview room</button>
@@ -415,6 +415,72 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     </div>
   </div>
 </section>
+<!-- ================= FOUNDATIONS ================= -->
+<section class="tab" id="foundations" role="tabpanel">
+  <h2>Foundations: how a computer works</h2>
+  <p style="max-width:72ch">Everything on this site sits on top of one machine doing one thing very fast. This tab is the floor below the floor: a switch, a gate, a processor, and the ladder of memory that keeps it fed. Five rungs, each built on the last. Figures are typical of 2026-era hardware; the ideas are much older.</p>
+
+  <div class="card">
+    <h3>The one-paragraph version</h3>
+    <p>A computer is three things and some wiring. <strong>Processors</strong> do arithmetic, very fast, one small step at a time. <strong>Memory</strong> holds the numbers being worked on right now, and forgets everything when the power goes off. <strong>Storage</strong> keeps everything permanently and is far slower. The design problem is that fast memory is small and expensive while cheap memory is big and slow, so a computer is built as a ladder of memories, arranged so the data needed next is usually near the top. Almost every performance question in computing, including why AI needed a different kind of chip, is a question about that ladder.</p>
+  </div>
+
+  <details open>
+    <summary><span class="layerno">1</span> Transistors, logic gates, and what a processor does</summary>
+    <div class="inner">
+      <p>A <strong>transistor</strong> is a switch with no moving parts: a sliver of silicon that conducts current or blocks it, depending on the voltage applied to a third terminal. That is the entire trick. Because one transistor can switch another, switches wire together into <strong>logic gates</strong>, circuits that answer one question about their inputs (AND: are both on? OR: is either on? NOT: the opposite). Gates combine into circuits that add, compare and remember; those combine into a processor. A leading-edge chip carries tens of billions of transistors on a piece of silicon the size of a fingernail.</p>
+      <p><strong>What it does with them.</strong> Fetch an instruction from memory, work out what it says, do it, write the result back, move on. Repeat forever. The <strong>instruction set</strong> is the vocabulary of things a processor can be asked: load this number, add these two, compare them, jump elsewhere if the comparison came out true, store the answer. Nothing else is available. An operating system, a spreadsheet and a language model are all that loop, run over different numbers, billions of times a second.</p>
+      <p class="small"><strong>Clock speed</strong> (GHz, billions of cycles per second) is how fast the loop ticks. It stopped climbing around 2005, because faster switching meant unmanageable heat, so chip designers added <strong>cores</strong> (loops running at once) instead. More workers rather than a faster worker is the shift the rest of this tab hangs on.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">2</span> The memory ladder: registers, cache, RAM, disk</summary>
+    <div class="inner">
+      <p>Memory close to the cores is reached quickly but costs a fortune per byte and occupies scarce space on the chip. Memory further out is cheap, enormous and slow. No single technology is good on all three axes (speed, size, cost), so machines carry all of them at once and shuffle data upward.</p>
+
+      <div class="tblwrap"><table>
+        <caption class="small" style="text-align:left;padding:.3em .6em;color:var(--muted)">The ladder, top to bottom. Each step down is roughly ten to a hundred times bigger, cheaper per byte, and slower. Typical figures for a 2026 machine.</caption>
+        <tr><th>Level</th><th>What it is</th><th class="num">Typical size</th><th class="num">Time to reach it</th></tr>
+        <tr><td><strong>Registers</strong></td><td>A few dozen slots inside the core; the only place arithmetic happens</td><td class="num">bytes</td><td class="num">1 cycle</td></tr>
+        <tr><td><strong>Cache (L1, L2, L3)</strong></td><td>Fast memory on the same silicon, holding recently used data</td><td class="num">64 KB - 100 MB</td><td class="num">~1-50 ns</td></tr>
+        <tr><td><strong>RAM</strong></td><td>Main working memory, in separate chips; wiped when power goes off</td><td class="num">16 GB - 2 TB</td><td class="num">~80-100 ns</td></tr>
+        <tr><td><strong>SSD</strong></td><td>Permanent storage in flash memory, no moving parts</td><td class="num">0.5 - 60 TB</td><td class="num">~50,000 ns</td></tr>
+        <tr><td><strong>Hard disk / network storage</strong></td><td>Spinning magnetic platters, or another machine entirely</td><td class="num">TB - PB</td><td class="num">millions of ns</td></tr>
+      </table></div>
+
+      <p>The ladder works because programs reuse the same data and, having read one number, usually want its neighbours next. That behaviour is called <strong>locality</strong>, and it lets a small cache stand in for a large memory: on ordinary work the processor finds what it wants in cache well over 90% of the time.</p>
+      <p><strong>The cliff.</strong> RAM to SSD is the biggest gap in the table. When a machine runs out of RAM it starts moving data out to storage to make room, which is called <strong>swapping</strong>. Running out of capacity is not a gentle slowdown; it is falling off a step, and it is what "the computer has gone slow" usually means.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">3</span> RAM is two numbers, not one</summary>
+    <div class="inner">
+      <p>Memory gets quoted as a single figure and is really two, independent of each other and answering different questions. <strong>Capacity</strong>, in gigabytes, is how much data fits at once: it decides whether a job runs at all. <strong>Bandwidth</strong>, in gigabytes per second, is how fast data moves between memory and the processor: it decides how quickly the job runs. Two machines can hold identical amounts and differ several-fold in bandwidth. Server accelerators buy bandwidth aggressively, using <strong>HBM</strong> (high-bandwidth memory) stacked vertically beside the processor rather than sitting across a board, which is how memory makers became a choke point in the AI supply chain.</p>
+      <div class="callout"><strong>Why this matters for AI.</strong> A model's parameters must be in memory before it can run, so <em>capacity decides whether it loads at all</em>. Generating each token then requires reading essentially all the active parameters out of memory once, so <em>bandwidth decides how fast it answers</em>: output speed is roughly bandwidth divided by the size of the weights being read. Double the capacity and a bigger model fits; double the bandwidth and the same model runs twice as fast.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">4</span> Buses: why moving data is the bottleneck</summary>
+    <div class="inner">
+      <p>The parts are connected by <strong>buses</strong>: sets of wires, each with a width (how many bits cross at once) and a clock (how often). They form their own ladder, each step outward costing roughly an order of magnitude in speed: the interconnect inside the chip between cores and cache, the memory bus out to RAM, <strong>PCIe</strong> to expansion cards such as GPUs and SSDs, then the network between machines (Ethernet, InfiniBand, or Nvidia's NVLink for GPU-to-GPU traffic).</p>
+      <p><strong>Arithmetic got cheap faster than data movement did.</strong> The calculations a chip can perform per second have grown far faster, over decades, than the rate at which memory can supply numbers to calculate with. So most real workloads are <strong>memory-bound</strong> rather than compute-bound: the arithmetic units sit idle waiting for operands. A fast processor starved of data is expensive and slow at once. Nearly every recent design decision follows from that, from bigger caches to memory stacked beside the processor to dedicated links that let thousands of chips act as one machine, and at data-centre scale it is why networking and assembly is a real business rather than a detail: see <a href="#" data-goto="stack">The stack</a>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="layerno">5</span> Why GPUs: many simple cores instead of a few clever ones</summary>
+    <div class="inner">
+      <p>A <strong>CPU</strong> spends most of its silicon on making one sequence of instructions run fast: predicting which way a branch will go, reordering work while it waits, holding large caches. That is the right design when step 2 depends on the result of step 1, which describes an operating system and most ordinary software.</p>
+      <p>A <strong>GPU</strong> makes the opposite bet: thousands of simple cores running the same instruction on different data at the same time, with the silicon spent on arithmetic units and memory bandwidth rather than on cleverness. It is useless at winding logic and unbeatable at one shape of work, applying the same operation to a huge grid of numbers where no entry depends on any other. That shape was built for pixels; it also describes <strong>matrix multiplication</strong>, which is nearly all of what a neural network does. Every cell of the output is an independent sum of products, so thousands of cores stay busy. Modern accelerators add dedicated matrix units and low-precision number formats (8-bit and 4-bit), which cut the data that has to be moved as much as the arithmetic.</p>
+      <p><strong>And then bandwidth binds again.</strong> Training does a lot of arithmetic per parameter loaded, so it keeps the cores busy. Generating text one token at a time does very little: each weight is read, used once or twice, and discarded. That workload is limited by how fast memory can be read, not by how fast the chip can multiply, which is why providers batch many users' requests through the same pass over the weights, and why memory is now as strategically valuable as the processor. The mechanics are unpacked in <a href="#" data-goto="technology">The technology</a>.</p>
+    </div>
+  </details>
+
+  <p style="max-width:72ch">From here the industry stack picks up: the machines that print the chips, the fabs that manufacture them, the clouds that rack them and rent them by the hour, the labs that turn those hours into models, and the apps that put the result in front of a user. Each layer buys from the one below and sells to the one above, and each is unpacked in <a href="#" data-goto="stack">The stack</a>.</p>
+</section>
 <!-- ================= THE STACK ================= -->
 <section class="tab" id="stack" role="tabpanel">
   <h2>The stack, layer by layer</h2>
@@ -446,6 +512,9 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
       <p><strong>The fabless split.</strong> Modern chip companies split design from manufacturing. Nvidia, Apple, AMD, Broadcom design chips ("fabless"); <strong>TSMC</strong> (Taiwan Semiconductor Manufacturing Company) manufactures them as a pure contractor. A leading-edge fab costs $20bn+; only colossal shared volume justifies it, so one company's fabs serve the whole industry. TSMC never owns the designs and competes with essentially nobody at the leading edge: Samsung trails on yields, Intel is trying to re-enter. It runs ~59% gross margins (2025) despite being "just" a manufacturer, because at the frontier it is a monopoly with two-to-three years' process lead.</p>
       <p><strong>How the money works.</strong> Nvidia sends TSMC a design and pays per wafer (the 30cm silicon disc later cut into chips); leading-edge wafers run roughly $20k+, and one wafer yields several dozen usable H100-class chips. Nvidia then sells each finished chip for ~$30k against a few thousand in manufacturing cost. The margin lives in design and lock-in, not manufacturing.</p>
       <p><strong>Memory: the second choke point.</strong> A GPU is useless if data cannot reach it fast enough, so AI chips carry <strong>HBM</strong> (high-bandwidth memory) stacked directly beside the processor. SK Hynix leads, Samsung and Micron follow. HBM has been in chronic shortage; memory prices roughly tripled in 2025, and HBM itself sells at a many-fold premium over ordinary memory (per SemiAnalysis, the semiconductor research firm); memory is now as strategically important as the logic chips.</p>
+
+      <p><strong>Packaging: the step that actually binds.</strong> A finished AI chip is not one piece of silicon. The logic die and its stacks of HBM have to be bonded together onto a single carrier, which TSMC does with a process called <strong>CoWoS</strong> (chip-on-wafer-on-substrate). That advanced-packaging line, not chip design, has been the tightest link in the chain since 2023: TSMC has expanded CoWoS capacity aggressively every year since, and it has still been allocated to customers rather than freely bought (as of mid-2026). Nvidia's shipment numbers have repeatedly been set by how many units could be packaged, not by how many could be designed or sold.</p>
+      <p class="small"><span class="pill fact">The bottleneck chain</span> Advanced packaging and HBM supply first, then TSMC's leading-edge wafer capacity, then power: grid connections, transmission and new generation (Layer 0 above). Each link takes longer to expand than the one before it, packaging lines in quarters, fabs in years, firm gigawatts in half a decade, which is why relief at one level just moves the queue down to the next. Chip design has not been the constraint at any point in this cycle.</p>
       <p class="small"><span class="pill fact">Geopolitics</span> Nearly every advanced AI chip on Earth passes through fabs on Taiwan, an island China claims. This is the single largest concentration risk in the world economy, and the reason the US CHIPS Act pays TSMC, Samsung and Intel to build fabs on US soil.</p>
     </div>
   </details>
@@ -870,6 +939,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div class="card playercard"><h4>CoreWeave <span class="tag">neocloud escapee</span></h4><p class="small">Crypto-miner turned GPU landlord; listed at ~$23bn (March 2025), roughly doubling within two months. Escaped the spot-price knife-fight by signing multi-year capacity deals with Microsoft and OpenAI: less a differentiated cloud than a financing vehicle for other people's compute, collateralised on the GPUs themselves. The template the other dozens of neoclouds are racing to copy before prices normalise.</p></div>
     <div class="card playercard"><h4>SpaceX <span class="tag">the new compute landlord</span></h4><p class="small">Building out roughly 10 gigawatts of AI data-centre capacity by 2027 (SemiAnalysis estimate, Aug 2026), which SemiAnalysis estimates could bring in around $300bn a year in revenue, comparable to a major hyperscaler's cloud business. Microsoft is expected to be the largest customer, buying capacity to feed Azure. It is a new entrant into AI power and compute infrastructure, a business SpaceX did not previously compete in.</p></div>
     <div class="card playercard"><h4>The open-weight labs <span class="tag">DeepSeek, Qwen, Mistral</span></h4><p class="small">Release model files publicly, 6-18 months behind the frontier, at a fraction of serving cost. China's labs lead the cost-effectiveness frontier. Every closed lab's pricing meeting has an empty chair for them.</p></div>
+    <div class="card playercard"><h4>Palantir <span class="tag">the enterprise last mile</span></h4><p class="small">Founded 2003 (Thiel, Karp, Lonsdale, Cohen, Gettings) out of PayPal's fraud-detection ideas, named after Tolkien's seeing-stones; Denver HQ, Karp CEO. Gotham serves intelligence, defence and law enforcement; Foundry is an operating system for a company's own data; AIP, the LLM layer on top, drives current growth. Forward-deployed engineers embed inside client organisations: high-touch, expensive, sticky. The long-standing doubt about whether that model scales is largely answered by Q2 2026 revenue of $1.94bn, up ~93% year on year (as of Q2 2026), 950+ clients including the US DoD, the NHS and Airbus, and selection for the US Army's NGC2 programme on a 10-year agreement worth up to $10bn. The work is politically loaded (ICE contracts, predictive policing, objections to the NHS data deal): supporters read the explicit pro-Western-defence stance as clarity, critics as surveillance infrastructure. Why it matters here: AIP is the clearest running test of the enterprise last mile, where model capability turns into deployed workflow and money actually changes hands.</p></div>
   </div>
 </section>
 <!-- ================= ORIGIN STORIES ================= -->
@@ -1038,6 +1108,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div id="starredList"></div>
   </div>
   <!-- NEWS:START -->
+<p class="small muted" style="margin-top:14px">Scanner last checked at 16:30 today; nothing published today has cleared the significance bar yet.</p>
 <h3 style="margin-top:22px">Yesterday · Saturday 08 August 2026</h3>
 <div class="card newsitem" data-url="https://www.theverge.com/ai-artificial-intelligence/977124/amazon-data-center-worst-polluting-power-plant" data-headline="Amazon data center gas plant could be top US polluter" data-date="2026-08-08" data-source="The Verge AI" style="margin:10px 0;padding:14px 18px"><button class="starbtn" title="Star this story">&#9734;</button><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/977124/amazon-data-center-worst-polluting-power-plant" target="_blank" rel="noopener">Amazon data center gas plant could be top US polluter</a></h4><p style="margin:.2em 0 .5em">Amazon is funding a large new gas-fired power plant in Pecos County, Texas to power an AI data center, and the plant could become one of the biggest single sources of greenhouse gas emissions in the country. It highlights the growing environmental cost and strain on energy infrastructure from the AI compute buildout, a tradeoff increasingly shaping how hyperscalers site and power new data centers.</p><p class="small" style="margin:0"><span class="pill fact">compute</span> <span class="pill fact">infrastructure</span> <span class="pill fact">energy</span> <span class="muted">The Verge AI</span></p></div>
 <div class="card newsitem" data-url="https://www.ft.com/content/9c0d4f0d-d2c6-4189-b4bb-200d17a4720f?syn-25a6b1a6=1" data-headline="Moonshot AI seeks Hong Kong stock listing" data-date="2026-08-08" data-source="FT Technology" style="margin:10px 0;padding:14px 18px"><button class="starbtn" title="Star this story">&#9734;</button><h4 style="margin-bottom:4px"><a href="https://www.ft.com/content/9c0d4f0d-d2c6-4189-b4bb-200d17a4720f?syn-25a6b1a6=1" target="_blank" rel="noopener">Moonshot AI seeks Hong Kong stock listing</a></h4><p style="margin:.2em 0 .5em">Chinese AI startup Moonshot is restructuring in an effort to win Beijing&#x27;s approval for a Hong Kong stock market debut. The move is aimed at raising fresh capital to fund its next phase of AI model development. It reflects how Chinese AI labs are turning to public markets to fund the race against US labs while navigating state oversight.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">China</span> <span class="muted">FT Technology</span></p></div>
@@ -1088,7 +1159,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
 <div class="card newsitem" data-url="https://www.ft.com/content/da7c4472-cb30-4b82-b321-d82c1859419e?syn-25a6b1a6=1" data-headline="Microsoft signs $130bn in data center leases" data-date="2026-07-30" data-source="FT Technology" style="margin:10px 0;padding:14px 18px"><button class="starbtn" title="Star this story">&#9734;</button><h4 style="margin-bottom:4px"><a href="https://www.ft.com/content/da7c4472-cb30-4b82-b321-d82c1859419e?syn-25a6b1a6=1" target="_blank" rel="noopener">Microsoft signs $130bn in data center leases</a></h4><p style="margin:.2em 0 .5em">Microsoft locked in $130 billion of data center lease commitments as it races to meet AI compute demand, with its intelligent cloud revenue surging 32% to $39.3 billion. It underscores how much capital hyperscalers are committing to AI infrastructure.</p><p class="small" style="margin:0"><span class="pill fact">compute</span> <span class="pill fact">infrastructure</span> <span class="muted">FT Technology</span></p></div>
 <div class="card newsitem" data-url="https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex" data-headline="Google raises AI capex forecast to $205bn, spooking investors" data-date="2026-07-30" data-source="The Verge AI" style="margin:10px 0;padding:14px 18px"><button class="starbtn" title="Star this story">&#9734;</button><h4 style="margin-bottom:4px"><a href="https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex" target="_blank" rel="noopener">Google raises AI capex forecast to $205bn, spooking investors</a></h4><p style="margin:.2em 0 .5em">Google increased its projected AI spending to as much as $205 billion, up from $190 billion last quarter, and even the low end of the new range exceeds prior guidance. The jump rattled Wall Street as investors grow wary of how much cash the AI buildout is consuming.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">The Verge AI</span></p></div>
 <div class="card newsitem" data-url="https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/" data-headline="Microsoft books $3.2B gain from Anthropic stake, OpenAI mixed" data-date="2026-07-30" data-source="TechCrunch AI" style="margin:10px 0;padding:14px 18px"><button class="starbtn" title="Star this story">&#9734;</button><h4 style="margin-bottom:4px"><a href="https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/" target="_blank" rel="noopener">Microsoft books $3.2B gain from Anthropic stake, OpenAI mixed</a></h4><p style="margin:.2em 0 .5em">Microsoft&#x27;s fiscal Q4 earnings showed a $3.2 billion gain from its Anthropic investment, while its stake in OpenAI produced more mixed results. It offers a rare concrete look at how Microsoft&#x27;s bets on the two rival labs are actually performing financially.</p><p class="small" style="margin:0"><span class="pill fact">funding</span> <span class="pill fact">earnings</span> <span class="muted">TechCrunch AI</span></p></div>
-<p class="small muted" style="margin-top:18px">Log updated 2026-08-09T14:48:58 by the daily scan.</p>
+<p class="small muted" style="margin-top:18px">Log updated 2026-08-09T16:30:15 by the daily scan.</p>
 <!-- NEWS:END -->
   <p class="small" style="margin-top:14px"><span id="starSyncStatus" class="muted"></span> <a href="#" id="starSetup">Set up star sync</a></p>
   <div id="starSetupForm" style="display:none;margin-top:8px"></div>
@@ -1114,7 +1185,7 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
       <dt>Capex</dt><dd>Capital expenditure: money spent building long-lived assets (data centres, chips, fabs), as opposed to day-to-day running costs.</dd>
       <dt>Cloud</dt><dd>Renting computing from someone else's data centre by the hour rather than owning machines. The generic term; hyperscalers and neoclouds are kinds of cloud.</dd>
       <dt>Commodity / commoditise</dt><dd>A product identical whoever sells it, bought on price alone, so sellers' profits get competed away. The fate every layer of this industry is trying to avoid.</dd>
-      <dt>Compute</dt><dd>Raw processing power treated as a quantity you can buy, measured loosely in chips x hours (or precisely in floating-point operations). "More compute" = more chips running for longer.</dd>
+      <dt>Compute</dt><dd>Computational resources treated as one fungible input bought by the unit, measured in FLOPs (floating-point operations) or GPU-hours rather than in particular machines. The abstraction is the point: it lets scaling laws, capex forecasts and export controls all reason about a quantity of work rather than a pile of specific hardware. "More compute" = more chips running for longer, whoever built them.</dd>
       <dt>Context window</dt><dd>How much text a model can consider at once, measured in tokens (frontier models: hundreds of thousands to millions).</dd>
       <dt>Cournot competition</dt><dd>Competition among a few capacity-constrained firms behind high entry barriers: prices settle above marginal cost without collusion. Amodei's model of the frontier-lab layer.</dd>
       <dt>CPU</dt><dd>General-purpose processor: a few fast cores built for sequential tasks. Runs operating systems and ordinary software.</dd>
@@ -1205,7 +1276,8 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
   var mainTabs = Array.prototype.slice.call(document.querySelectorAll("#mainTabs .tabbtn"));
   var subRow = document.getElementById("subTabs");
   var panels = document.querySelectorAll("section.tab");
-  var SUBLABELS = { "stack": "The stack: who makes what", "technology": "How the intelligence works",
+  var SUBLABELS = { "foundations": "Foundations: how a computer works",
+                    "stack": "The stack: who makes what", "technology": "How the intelligence works",
                     "economics": "The economics", "debates": "Live debates", "players": "The players" };
   function groupOf(id){
     for (var i = 0; i < mainTabs.length; i++) {
