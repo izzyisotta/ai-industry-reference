@@ -10,6 +10,21 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <style>
+.vcmap /* ============ THE STACK ============ */
+body{background:var(--page)}.vcmap .vc-sheet{max-width:1180px;margin:0 auto;padding:26px 20px 44px}.vcmap .vc-hd{border-bottom:1px solid var(--grid);padding-bottom:12px;margin-bottom:16px}.vcmap .vc-kick{font-family:var(--mono);font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.vcmap .vc-hd h1{font-size:16px;font-weight:700;letter-spacing:0;margin:0 0 4px}.vcmap .vc-carry{font-size:13.5px;color:var(--ink-2);margin:0;max-width:78ch}.vcmap /* legend */
+.vc-lg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0 16px;font-size:12px;color:var(--ink-2);align-items:center}.vcmap .vc-lg span.vc-k{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.vcmap .vc-lg i{display:inline-block;font-style:normal}.vcmap .vc-lg .vc-ln{width:20px;height:0;border-top:2px solid var(--s1)}.vcmap .vc-lg .vc-ln.vc-m{border-top:2px dashed var(--s3)}.vcmap .vc-lg .vc-sq{width:11px;height:11px;border-radius:3px}.vcmap .vc-lg .vc-bar{width:26px;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--ring);position:relative;overflow:hidden}.vcmap .vc-lg .vc-bar::after{content:"";position:absolute;inset:0 40% 0 0;background:var(--baseline)}.vcmap .vc-lg .vc-gz{width:8px;height:14px;border-radius:3px;background:var(--surface-2);border:1px solid var(--ring);position:relative;overflow:hidden}.vcmap .vc-lg .vc-gz::after{content:"";position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--ink-2)}.vcmap /* frame: rails + stack */
+.vc-frame{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;column-gap:12px;align-items:stretch}.vcmap .vc-rail{position:relative}.vcmap .vc-rail::before{content:"";position:absolute;left:50%;transform:translateX(-1px);top:16px;bottom:16px;border-left:2px solid var(--s1)}.vcmap .vc-rail.vc-money::before{border-left:2px dashed var(--s3)}.vcmap .vc-rail .vc-tip{position:absolute;left:50%;transform:translateX(-50%);display:block}.vcmap .vc-rail .vc-tip.vc-up{top:0}.vcmap .vc-rail .vc-tip.vc-dn{bottom:0}.vcmap .vc-rail .vc-rlab{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(180deg);writing-mode:vertical-rl;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--s1);background:var(--page);padding:8px 0}.vcmap .vc-rail.vc-money .vc-rlab{transform:translate(-50%,-50%);color:var(--s3)}.vcmap /* band */
+.vc-stack{display:flex;flex-direction:column}.vcmap .vc-band{display:grid;grid-template-columns:132px minmax(0,1fr) 280px 74px;column-gap:18px;
+  background:var(--surface);border:1px solid var(--ring);border-radius:var(--radius);padding:12px 14px}.vcmap .vc-band.vc-sup{margin:0 32px;background:var(--surface-2);border-style:dashed}.vcmap .vc-tab{grid-row:1/-1;border-right:1px solid var(--grid);padding-right:12px;display:flex;flex-direction:column;gap:6px}.vcmap .vc-tab .vc-no{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}.vcmap .vc-tab .vc-nm{font-size:16px;font-weight:700;line-height:1.2;letter-spacing:-.01em}.vcmap .vc-tab .vc-sup-t{font-family:var(--mono);font-size:12px;color:var(--muted)}.vcmap .vc-marks{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:6px}.vcmap .vc-mk{font-family:var(--mono);font-size:12px;font-weight:700;line-height:1;color:#fff;border-radius:4px;padding:3px 6px}.vcmap .vc-mk.vc-c1{background:var(--critical)}.vcmap .vc-mk.vc-c2{background:var(--serious)}.vcmap .vc-mk.vc-c3{background:var(--warn);color:#231a00}.vcmap .vc-mid{grid-column:2;display:flex;flex-direction:column;gap:9px;min-width:0}.vcmap .vc-f .vc-fl{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:1px}.vcmap .vc-f .vc-fv{font-size:13.5px;line-height:1.42;color:var(--ink);overflow-wrap:anywhere}.vcmap .vc-f .vc-fv b{font-weight:600}.vcmap .vc-players{grid-column:3;display:flex;flex-direction:column;gap:5px;min-width:0}.vcmap .vc-players .vc-fl{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1px}.vcmap .vc-pb{display:grid;grid-template-columns:92px minmax(0,1fr) 38px;column-gap:8px;align-items:center}.vcmap .vc-pb .vc-pn{font-size:13.5px;line-height:1.25;color:var(--ink);overflow-wrap:anywhere}.vcmap .vc-pb .vc-tr{height:9px;border-radius:2px;background:var(--surface-2);border:1px solid var(--ring);overflow:hidden}.vcmap .vc-band.vc-sup .vc-pb .vc-tr{background:var(--surface)}.vcmap .vc-pb .vc-fi{display:block;height:100%;background:var(--baseline)}.vcmap .vc-pb .vc-pv{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}.vcmap .vc-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:1px}.vcmap .vc-ch{font-size:12px;line-height:1.25;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--ring);border-radius:999px;padding:2px 8px;white-space:nowrap}.vcmap .vc-band.vc-sup .vc-ch{background:var(--surface)}.vcmap .vc-pnote{font-size:12px;color:var(--muted);line-height:1.35}.vcmap .vc-gz-cell{grid-column:4;display:flex;flex-direction:column;align-items:center;gap:4px}.vcmap .vc-gz-cell .vc-fl{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.vcmap .vc-gz-cell .vc-gv{font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap;letter-spacing:-.01em}.vcmap .vc-gz-cell svg{display:block}.vcmap .vc-bn{grid-column:2/-1;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:10px;align-items:start;
+  margin-top:10px;padding:7px 10px;border-radius:var(--radius-sm);background:var(--surface-2);border-left:3px solid var(--critical)}.vcmap .vc-band.vc-sup .vc-bn{background:var(--surface)}.vcmap .vc-bn+.vc-bn{margin-top:6px}.vcmap .vc-bn.vc-s2{border-left-color:var(--serious)}.vcmap .vc-bn.vc-s3{border-left-color:var(--warn)}.vcmap .vc-bn .vc-r{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-2)}.vcmap .vc-bn .vc-t{font-size:12px;line-height:1.42;color:var(--ink-2);overflow-wrap:anywhere}.vcmap .vc-bn .vc-t b{color:var(--ink);font-weight:600}.vcmap /* interfaces between bands */
+.vc-gap{padding:7px 2px}.vcmap .vc-gap .vc-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:18px}.vcmap .vc-fu, .vcmap .vc-fd{font-family:var(--mono);font-size:12px;line-height:1.3;display:inline-flex;gap:6px;align-items:baseline;overflow-wrap:anywhere}.vcmap .vc-fu{color:var(--s1)}.vcmap .vc-fd{color:var(--s3);text-align:right}.vcmap .vc-fu .vc-a, .vcmap .vc-fd .vc-a{font-size:12px;opacity:.9}.vcmap .vc-gap .vc-bn{grid-column:auto;display:grid;margin:7px 40px 0;background:var(--surface)}.vcmap .vc-note-sup{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:2px 0}.vcmap .vc-foot{margin-top:18px;padding-top:12px;border-top:1px solid var(--grid);font-size:12px;color:var(--muted);line-height:1.5}.vcmap .vc-foot p{margin:0 0 4px}
+
+@media(max-width:820px){.vcmap .vc-frame{grid-template-columns:1fr}.vcmap .vc-rail{display:none}.vcmap .vc-band{grid-template-columns:1fr;row-gap:10px;padding:14px}.vcmap .vc-band.vc-sup{margin:0}.vcmap .vc-tab{grid-row:auto;border-right:none;border-bottom:1px solid var(--grid);padding:0 0 8px;flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:8px}.vcmap .vc-marks{margin-top:0;padding-top:0}.vcmap .vc-mid, .vcmap .vc-players, .vcmap .vc-gz-cell, .vcmap .vc-bn{grid-column:1}.vcmap .vc-gz-cell{flex-direction:row;align-items:center;gap:10px;justify-content:flex-start}.vcmap .vc-gap .vc-row{flex-direction:column;align-items:flex-start;gap:4px}.vcmap .vc-fd{text-align:left}.vcmap .vc-gap .vc-bn{margin:7px 0 0}}.vcmap /* ============ BOTTLENECK SECTION ============ */
+.vc-bsec{margin-top:26px;padding-top:18px;border-top:1px solid var(--grid)}.vcmap .vc-bsec h2{font-size:16px;font-weight:700;letter-spacing:0;margin:0 0 4px}.vcmap .vc-bsec .vc-nest{font-size:13.5px;line-height:1.5;color:var(--ink-2);margin:0 0 14px;max-width:96ch}.vcmap .vc-brow{display:grid;grid-template-columns:132px minmax(0,1.35fr) minmax(0,1fr);column-gap:18px;
+  background:var(--surface);border:1px solid var(--ring);border-left:3px solid var(--critical);
+  border-radius:var(--radius);padding:11px 14px;margin-bottom:8px}.vcmap .vc-brow.vc-s2{border-left-color:var(--serious)}.vcmap .vc-brow.vc-s3{border-left-color:var(--warn)}.vcmap .vc-brow .vc-tab{grid-row:1/-1}.vcmap .vc-brow .vc-tab .vc-stg{font-family:var(--mono);font-size:12px;line-height:1.35;color:var(--muted)}.vcmap .vc-brow .vc-marks{margin-top:0;padding-top:0}.vcmap .vc-brow>.vc-f{min-width:0}.vcmap .vc-brow>.vc-f.vc-c2{grid-column:2}.vcmap .vc-brow>.vc-f.vc-c3{grid-column:3}
+@media(max-width:820px){.vcmap .vc-brow{grid-template-columns:1fr;row-gap:10px}.vcmap .vc-brow .vc-tab{grid-row:auto}.vcmap .vc-brow>.vc-f.vc-c2, .vcmap .vc-brow>.vc-f.vc-c3{grid-column:1}}
+
 .starbtn{background:none;border:none;cursor:pointer;font-size:1.1rem;line-height:1;padding:2px 6px;color:var(--muted);float:right;margin-left:8px}
 .starbtn.on,.starbtn:hover{color:var(--s4)}
 </style>
@@ -228,149 +243,362 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div class="tile"><div class="l" style="font-weight:700;color:var(--ink)">Moat</div><div class="d">Whatever stops competitors copying a business: lock-in, patents, scale, habit. No moat, no lasting profit.</div></div>
   </div>
 
-  <p style="max-width:72ch">Now the map. Product flows left to right; money flows right to left.</p>
+  <p style="max-width:72ch">Now the map. Read it bottom to top: the physical world at the base, the user at the surface. Product flows up the left rail, money flows down the right.</p>
 
-  <div class="diagram scrollx" aria-label="Master diagram of the AI value chain">
-  <svg viewBox="0 0 1360 800" role="img" aria-label="The AI value chain: machines to chips to clouds to models to apps, with money flowing back the other way, and the gross margin at every layer" style="min-width:980px">
-    <defs>
-      <marker id="arrP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--s1)"/></marker>
-      <marker id="arrM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--s3)"/></marker>
-    </defs>
+  <div class="vcmap">
+<div class="vc-sheet">
 
-    <!-- flow banners -->
-    <text x="20" y="34" class="lblB" style="font-size:14px">PRODUCT this way</text>
-    <line x1="160" y1="30" x2="240" y2="30" class="dg-flow"></line>
-    <text x="1340" y="34" text-anchor="end" class="lblB" style="font-size:14px;fill:var(--s3)">MONEY this way</text>
-    <line x1="1200" y1="30" x2="1120" y2="30" class="dg-money"></line>
+<div class="vc-hd">
+  <div class="vc-kick">AI value chain &middot; August 2026</div>
+  <h1>The stack: eight strata from the toolmakers up to the user</h1>
+  <p class="vc-carry">Levels 1 to 5 are supply and they nest inside each other. Level 6 is money. Level 7 is demand, and it is the only one that flips the sign.</p>
+</div>
 
-    <!-- hop labels above boxes -->
-    <text x="224" y="62" text-anchor="middle" class="lbl">machines</text>
-    <text x="452" y="62" text-anchor="middle" class="lbl">chips</text>
-    <text x="680" y="62" text-anchor="middle" class="lbl">racks</text>
-    <text x="908" y="62" text-anchor="middle" class="lbl">GPU-hours</text>
-    <text x="1136" y="62" text-anchor="middle" class="lbl">tokens</text>
+<div class="vc-lg">
+  <span class="vc-k"><i class="vc-ln"></i> product flows up</span>
+  <span class="vc-k"><i class="vc-ln vc-m"></i> money flows down</span>
+  <span class="vc-k"><i class="vc-sq" style="background:var(--critical)"></i> bottleneck 1&ndash;2</span>
+  <span class="vc-k"><i class="vc-sq" style="background:var(--serious)"></i> 3&ndash;5</span>
+  <span class="vc-k"><i class="vc-sq" style="background:var(--warn)"></i> 6&ndash;7</span>
+  <span class="vc-k"><i class="vc-bar"></i> player share</span>
+  <span class="vc-k"><i class="vc-gz"></i> gross margin, as height</span>
+</div>
 
-    <!-- STAGE 1 -->
-    <g class="hoverable" data-tt="ASML (Netherlands): the only maker of EUV lithography machines, ~$200m-$400m each. Cadence + Synopsys: the chip-design software duopoly. Arm (UK): licenses the CPU instruction set almost every custom chip builds on, paid pennies per chip.">
-      <rect x="10" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="110" y="96" text-anchor="middle" class="lblB">1 &#183; TOOLMAKERS</text>
-      <text x="110" y="120" text-anchor="middle" class="lbl2">ASML &#183; chip-printing machines</text>
-      <text x="110" y="140" text-anchor="middle" class="lbl2">Cadence &amp; Synopsys &#183; software</text>
-      <text x="110" y="160" text-anchor="middle" class="lbl2">Arm &#183; licenses chip blueprints</text>
-      <text x="110" y="186" text-anchor="middle" class="lbl">sells: the tools to make chips</text>
-      <text x="110" y="206" text-anchor="middle" class="lbl">ASML is a literal monopoly</text>
-    </g>
+<div class="vc-frame">
 
-    <!-- STAGE 2 -->
-    <g class="hoverable" data-tt="TSMC (Taiwan) manufactures nearly every leading-edge AI chip as a contractor: Nvidia, Apple, AMD, Google TPUs, Amazon Trainium. ~59% gross margin. Fabs cost $20bn+ each. Plus the memory makers: SK Hynix leads HBM, the stacked memory GPUs need.">
-      <rect x="238" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="338" y="96" text-anchor="middle" class="lblB">2 &#183; FABRICATION</text>
-      <text x="338" y="120" text-anchor="middle" class="lbl2">TSMC &#183; manufactures the chips</text>
-      <text x="338" y="140" text-anchor="middle" class="lbl2">Samsung &amp; Intel &#183; years behind</text>
-      <text x="338" y="160" text-anchor="middle" class="lbl2">SK Hynix &#183; HBM memory chips</text>
-      <text x="338" y="186" text-anchor="middle" class="lbl">sells: chips, priced per wafer</text>
-      <text x="338" y="206" text-anchor="middle" class="lbl">near-monopoly on advanced chips</text>
-    </g>
-
-    <!-- STAGE 3 -->
-    <g class="hoverable" data-tt="Nvidia designs GPUs and owns CUDA, the software everyone builds on; now sells whole racks (~72 GPUs wired as one machine). FY2026 gross margin 71%. AMD trails; Broadcom co-designs the hyperscalers' own chips (Google TPU etc.).">
-      <rect x="466" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="566" y="96" text-anchor="middle" class="lblB">3 &#183; CHIP DESIGN</text>
-      <text x="566" y="120" text-anchor="middle" class="lbl2">Nvidia &#183; GPUs and CUDA software</text>
-      <text x="566" y="140" text-anchor="middle" class="lbl2">AMD &#183; the distant challenger</text>
-      <text x="566" y="160" text-anchor="middle" class="lbl2">Broadcom &#183; custom-chip partner</text>
-      <text x="566" y="186" text-anchor="middle" class="lbl">sells: chips &amp; racks, per unit</text>
-      <text x="566" y="206" text-anchor="middle" class="lbl">Nvidia share: ~90% (est.)</text>
-    </g>
-
-    <!-- STAGE 4 -->
-    <g class="hoverable" data-tt="Hyperscalers (AWS, Microsoft Azure, Google Cloud) run giant data centres and rent compute by the hour, GPUs plus hundreds of other services. Neoclouds (CoreWeave, Lambda, Nebius) rent ONLY GPUs, cheaper. Both buy from Nvidia; the hyperscalers also design their own chips to escape Nvidia's margin.">
-      <rect x="694" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="794" y="96" text-anchor="middle" class="lblB">4 &#183; CLOUDS</text>
-      <text x="794" y="120" text-anchor="middle" class="lbl2">AWS &#183; Azure &#183; Google Cloud</text>
-      <text x="794" y="140" text-anchor="middle" class="lbl2">neoclouds: CoreWeave, Lambda</text>
-      <text x="794" y="160" text-anchor="middle" class="lbl2">+ own chips: TPU, Trainium</text>
-      <text x="794" y="186" text-anchor="middle" class="lbl">sells: compute, per GPU-hour</text>
-      <text x="794" y="206" text-anchor="middle" class="lbl">same chip: $2-3 or $7-12/hr</text>
-    </g>
-
-    <!-- STAGE 5 -->
-    <g class="hoverable" data-tt="Frontier labs rent (or are given) compute, spend it training models, then sell access via subscriptions and APIs (the pay-per-use pipe businesses' software uses to call a model): OpenAI (GPT), Anthropic (Claude), Google DeepMind (Gemini), xAI. Each lab is paired with a hyperscaler that funds it: OpenAI-Microsoft, Anthropic-Amazon+Google. Open-weight labs (Meta, DeepSeek, Qwen) give models away.">
-      <rect x="922" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="1022" y="96" text-anchor="middle" class="lblB">5 &#183; MODEL LABS</text>
-      <text x="1022" y="120" text-anchor="middle" class="lbl2">OpenAI &#183; Anthropic &#183; DeepMind</text>
-      <text x="1022" y="140" text-anchor="middle" class="lbl2">xAI &#183; plus open: Meta, DeepSeek</text>
-      <text x="1022" y="160" text-anchor="middle" class="lbl2">train models on rented compute</text>
-      <text x="1022" y="186" text-anchor="middle" class="lbl">sells: intelligence, per token</text>
-      <text x="1022" y="206" text-anchor="middle" class="lbl">only 3-4 at the frontier</text>
-    </g>
-
-    <!-- STAGE 6 -->
-    <g class="hoverable" data-tt="Where AI meets a user: chat apps (ChatGPT, Claude), coding tools (Cursor, Claude Code), vertical products (Harvey for law), AI inside incumbent software (Copilot in Office, Gemini in Gmail). Most rent their intelligence from a lab underneath.">
-      <rect x="1150" y="70" width="200" height="160" rx="10" class="dg-box"/>
-      <text x="1250" y="96" text-anchor="middle" class="lblB">6 &#183; APPS &amp; USERS</text>
-      <text x="1250" y="120" text-anchor="middle" class="lbl2">ChatGPT &#183; Claude &#183; Copilot</text>
-      <text x="1250" y="140" text-anchor="middle" class="lbl2">Cursor &#183; Harvey &#183; Perplexity</text>
-      <text x="1250" y="160" text-anchor="middle" class="lbl2">AI inside Office, Gmail, CRMs</text>
-      <text x="1250" y="186" text-anchor="middle" class="lbl">sells: products, per seat/month</text>
-      <text x="1250" y="206" text-anchor="middle" class="lbl">where you meet all of this</text>
-    </g>
-
-    <!-- product arrows -->
-    <line x1="212" y1="150" x2="234" y2="150" class="dg-flow"/>
-    <line x1="440" y1="150" x2="462" y2="150" class="dg-flow"/>
-    <line x1="668" y1="150" x2="690" y2="150" class="dg-flow"/>
-    <line x1="896" y1="150" x2="918" y2="150" class="dg-flow"/>
-    <line x1="1124" y1="150" x2="1146" y2="150" class="dg-flow"/>
-
-    <!-- money arrows + labels -->
-    <line x1="234" y1="254" x2="212" y2="254" class="dg-money"/>
-    <line x1="462" y1="254" x2="440" y2="254" class="dg-money"/>
-    <line x1="690" y1="254" x2="668" y2="254" class="dg-money"/>
-    <line x1="918" y1="254" x2="896" y2="254" class="dg-money"/>
-    <line x1="1146" y1="254" x2="1124" y2="254" class="dg-money"/>
-    <text x="224" y="278" text-anchor="middle" class="lbl">machine + wafer orders</text>
-    <text x="452" y="278" text-anchor="middle" class="lbl">chip orders</text>
-    <text x="680" y="278" text-anchor="middle" class="lbl">rack orders</text>
-    <text x="908" y="278" text-anchor="middle" class="lbl">cloud bills</text>
-    <text x="1136" y="278" text-anchor="middle" class="lbl">API fees + subscriptions</text>
-
-    <!-- support bands -->
-    <g class="hoverable" data-tt="Between chips and clouds sit the assemblers: Dell, Supermicro and HPE build servers; Arista and Nvidia's own networking wire thousands of GPUs into one giant computer; Vertiv and Schneider handle power and liquid cooling. Real business, thin margins: mostly commoditised.">
-      <rect x="238" y="306" width="428" height="82" rx="10" class="dg-box" style="stroke-dasharray:5 4"/>
-      <text x="452" y="332" text-anchor="middle" class="lblB">3.5 &#183; ASSEMBLY &amp; NETWORKING</text>
-      <text x="452" y="352" text-anchor="middle" class="lbl2">Dell / Supermicro &#183; servers &#8226; Arista / NVLink &#183; networks &#8226; Vertiv &#183; cooling</text>
-      <text x="452" y="372" text-anchor="middle" class="lbl">turns chips into working racks; heavily commoditised</text>
-    </g>
-    <line x1="540" y1="304" x2="566" y2="236" class="dg-flow" style="opacity:.55"/>
-    <g class="hoverable" data-tt="AI's binding physical constraint since ~2024 is electricity: a large AI data centre draws as much power as a small city (a gigawatt is roughly one nuclear reactor's output). Microsoft is paying to restart the Three Mile Island nuclear plant (target 2027-28). Sites now get built where the power is.">
-      <rect x="694" y="306" width="428" height="82" rx="10" class="dg-box" style="stroke-dasharray:5 4"/>
-      <text x="908" y="332" text-anchor="middle" class="lblB">0 &#183; ENERGY &amp; DATA CENTRES</text>
-      <text x="908" y="352" text-anchor="middle" class="lbl2">utilities, nuclear restarts, gas &#183; buildings, cooling, land</text>
-      <text x="908" y="372" text-anchor="middle" class="lbl">the physical constraint: power, not chips</text>
-    </g>
-    <line x1="800" y1="304" x2="800" y2="236" class="dg-flow" style="opacity:.55"/>
-
-    <!-- margin ladder: every layer -->
-    <text x="20" y="436" class="lblB" style="font-size:14px">GROSS MARGIN AT EVERY LAYER</text>
-    <text x="20" y="456" class="lbl2">share of each sale kept after direct costs &#183; one representative company per layer &#183; reported 2025-26 figures; lighter bar = estimate</text>
-
-    <g>
-      <text x="20" y="490" class="lbl">1 &#183; tools</text><text x="95" y="490" class="lblB">Arm</text><rect x="250" y="477" width="209" height="17" rx="4" fill="var(--seq-550)"/><text x="467" y="490" class="lblB">~95%</text><text x="560" y="490" class="lbl2">licensing: no factories, no parts, almost pure profit on every chip shipped</text>
-      <text x="20" y="520" class="lbl">1 &#183; tools</text><text x="95" y="520" class="lblB">ASML</text><rect x="250" y="507" width="114" height="17" rx="4" fill="var(--seq-550)"/><text x="372" y="520" class="lblB">~52%</text><text x="560" y="520" class="lbl2">monopoly machines, but decades of research spending to recoup</text>
-      <text x="20" y="550" class="lbl">2 &#183; fab</text><text x="95" y="550" class="lblB">TSMC</text><rect x="250" y="537" width="130" height="17" rx="4" fill="var(--seq-550)"/><text x="388" y="550" class="lblB">~59%</text><text x="560" y="550" class="lbl2">manufacturing monopoly at the frontier, colossal capital costs</text>
-      <text x="20" y="580" class="lbl">2 &#183; fab</text><text x="95" y="580" class="lblB">SK Hynix</text><rect x="250" y="567" width="132" height="17" rx="4" fill="var(--seq-550)"/><text x="390" y="580" class="lblB">~60%</text><text x="560" y="580" class="lbl2">the HBM memory boom repriced memory (2025)</text>
-      <text x="20" y="610" class="lbl">3 &#183; design</text><text x="95" y="610" class="lblB">Nvidia</text><rect x="250" y="597" width="156" height="17" rx="4" fill="var(--seq-550)"/><text x="414" y="610" class="lblB">~71%</text><text x="560" y="610" class="lbl2">design + software lock-in: the fattest margin at scale in the chain</text>
-      <text x="20" y="640" class="lbl">3.5 &#183; assembly</text><text x="130" y="640" class="lblB">Supermicro</text><rect x="250" y="627" width="24" height="17" rx="4" fill="var(--seq-550)"/><text x="282" y="640" class="lblB">~11%</text><text x="560" y="640" class="lbl2">assembling other people's chips: the commodity fate, in one number</text>
-      <text x="20" y="670" class="lbl">4 &#183; clouds</text><text x="95" y="670" class="lblB">CoreWeave</text><rect x="250" y="657" width="154" height="17" rx="4" fill="var(--seq-550)"/><text x="412" y="670" class="lblB">~70%</text><text x="560" y="670" class="lbl2">(66-74% by quarter) high gross margin; heavy debt + chip depreciation sit below it</text>
-      <text x="20" y="700" class="lbl">4 &#183; clouds</text><text x="95" y="700" class="lblB">AWS/Azure/GCP</text><text x="560" y="700" class="lbl2">gross margin undisclosed (AWS operating margin ~37%, 2025); bundled with data gravity</text>
-      <text x="20" y="730" class="lbl">5 &#183; labs</text><text x="95" y="730" class="lblB">frontier labs</text><rect x="250" y="717" width="136" height="17" rx="4" fill="var(--seq-250)"/><text x="394" y="730" class="lblB">50-75%</text><text x="560" y="730" class="lbl2">serving models (est.); company-level losses come from training the next one</text>
-      <text x="20" y="760" class="lbl">6 &#183; apps</text><text x="95" y="760" class="lblB">apps</text><text x="560" y="760" class="lbl2">varies wildly; most rent the intelligence beneath and fight on thin margins</text>
-    </g>
-    <text x="20" y="792" class="lbl2" style="font-weight:600">Margins pool where there is a monopoly, a lock-in, or a capability nobody else has. The assembly row is what happens everywhere else.</text>
-  </svg>
+  <div class="vc-rail" aria-hidden="true">
+    <svg class="vc-tip vc-up" width="12" height="12" viewBox="0 0 12 12"><path d="M6 0 L11.5 11 L6 8.4 L0.5 11 Z" fill="var(--s1)"/></svg>
+    <span class="vc-rlab">Product</span>
   </div>
-  <p class="small">Dashed boxes (0 and 3.5) are support layers feeding the chain, not steps in the left-to-right sequence. Hover any box for detail. Every layer is unpacked in <a href="#" data-goto="stack">The stack</a>; the margins are explained in <a href="#" data-goto="economics">The economics</a>.</p>
+
+  <div class="vc-stack">
+
+    <!-- 6 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 6</span>
+        <span class="vc-nm">Apps and users</span>
+        <span class="vc-marks"><span class="vc-mk vc-c3">#7</span></span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Puts a model in front of a user.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Seats and usage, to end users.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-chips"><span class="vc-ch">ChatGPT</span><span class="vc-ch">Claude Code</span><span class="vc-ch">Cursor</span><span class="vc-ch">Copilot</span><span class="vc-ch">Salesforce</span><span class="vc-ch">SAP</span></div>
+        <div class="vc-pnote">Consumer chat led by ChatGPT; the revenue is in coding tools and AI inside incumbents.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">thin</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)" stroke-dasharray="3 3"/></svg>
+      </div>
+      <div class="vc-bn vc-s3"><span class="vc-r">#7</span><span class="vc-t"><b>Adoption.</b> 95% of enterprise pilots show no measurable return.</span></div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> tokens</span><span class="vc-fd">users pay API fees and subscriptions <span class="vc-a">&darr;</span></span></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 5</span>
+        <span class="vc-nm">Model labs</span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Trains models on rented compute, sells intelligence per token.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Tokens via API and subscriptions, to apps, developers and enterprises.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-chips"><span class="vc-ch">OpenAI</span><span class="vc-ch">Anthropic</span><span class="vc-ch">Google DeepMind</span><span class="vc-ch">xAI</span><span class="vc-ch">Meta</span><span class="vc-ch">DeepSeek</span></div>
+        <div class="vc-pnote">No share published. OpenAI and Anthropic together about $100bn ARR. 300+ models from 14 firms on the paper&rsquo;s 2024 count, 3 to 4 at the frontier. Meta and DeepSeek are open weights.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">50&ndash;75%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)"/><rect x="33" y="14.5" width="8" height="12.5" fill="var(--baseline)"/><rect x="33" y="27" width="8" height="25" rx="4" fill="var(--ink-2)"/></svg>
+      </div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> GPU-hours</span><span class="vc-fd">labs pay cloud bills <span class="vc-a">&darr;</span></span></div>
+      <div class="vc-bn"><span class="vc-r">#2</span><span class="vc-t"><b>Compute is less than demand.</b> Lab revenue grows 10x a year, compute 3x a year. Sits between the clouds and the labs.</span></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 4</span>
+        <span class="vc-nm">Clouds</span>
+        <span class="vc-marks"><span class="vc-mk vc-c3">#6</span></span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Buys, powers and rents out GPUs by the hour.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">GPU-hours, to labs and enterprises.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-pb"><span class="vc-pn">AWS</span><span class="vc-tr"><span class="vc-fi" style="width:31%"></span></span><span class="vc-pv">31%</span></div>
+        <div class="vc-pb"><span class="vc-pn">Azure</span><span class="vc-tr"><span class="vc-fi" style="width:24%"></span></span><span class="vc-pv">24%</span></div>
+        <div class="vc-pb"><span class="vc-pn">Google Cloud</span><span class="vc-tr"><span class="vc-fi" style="width:11%"></span></span><span class="vc-pv">11%</span></div>
+        <div class="vc-chips"><span class="vc-ch">CoreWeave</span><span class="vc-ch">Lambda</span><span class="vc-ch">Meta</span></div>
+        <div class="vc-pnote">Share of global cloud revenue, 2024. Chips: neoclouds, and Meta for own use.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">37&ndash;70%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)"/><rect x="33" y="17" width="8" height="16.5" fill="var(--baseline)"/><rect x="33" y="33.5" width="8" height="18.5" rx="4" fill="var(--ink-2)"/></svg>
+      </div>
+      <div class="vc-bn vc-s3"><span class="vc-r">#6</span><span class="vc-t"><b>Financing.</b> GPUs are bought on debt at 70 to 80% loan-to-value. Margin range is CoreWeave ~70% gross against an AWS operating margin of ~37%; hyperscaler gross margins are undisclosed.</span></div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> racks</span><span class="vc-fd">clouds buy racks <span class="vc-a">&darr;</span></span></div>
+    </div>
+
+    <!-- 3.5 -->
+    <div class="vc-band vc-sup">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 3.5</span>
+        <span class="vc-nm">Assembly and networking</span>
+        <span class="vc-sup-t">support &middot; commoditised</span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Turns chips into working racks.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Racks, to clouds.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-chips"><span class="vc-ch">Dell</span><span class="vc-ch">Supermicro</span><span class="vc-ch">Arista</span><span class="vc-ch">NVLink</span><span class="vc-ch">Vertiv</span></div>
+        <div class="vc-pnote">No share published. Servers: Dell, Supermicro. Networks: Arista, NVLink. Cooling: Vertiv.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">11%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface)" stroke="var(--ring)"/><rect x="33" y="46.5" width="8" height="5.5" rx="2.5" fill="var(--ink-2)"/></svg>
+      </div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-note-sup">support layer: sells power and premises into level 4 (the clouds)</div>
+    </div>
+
+    <!-- 0 -->
+    <div class="vc-band vc-sup">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 0</span>
+        <span class="vc-nm">Power and premises</span>
+        <span class="vc-sup-t">support &middot; inputs</span>
+        <span class="vc-marks"><span class="vc-mk vc-c1">#1</span></span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Electricity, land, buildings and cooling plant: the inputs an operator cannot make.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Power and building space, to the clouds (level 4), who put the chips inside.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-chips"><span class="vc-ch">Constellation</span><span class="vc-ch">Vistra</span><span class="vc-ch">Equinix</span></div>
+        <div class="vc-pnote">No share published. Constellation and Vistra are utilities selling the power. Equinix is a REIT that owns buildings and leases them to operators; hyperscalers mostly build their own.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">n/a</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface)" stroke="var(--ring)" stroke-dasharray="3 3"/></svg>
+      </div>
+      <div class="vc-bn"><span class="vc-r">#1</span><span class="vc-t"><b>Power and grid.</b> The US grid adds under 10GW a year of gas in 2026 and 2027, with no firm capacity until 2028.</span></div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> chips</span><span class="vc-fd">&nbsp;</span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 3</span>
+        <span class="vc-nm">Chip design</span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Designs GPUs and the software (CUDA) on them. Owns no factory.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Chips and 72-GPU racks, to clouds and big tech.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-pb"><span class="vc-pn">Nvidia</span><span class="vc-tr"><span class="vc-fi" style="width:85%"></span></span><span class="vc-pv">80&ndash;90</span></div>
+        <div class="vc-pb"><span class="vc-pn">AMD</span><span class="vc-tr"><span class="vc-fi" style="width:5%"></span></span><span class="vc-pv">&lt;10</span></div>
+        <div class="vc-chips"><span class="vc-ch">Google TPU</span><span class="vc-ch">Amazon Trainium</span><span class="vc-ch">Broadcom</span></div>
+        <div class="vc-pnote">Share of AI GPUs, %. TPU and Trainium are own-use only, built via Broadcom.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">71%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)"/><rect x="33" y="16.5" width="8" height="35.5" rx="4" fill="var(--ink-2)"/></svg>
+      </div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> finished chips</span><span class="vc-fd">Nvidia pays per wafer <span class="vc-a">&darr;</span></span></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 2</span>
+        <span class="vc-nm">Fabrication</span>
+        <span class="vc-marks"><span class="vc-mk vc-c2">#3</span><span class="vc-mk vc-c2">#4</span></span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Manufactures chips to other firms' designs.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Finished chips to designers, priced per wafer.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-pb"><span class="vc-pn">TSMC</span><span class="vc-tr"><span class="vc-fi" style="width:90%"></span></span><span class="vc-pv">90%</span></div>
+        <div class="vc-chips"><span class="vc-ch">Samsung</span><span class="vc-ch">Intel</span><span class="vc-ch">SK Hynix</span></div>
+        <div class="vc-pnote">Share of advanced chips. Samsung and Intel are behind. SK Hynix leads HBM memory.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">59&ndash;60%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)"/><rect x="33" y="22" width="8" height="30" rx="4" fill="var(--ink-2)"/></svg>
+      </div>
+      <div class="vc-bn vc-s2"><span class="vc-r">#3</span><span class="vc-t"><b>HBM memory and advanced packaging.</b> Memory prices rose about 3x in 2025.</span></div>
+      <div class="vc-bn vc-s2"><span class="vc-r">#4</span><span class="vc-t"><b>TSMC capacity.</b> One fab at a time, $20bn+ each.</span></div>
+    </div>
+
+    <div class="vc-gap">
+      <div class="vc-row"><span class="vc-fu"><span class="vc-a">&uarr;</span> machines and design software</span><span class="vc-fd">TSMC buys machines <span class="vc-a">&darr;</span></span></div>
+    </div>
+
+    <!-- 1 -->
+    <div class="vc-band">
+      <div class="vc-tab">
+        <span class="vc-no">LEVEL 1</span>
+        <span class="vc-nm">Toolmakers</span>
+        <span class="vc-marks"><span class="vc-mk vc-c2">#5</span></span>
+      </div>
+      <div class="vc-mid">
+        <div class="vc-f"><span class="vc-fl">Does</span><span class="vc-fv">Makes the chip-making machines and the chip-design software.</span></div>
+        <div class="vc-f"><span class="vc-fl">Sells to</span><span class="vc-fv">Machines to fabs, design software to chip designers.</span></div>
+      </div>
+      <div class="vc-players">
+        <span class="vc-fl">Players</span>
+        <div class="vc-pb"><span class="vc-pn">ASML</span><span class="vc-tr"><span class="vc-fi" style="width:100%"></span></span><span class="vc-pv">100%</span></div>
+        <div class="vc-chips"><span class="vc-ch">Cadence</span><span class="vc-ch">Synopsys</span><span class="vc-ch">Arm</span></div>
+        <div class="vc-pnote">Share of EUV lithography. Cadence and Synopsys are the EDA duopoly. Arm licenses CPU blueprints.</div>
+      </div>
+      <div class="vc-gz-cell">
+        <span class="vc-fl">GM</span>
+        <span class="vc-gv">52&ndash;95%</span>
+        <svg width="74" height="54" viewBox="0 0 74 54" aria-hidden="true"><rect x="33" y="2" width="8" height="50" rx="4" fill="var(--surface-2)" stroke="var(--ring)"/><rect x="33" y="4.5" width="8" height="21.5" fill="var(--baseline)"/><rect x="33" y="26" width="8" height="26" rx="4" fill="var(--ink-2)"/></svg>
+      </div>
+      <div class="vc-bn vc-s2"><span class="vc-r">#5</span><span class="vc-t"><b>EUV machines.</b> About 50 are built a year and about 100 exist.</span></div>
+    </div>
+
+
+
+  </div>
+
+  <div class="vc-rail vc-money" aria-hidden="true">
+    <svg class="vc-tip vc-dn" width="12" height="12" viewBox="0 0 12 12"><path d="M6 12 L0.5 1 L6 3.6 L11.5 1 Z" fill="var(--s3)"/></svg>
+    <span class="vc-rlab">Money</span>
+  </div>
+
+</div>
+
+<div class="vc-bsec">
+  <h2>Where growth is throttled</h2>
+  <p class="vc-nest">Bottlenecks 1 to 5 are supply and they nest: power caps datacentres, packaging caps chips per datacentre, TSMC caps wafers, ASML caps TSMC. Bottleneck 6 is the money that turns demand into orders. Bottleneck 7 is demand, the only one that flips the sign.</p>
+  <div class="vc-brow">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c1">#1</span></span>
+      <span class="vc-nm">Power and grid</span>
+      <span class="vc-stg">Stage 0</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">Electricity and grid connection for gigawatt datacentres.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">Hyperscalers and neoclouds, who own chips they cannot power.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">A 1GW site needs a reactor&rsquo;s output continuously. The US adds under 10GW a year of new gas in 2026 and 2027, and no firm capacity until 2028 or later, so the largest buyers build their own generation behind the meter (40GW+ by 2028, SemiAnalysis).</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">Gas turbines and nuclear restarts such as Three Mile Island; SMRs unproven. Years.</span></div>
+  </div>
+  <div class="vc-brow">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c1">#2</span></span>
+      <span class="vc-nm">Compute short of demand</span>
+      <span class="vc-stg">Between stages 4 and 5</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">Labs&rsquo; revenue growing faster than the compute to serve it.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">Labs: pricing power now, but every GPU serving today is one not training the next model.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">Lab revenue about 10x a year against compute about 3x. Closed by higher inference margins (Anthropic about 40% to 80%+), higher compute prices (spot up 40% off the February 2026 trough) and more compute going to inference than training.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">Only more of 1, 3, 4 and 5. Structural.</span></div>
+  </div>
+  <div class="vc-brow vc-s2">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c2">#3</span></span>
+      <span class="vc-nm">HBM memory and advanced packaging</span>
+      <span class="vc-stg">Stage 2</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">The high-bandwidth memory stacked next to the GPU, and the packaging that joins them.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">Nvidia, which cannot ship without it, and every buyer downstream.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">The packaged system, not the chip, is the unit. Memory prices roughly tripled in 2025, HBM at a many-fold premium, and TSMC packaging capacity rather than wafers has been the choke since 2024.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">SK Hynix, Samsung and Micron capacity, plus TSMC packaging plants. 2 to 3 years per fab.</span></div>
+  </div>
+  <div class="vc-brow vc-s2">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c2">#4</span></span>
+      <span class="vc-nm">TSMC capacity</span>
+      <span class="vc-stg">Stage 2</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">Leading-edge wafer capacity at one firm.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">Everyone below stage 2. Taiwan risk sits here.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">About 90% of advanced chips. First-come allocation with Nvidia at the front; Intel two years behind and Samsung losing customers; Arizona dilutes geography, not capacity.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">New fabs at $20bn+ each, or a rival reaching TSMC yields. Years.</span></div>
+  </div>
+  <div class="vc-brow vc-s2">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c2">#5</span></span>
+      <span class="vc-nm">EUV machines</span>
+      <span class="vc-stg">Stage 1</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">The lithography tools that print sub-7nm chips.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">TSMC, Samsung, Intel.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">ASML alone. About 50 built a year and about 100 in existence, and each one is a hard ceiling on how many leading-edge fabs can exist.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">ASML&rsquo;s own output. Not really fixable: ASML is the pace.</span></div>
+  </div>
+  <div class="vc-brow vc-s3">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c3">#6</span></span>
+      <span class="vc-nm">Financing</span>
+      <span class="vc-stg">Stage 4</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">The debt that pays for GPUs.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">Neoclouds first, then Nvidia&rsquo;s order book.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">Neoclouds buy chips on loans secured against the chips at 70 to 80% loan-to-value. CoreWeave&rsquo;s unsecured bonds yield about 10%, and Nvidia now backstops some rental revenue.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">Lab profits proving the assets earn (Anthropic reported profitable 3Q26). Fast to break, slow to rebuild.</span></div>
+  </div>
+  <div class="vc-brow vc-s3">
+    <div class="vc-tab">
+      <span class="vc-marks"><span class="vc-mk vc-c3">#7</span></span>
+      <span class="vc-nm">Adoption</span>
+      <span class="vc-stg">Stages 5 and 6</span>
+    </div>
+    <div class="vc-f vc-c2"><span class="vc-fl">What</span><span class="vc-fv">Whether businesses get value from what they buy.</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">Who is exposed</span><span class="vc-fv">The labs&rsquo; revenue, and therefore every supply bottleneck above, which turns into overcapacity if this fails.</span></div>
+    <div class="vc-f vc-c2"><span class="vc-fl">Why it binds</span><span class="vc-fv">MIT: 95% of enterprise AI pilots show no measurable return. Capability is not transformation, and the gap is integration (Wharton AIBS L01).</span></div>
+    <div class="vc-f vc-c3"><span class="vc-fl">What unblocks it, and how fast</span><span class="vc-fv">Implementation, the people and harnesses that get AI working inside an organisation. The only bottleneck that flips the sign of all the others.</span></div>
+  </div>
+</div>
+
+<div class="vc-foot">
+  <p>Not on the map: implementation, the people who get AI working inside an organisation.</p>
+  <p>Margin gauge height is gross margin on a 0 to 100% scale. Lighter segment is the upper end of a range. Levels 0 and 3.5 are support layers, not steps in the product sequence.</p>
+</div>
+
+</div>
+</div>
+  <p class="small">Levels 0 and 3.5 are support layers, not steps in the product sequence. Every layer is unpacked in <a href="#" data-goto="stack">The stack</a>; the margins are explained in <a href="#" data-goto="economics">The economics</a>.</p>
 
   <div class="cols2">
     <div class="card">
@@ -950,6 +1178,22 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
     <div class="card playercard"><h4>The open-weight labs <span class="tag">DeepSeek, Qwen, Mistral</span></h4><p class="small">Release model files publicly, 6-18 months behind the frontier, at a fraction of serving cost. China's labs lead the cost-effectiveness frontier. Every closed lab's pricing meeting has an empty chair for them.</p></div>
     <div class="card playercard"><h4>Palantir <span class="tag">the enterprise last mile</span></h4><p class="small">Founded 2003 (Thiel, Karp, Lonsdale, Cohen, Gettings) out of PayPal's fraud-detection ideas, named after Tolkien's seeing-stones; Denver HQ, Karp CEO. Gotham serves intelligence, defence and law enforcement; Foundry is an operating system for a company's own data; AIP, the LLM layer on top, drives current growth. Forward-deployed engineers embed inside client organisations: high-touch, expensive, sticky. The long-standing doubt about whether that model scales is largely answered by Q2 2026 revenue of $1.94bn, up ~93% year on year (as of Q2 2026), 950+ clients including the US DoD, the NHS and Airbus, and selection for the US Army's NGC2 programme on a 10-year agreement worth up to $10bn. The work is politically loaded (ICE contracts, predictive policing, objections to the NHS data deal): supporters read the explicit pro-Western-defence stance as clarity, critics as surveillance infrastructure. Why it matters here: AIP is the clearest running test of the enterprise last mile, where model capability turns into deployed workflow and money actually changes hands.</p></div>
   </div>
+
+  <h3 style="margin-top:28px">Deep dive: why Google's full stack has not won (yet)</h3>
+  <p style="max-width:72ch">The table above says Google is the only player present at every layer. The obvious question is why that has not produced the obvious result. It is not because Gemini is much worse; it sits at or near the frontier. It is because vertical integration buys cost and distribution, and the current market pays for capability and developer workflow, which integration does not give you.</p>
+  <div class="tblwrap">
+  <table class="matrix">
+    <tr><th style="text-align:left">Advantage on paper</th><th style="text-align:left">Why it has not converted</th></tr>
+    <tr><td class="small" style="text-align:left"><strong>Search</strong>, the most profitable product ever built, funds everything.</td><td class="small" style="text-align:left">A chat answer kills the click. Every query Gemini answers well is an ad not served. No rival has a $200bn business to protect, so they ship the thing that cannibalises it. The innovator's dilemma in its purest form.</td></tr>
+    <tr><td class="small" style="text-align:left"><strong>Distribution</strong> to billions: Search, Android, Chrome, Workspace.</td><td class="small" style="text-align:left">The revenue turned up in B2B coding (over 70% of lab ARR, SemiAnalysis 2026), reached through developer tools such as Claude Code, Cursor and Copilot. Google had no developer-facing product in that slot when it mattered. Integrating downstream into consumers was the wrong direction for this wave.</td></tr>
+    <tr><td class="small" style="text-align:left"><strong>TPUs</strong>: the cheapest tokens in the industry, no Nvidia margin paid.</td><td class="small" style="text-align:left">Cost wins when tokens are a commodity. While capability is scarce and labs price on value, the cheapest producer is not the winner, the best one is. A cost edge in a market still paying for quality.</td></tr>
+    <tr><td class="small" style="text-align:left"><strong>DeepMind + Brain</strong>, the deepest research bench anywhere.</td><td class="small" style="text-align:left">Two labs merged mid-race, a research-first culture, and a company built to protect a cash cow ships slower than one that dies if it does not ship. The August 2026 reshuffle (Brin running AI day to day, Hassabis to chair) and Jeff Dean's departure are the same problem seen from inside.</td></tr>
+  </table>
+  </div>
+  <div class="cols2">
+    <div class="card"><h4>Why it might still win</h4><p class="small">Of the three equilibria in <a href="#" data-goto="economics">The economics</a>, Google's stack is the best position in Equilibrium 3 (integrated hyperscaler capture) and in Equilibrium 1 (commodity models, lowest cost wins), and the weakest only in the current one, winner-takes-most on capability. If open weights close the gap and tokens commoditise, the firm that owns the chips, the cloud and the distribution takes the margin. Google is the long bet on that outcome; Anthropic is the bet against it.</p></div>
+    <div class="card"><h4>The tell</h4><p class="small">Anthropic runs a large share of Claude on Google TPUs, and Google helped arrange much of Anthropic's compute financing. Google is content to be the chip-and-cloud layer under its own rival, because that is the layer its stack actually wins today. Watch two things: whether Gemini gets a developer product that people work inside all day, and whether Search revenue starts to fall. The first would mean Google has joined the current race; the second would mean it has stopped protecting the old one.</p></div>
+  </div>
 </section>
 <!-- ================= ORIGIN STORIES ================= -->
 <section class="tab" id="origins" role="tabpanel">
@@ -1354,7 +1598,8 @@ mark{background:color-mix(in srgb,var(--s4) 35%,transparent);color:inherit;borde
       <dt>Capex</dt><dd>Capital expenditure: money spent building long-lived assets (data centres, chips, fabs), as opposed to day-to-day running costs.</dd>
       <dt>Cloud</dt><dd>Renting computing from someone else's data centre by the hour rather than owning machines. The generic term; hyperscalers and neoclouds are kinds of cloud.</dd>
       <dt>Commodity / commoditise</dt><dd>A product identical whoever sells it, bought on price alone, so sellers' profits get competed away. The fate every layer of this industry is trying to avoid.</dd>
-      <dt>Compute</dt><dd>Computational resources treated as one fungible input bought by the unit, measured in FLOPs (floating-point operations) or GPU-hours rather than in particular machines. The abstraction is the point: it lets scaling laws, capex forecasts and export controls all reason about a quantity of work rather than a pile of specific hardware. "More compute" = more chips running for longer, whoever built them.</dd>
+      <dt>FLOP</dt><dd>One floating-point operation: a single multiply or add on a decimal number, the atomic unit of the arithmetic a neural network is made of. FLOP/s is how many a chip does per second (an H100 manages about a thousand trillion at FP16); FLOPs, plural, is a total amount of work done. Training a frontier model is on the order of 10^25 of them.</dd>
+      <dt>Compute</dt><dd>Computational resources treated as one fungible input bought by the unit, measured in FLOPs (floating-point operations) or GPU-hours rather than in particular machines. The abstraction is the point: it lets scaling laws, capex forecasts and export controls all reason about a quantity of work rather than a pile of specific hardware. "More compute" = more chips running for longer, whoever built them. As a formula: <strong>useful compute = rated FLOP/s (at a stated precision) &#215; utilisation &#215; time</strong>. Rated FLOP/s is the chip's speed on paper, and it rises as precision falls (FP8 gives more operations per second than FP16, which is why vendor headline numbers quote the lowest precision). Utilisation (often 30-50% in frontier training) is the share of that speed actually achieved, limited by how fast memory and the network can feed the chip, which is why HBM and NVLink matter: they raise utilisation, not peak. Time is how long the job runs. Multiply out and you get the 10^25-FLOP thresholds that export controls and the EU AI Act use. For inference the unit changes to tokens per second per GPU, and the cost that matters is dollars per million tokens.</dd>
       <dt>Content provenance watermarking (C2PA)</dt><dd>A machine-readable marker embedded in AI-generated text, images or audio so it can be traced back to the model that made it. Anthropic began embedding these in Claude output in August 2026 to meet EU AI transparency rules, using the C2PA standard. Platforms are starting to act on the data: Spotify will label AI-generated "Persona" artist profiles and exclude them from recommendations from mid-September 2026.</dd>
       <dt>Context window</dt><dd>How much text a model can consider at once, measured in tokens (frontier models: hundreds of thousands to millions).</dd>
       <dt>Cournot competition</dt><dd>Competition among a few capacity-constrained firms behind high entry barriers: prices settle above marginal cost without collusion. Amodei's model of the frontier-lab layer.</dd>
